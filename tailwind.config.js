@@ -5,10 +5,15 @@ module.exports = {
   ],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'jot-dark-black': 'rgb(30,30,30)',
+        'jot-light-gray': 'rgb(50,50,50)',
+      },
+    },
   },
   variants: {
     extend: {},
   },
   plugins: [],
-};
+}
