@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handle(_: NextApiRequest, res: NextApiResponse) {
   const user = await getUser()
-  return res.status(400).json(user)
+  return res.status(200).json(user)
 }
 
 /**

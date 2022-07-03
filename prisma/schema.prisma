@@ -15,7 +15,8 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  jots Jots[]
+  jots   Jots[]
+  Folder Folder[]
 }
 
 model Jots {
@@ -24,6 +25,16 @@ model Jots {
   user      User      @relation(fields: [userId], references: [id])
   title     String    @unique
   jot       Json?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Folder {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?

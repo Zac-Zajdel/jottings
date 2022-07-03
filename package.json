@@ -41,6 +41,7 @@
     "@heroicons/react": "^1.0.6",
     "@prisma/client": "^3.11.0",
     "autoprefixer": "^10.4.4",
+    "axios": "^0.27.2",
     "babel-plugin-superjson-next": "^0.4.3",
     "next": "^12.2.0",
     "next-pwa": "^5.4.6",

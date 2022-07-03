@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BaseModal from './global/BaseModal'
 import React from 'react'
+import axios from 'axios'
 
 type Props = {
   onClose: Function;
@@ -10,9 +11,11 @@ const AddFolder = (props: Props) => {
   const [folder, setFolder] = useState('')
 
   const createFolder = () => {
-    // console.log(folder)
-    // create folder model and
-    // create post request to backend
+    try {
+      axios.post('/api/folder', {
+        name: folder,
+      })
+    } catch {}
   }
 
   return (

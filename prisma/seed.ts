@@ -31,6 +31,15 @@ async function main() {
       },
     },
   })
+
+  await prisma.folder.upsert({
+    where: { name: 'Course Work' },
+    update: {},
+    create: {
+      userId: user.id,
+      name: 'Course Work',
+    },
+  })
 }
 
 main()

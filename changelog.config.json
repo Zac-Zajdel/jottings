@@ -12,7 +12,7 @@
     "style",
     "test"
   ],
-  "maxMessageLength": 64,
+  "maxMessageLength": 100,
   "minMessageLength": 3,
   "questions": [
     "type",
