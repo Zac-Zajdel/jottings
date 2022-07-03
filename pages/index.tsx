@@ -3,14 +3,12 @@ import { InferGetServerSidePropsType } from 'next'
 import { getUser } from './api/user'
 import Layout from 'components/Layout'
 
-const Homepage = ({
-  user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const Homepage = ({ user }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout>
       <div className="px-2 py-0 flex flex-col justify-center items-center text-black">
         <Head>
-          <title>PrismaNext Landing Page</title>
+          <title>Jottings</title>
         </Head>
 
         <main className="px-0 py-20 flex flex-1 flex-col justify-center items-center">
@@ -55,16 +53,12 @@ const Homepage = ({
 
           <span className="text-xl text-center">
             Get started by editing{' '}
-            <code className="bg-gray-50 rounded-md p-3 text-base font-mono">
-              pages/index.tsx
-            </code>
+            <code className="bg-gray-50 rounded-md p-3 text-base font-mono">pages/index.tsx</code>
           </span>
 
           <span className="text-xl text-center pt-6">
             The first users name from your local database is:{' '}
-            <span className="pt-2 text-blue-600 text-2xl">
-              {user?.name ?? 'No User'}
-            </span>
+            <span className="pt-2 text-blue-600 text-2xl">{user?.name ?? 'No User'}</span>
           </span>
 
           <div className="flex flex-wrap justify-center items-center max-w-screen-md mt-12 sm:w-full">

@@ -25,7 +25,7 @@
     "build": "next build",
     "start": "next start",
     "telemetry": "next telemetry",
-    "lint": "next lint",
+    "lint": "npx lint-staged",
     "format": "prettier --ignore-path .gitignore \"**/*.+(js|ts|tsx|css|scss|json|md|html)\" --write",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",

@@ -1,12 +1,19 @@
 import { prisma } from '../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handle(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const folder = createFolder(req)
-  return res.status(200).json(folder)
+export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+  switch (req.method) {
+    case 'GET':
+      const folders = await prisma.folder.findMany({
+        where: {
+          userId: 1,
+        },
+      })
+      return res.status(200).json(folders)
+    case 'POST':
+      const folder = createFolder(req)
+      return res.status(200).json(folder)
+  }
 }
 
 /**

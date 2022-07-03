@@ -5,6 +5,7 @@ import axios from 'axios'
 
 type Props = {
   onClose: Function;
+  action: Function;
 };
 
 const AddFolder = (props: Props) => {
@@ -16,15 +17,13 @@ const AddFolder = (props: Props) => {
         name: folder,
       })
     } catch {}
+    props.action()
   }
 
   return (
     <BaseModal onClose={() => props.onClose()}>
       <div>
-        <label
-          htmlFor="folder"
-          className="text-sm font-medium text-gray-900 block mb-2"
-        >
+        <label htmlFor="folder" className="text-sm font-medium text-gray-900 block mb-2">
           Folder
         </label>
         <input

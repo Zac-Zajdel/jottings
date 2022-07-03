@@ -7,14 +7,33 @@ import {
   PlusIcon,
 } from '@heroicons/react/outline'
 import AddFolder from './AddFolder'
+import axios from 'axios'
+
+interface Folder {
+  id: number;
+  name: string;
+}
 
 const Sidebar = () => {
   const [isCreatingFolder, setCreatingFolder] = useState(false)
+  const [folders, setFolders] = useState<Folder[]>([])
+
+  /**
+   * @desc Queries for result set of folders for user
+   */
+  const queryFolders = async () => {
+    try {
+      const result = await axios.get('/api/folder')
+      setFolders(result.data)
+      alert(folders)
+      // console.log(folders)
+    } catch {}
+  }
 
   return (
     <>
       {isCreatingFolder && (
-        <AddFolder onClose={() => setCreatingFolder(false)} />
+        <AddFolder onClose={() => setCreatingFolder(false)} action={queryFolders} />
       )}
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
         <div className="sidebar-header flex items-center p-4">
