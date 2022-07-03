@@ -45,13 +45,9 @@ const Header = () => {
             </a>
           </div>
         </form>
-        <div className="flex ml-auto">
+        {/* Will have a set of dropdown actions for them here */}
+        {/* <div className="flex ml-auto">
           <a href="#" className="flex flex-row items-center">
-            {/* <img
-              src="https://pbs.twimg.com/profile_images/378800000298815220/b567757616f720812125bfbac395ff54_normal.png"
-              alt="Hello World"
-              className="h-10 w-10 bg-gray-200 border rounded-full"
-            /> */}
             <span className="flex flex-col ml-2">
               <span className="truncate w-20 font-semibold tracking-wide leading-none">
                 John Doe
@@ -61,7 +57,7 @@ const Header = () => {
               </span>
             </span>
           </a>
-        </div>
+        </div> */}
       </div>
     </header>
   )

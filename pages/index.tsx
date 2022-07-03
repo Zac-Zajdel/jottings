@@ -8,7 +8,7 @@ const Homepage = ({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <Layout>
-      <div className="px-2 py-0 flex flex-col justify-center items-center">
+      <div className="px-2 py-0 flex flex-col justify-center items-center text-black">
         <Head>
           <title>PrismaNext Landing Page</title>
         </Head>
