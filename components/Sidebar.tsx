@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   DocumentTextIcon,
   HeartIcon,
@@ -18,22 +18,27 @@ const Sidebar = () => {
   const [isCreatingFolder, setCreatingFolder] = useState(false)
   const [folders, setFolders] = useState<Folder[]>([])
 
+  useEffect(() => {
+    const grabFolders = async () => {
+      const folders = await axios.get('/api/folder')
+      setFolders(folders.data)
+    }
+
+    grabFolders()
+  }, [])
+
   /**
    * @desc Queries for result set of folders for user
+   * @param folder - New folder added by user
    */
-  const queryFolders = async () => {
-    try {
-      const result = await axios.get('/api/folder')
-      setFolders(result.data)
-      alert(folders)
-      // console.log(folders)
-    } catch {}
+  const addFolder = async (folder: Folder) => {
+    setFolders((prevState) => prevState.concat(folder))
   }
 
   return (
     <>
       {isCreatingFolder && (
-        <AddFolder onClose={() => setCreatingFolder(false)} action={queryFolders} />
+        <AddFolder onClose={() => setCreatingFolder(false)} action={addFolder} />
       )}
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
         <div className="sidebar-header flex items-center p-4">
@@ -90,24 +95,19 @@ const Sidebar = () => {
                 onClick={() => setCreatingFolder(true)}
               />
             </li>
-            <li className="my-px ml-1">
-              <a
-                href="#"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
-              >
-                <FolderIcon className="h-5 w-5 text-gray-400" />
-                <span className="ml-3">Management</span>
-              </a>
-            </li>
-            <li className="my-px ml-1">
-              <a
-                href="#"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
-              >
-                <FolderIcon className="h-5 w-5 text-gray-400" />
-                <span className="ml-3">Science</span>
-              </a>
-            </li>
+            {folders.map((folder) => {
+              return (
+                <li key={folder.id} className="my-px ml-1">
+                  <a
+                    href="#"
+                    className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
+                  >
+                    <FolderIcon className="h-5 w-5 text-gray-400" />
+                    <span className="ml-3">{folder.name}</span>
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </div>
 

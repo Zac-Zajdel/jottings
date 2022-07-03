@@ -11,13 +11,14 @@ type Props = {
 const AddFolder = (props: Props) => {
   const [folder, setFolder] = useState('')
 
-  const createFolder = () => {
+  const createFolder = async () => {
     try {
-      axios.post('/api/folder', {
+      const newFolder = await axios.post('/api/folder', {
         name: folder,
       })
+      props.action(newFolder.data)
+      props.onClose()
     } catch {}
-    props.action()
   }
 
   return (
