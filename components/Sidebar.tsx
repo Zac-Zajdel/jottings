@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   DocumentTextIcon,
   HeartIcon,
@@ -5,7 +6,6 @@ import {
   FolderIcon,
   PlusIcon,
 } from '@heroicons/react/outline'
-import { useState } from 'react'
 import AddFolder from './AddFolder'
 
 const Sidebar = () => {
@@ -13,8 +13,10 @@ const Sidebar = () => {
 
   return (
     <>
-      {isCreatingFolder && <AddFolder />}
-      <aside className="sidebar w-56 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
+      {isCreatingFolder && (
+        <AddFolder onClose={() => setCreatingFolder(false)} />
+      )}
+      <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
         <div className="sidebar-header flex items-center p-4">
           <div className="flex flex-col w-full">
             <a href="#" className="inline-flex flex-row items-center">
@@ -25,7 +27,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <div className="sidebar-content p-4">
+        <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
             <li className="my-px">
               <span className="flex text-white px-4 my-1">Quick links</span>
@@ -60,7 +62,7 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        <div className="sidebar-content p-4">
+        <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
             <li className="flex justify-between items-center my-px rounded-lg hover:bg-jot-hover-gray-100 pr-2">
               <span className="flex text-white px-4 my-1">Folders</span>
