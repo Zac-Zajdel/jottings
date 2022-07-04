@@ -11,6 +11,9 @@ type Props = {
 const AddFolder = (props: Props) => {
   const [folder, setFolder] = useState('')
 
+  /**
+   * @desc Calls API to create new folder and then emits to parent to add to array
+   */
   const createFolder = async () => {
     try {
       const newFolder = await axios.post('/api/folder', {
@@ -18,7 +21,9 @@ const AddFolder = (props: Props) => {
       })
       props.action(newFolder.data)
       props.onClose()
-    } catch {}
+    } catch (e: any) {
+      alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
+    }
   }
 
   return (

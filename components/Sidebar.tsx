@@ -8,15 +8,12 @@ import {
 } from '@heroicons/react/outline'
 import AddFolder from './AddFolder'
 import axios from 'axios'
-
-interface Folder {
-  id: number;
-  name: string;
-}
+import { Folders } from 'types'
+import { Folder } from '@prisma/client'
 
 const Sidebar = () => {
   const [isCreatingFolder, setCreatingFolder] = useState(false)
-  const [folders, setFolders] = useState<Folder[]>([])
+  const [folders, setFolders] = useState<Folders>([])
 
   useEffect(() => {
     const grabFolders = async () => {
@@ -88,12 +85,14 @@ const Sidebar = () => {
 
         <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
-            <li className="flex justify-between items-center my-px rounded-lg hover:bg-jot-hover-gray-100 pr-2">
+            <li className="flex justify-between items-center my-px rounded-lg hover:bg-jot-hover-gray-100 py-1 pr-2">
               <span className="flex text-white px-4 my-1">Folders</span>
-              <PlusIcon
-                className="h-4 w-4 text-gray-400 hover:bg-jot-hover-gray-200 hover:cursor-pointer rounded-md"
-                onClick={() => setCreatingFolder(true)}
-              />
+              <span className="hover:bg-jot-hover-gray-200 hover:cursor-pointer rounded-md p-1">
+                <PlusIcon
+                  className="h-4 w-4 text-gray-400"
+                  onClick={() => setCreatingFolder(true)}
+                />
+              </span>
             </li>
             {folders.map((folder) => {
               return (

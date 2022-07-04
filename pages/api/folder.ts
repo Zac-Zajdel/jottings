@@ -1,5 +1,6 @@
 import { prisma } from '../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
+import folderSchema from 'validation/folderSchema'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -7,8 +8,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       const folders = await getFolders()
       return res.status(200).json(folders)
     case 'POST':
-      const folder = await createFolder(req)
-      return res.status(200).json(folder)
+      try {
+        await folderSchema.validate(req.body)
+        const folder = await createFolder(req)
+        return res.status(200).json(folder)
+      } catch (e) {
+        return res.status(400).json(e)
+      }
   }
 }
 

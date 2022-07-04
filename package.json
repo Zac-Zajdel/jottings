@@ -1,11 +1,11 @@
 {
-  "name": "prisma-next",
+  "name": "jottings",
   "version": "0.1.0",
-  "description": "Next.js + Prisma + Typescript + Tailwind CSS + ES Lint + Husky + Prettier starter template",
+  "description": "Jotting note tracking app with advanced feature capabilities",
   "author": "Zachary Zajdel <github.com/Zac-Zajdel>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zac-Zajdel/PrismaNext.git"
+    "url": "git+https://github.com/Zac-Zajdel/Jottings.git"
   },
   "license": "MIT",
   "keywords": [
@@ -50,7 +50,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "superjson": "^1.9.1",
-    "tailwindcss": "^3.0.23"
+    "tailwindcss": "^3.0.23",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^17.0.22",

@@ -27,10 +27,7 @@ const Header = () => {
             />
           </div>
           <div className="flex md:hidden">
-            <a
-              href="#"
-              className="flex items-center justify-center h-10 w-10 border-transparent"
-            >
+            <a href="#" className="flex items-center justify-center h-10 w-10 border-transparent">
               <svg
                 className="h-6 w-6 text-gray-500"
                 fill="none"
@@ -46,18 +43,15 @@ const Header = () => {
           </div>
         </form>
         {/* Will have a set of dropdown actions for them here */}
-        {/* <div className="flex ml-auto">
+        <div className="flex ml-auto">
           <a href="#" className="flex flex-row items-center">
             <span className="flex flex-col ml-2">
               <span className="truncate w-20 font-semibold tracking-wide leading-none">
                 John Doe
               </span>
-              <span className="truncate w-20 text-xs leading-none mt-1">
-                Manager
-              </span>
             </span>
           </a>
-        </div> */}
+        </div>
       </div>
     </header>
   )
