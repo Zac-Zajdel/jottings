@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react'
-import {
-  DocumentTextIcon,
-  HeartIcon,
-  TagIcon,
-  FolderIcon,
-  PlusIcon,
-} from '@heroicons/react/outline'
-import AddFolder from './AddFolder'
+import { FolderIcon, PlusIcon } from '@heroicons/react/outline'
+import AddFolder from '../AddFolder'
 import axios from 'axios'
-import { Folders } from 'types'
+import { Folders } from 'types/models'
 import { Folder } from '@prisma/client'
+import Apps from 'types/sidebar'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Sidebar = () => {
-  const [isCreatingFolder, setCreatingFolder] = useState(false)
+  const router = useRouter()
+
   const [folders, setFolders] = useState<Folders>([])
+  const [isCreatingFolder, setCreatingFolder] = useState(false)
 
   useEffect(() => {
     const grabFolders = async () => {
@@ -53,33 +52,35 @@ const Sidebar = () => {
             <li className="my-px">
               <span className="flex text-white px-4 my-1">Quick links</span>
             </li>
-            <li className="my-px ml-1">
-              <a
-                href="#"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
-              >
-                <DocumentTextIcon className="h-5 w-5 text-gray-400" />
-                <span className="ml-3">All notes</span>
-              </a>
-            </li>
-            <li className="my-px ml-1">
-              <a
-                href="#"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
-              >
-                <HeartIcon className="h-5 w-5 text-gray-400" />
-                <span className="ml-3">Favorites</span>
-              </a>
-            </li>
-            <li className="my-px ml-1">
-              <a
-                href="#"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
-              >
-                <TagIcon className="h-5 w-5 text-gray-400" />
-                <span className="ml-3">Tags</span>
-              </a>
-            </li>
+            {Apps.navigation.map((app) => {
+              const DynamicComponent = app.icon
+              return (
+                <Link key={app.to} href={app.to}>
+                  <li
+                    className={`my-px
+                          ml-1
+                          flex
+                          flex-row
+                          items-center
+                          h-10
+                          px-3
+                          rounded-lg
+                          text-gray-300
+                          bg-opacity-50
+                          hover:bg-opacity-50
+                          hover:bg-jot-hover-gray-200
+                          hover:text-gray-200
+                          cursor-pointer ${
+                            router.pathname === app.to ? 'bg-jot-hover-gray-200' : null
+                          }
+                        `}
+                  >
+                    <DynamicComponent className="h-5 w-5 text-gray-400" />
+                    <span className="ml-3">{app.label}</span>
+                  </li>
+                </Link>
+              )
+            })}
           </ul>
         </div>
 
