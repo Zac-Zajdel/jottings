@@ -1,12 +1,13 @@
 import { ReactNode } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
-type Props = {
+export type BaseModalProps = {
   children: ReactNode;
   onClose: Function;
+  action?: Function | null;
 };
 
-const BaseModal = (props: Props) => {
+const BaseModal = (props: BaseModalProps) => {
   return (
     <div
       className="relative z-10 text-black"
@@ -28,7 +29,7 @@ const BaseModal = (props: Props) => {
         <div className="fixed top-0 right-0 p-3 cursor-pointer">
           <div
             className="p-3 bg-gray-600 cursor-pointer rounded-full transition ease-in-out duration-150 hover:bg-gray-800 z-10"
-            onClick={() => props.onClose()}
+            onClick={() => (props.onClose ? props.onClose() : null)}
           >
             <XIcon className="h-5 w-5 text-white" />
           </div>

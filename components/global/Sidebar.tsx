@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { FolderIcon, PlusIcon } from '@heroicons/react/outline'
-import AddFolder from '../AddFolder'
 import axios from 'axios'
 import { Folders } from 'types/models'
 import { Folder } from '@prisma/client'
-import Apps from 'types/sidebar'
+import Apps from 'types/global/sidebar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import AddFolder from 'components/jots/AddJot'
 
 const Sidebar = () => {
   const router = useRouter()
@@ -40,7 +40,7 @@ const Sidebar = () => {
         <div className="sidebar-header flex items-center p-4">
           <div className="flex flex-col w-full">
             <a href="#" className="inline-flex flex-row items-center">
-              <span className="leading-10 text-gray-100 text-2xl font-bold px-4 ml-1 uppercase">
+              <span className="leading-10 text-gray-100 text-2xl px-1 font-bold ml-1 uppercase">
                 Jottings
               </span>
             </a>
@@ -50,7 +50,7 @@ const Sidebar = () => {
         <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
             <li className="my-px">
-              <span className="flex text-white px-4 my-1">Quick links</span>
+              <span className="flex text-white px-4 mb-2">Quick links</span>
             </li>
             {Apps.navigation.map((app) => {
               const DynamicComponent = app.icon
@@ -100,7 +100,7 @@ const Sidebar = () => {
                 <li key={folder.id} className="my-px ml-1">
                   <a
                     href="#"
-                    className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200"
+                    className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200 bg-opacity-50 hover:bg-opacity-50"
                   >
                     <FolderIcon className="h-5 w-5 text-gray-400" />
                     <span className="ml-3">{folder.name}</span>

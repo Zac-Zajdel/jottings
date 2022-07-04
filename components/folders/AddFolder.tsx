@@ -1,14 +1,9 @@
 import { useState } from 'react'
-import BaseModal from './global/BaseModal'
+import BaseModal, { BaseModalProps } from '../global/BaseModal'
 import React from 'react'
 import axios from 'axios'
 
-type Props = {
-  onClose: Function;
-  action: Function;
-};
-
-const AddFolder = (props: Props) => {
+const AddFolder = (props: BaseModalProps) => {
   const [folder, setFolder] = useState('')
 
   /**
@@ -19,7 +14,9 @@ const AddFolder = (props: Props) => {
       const newFolder = await axios.post('/api/folder', {
         name: folder,
       })
-      props.action(newFolder.data)
+
+      if (props.action) props.action(newFolder.data)
+
       props.onClose()
     } catch (e: any) {
       alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
@@ -38,6 +35,7 @@ const AddFolder = (props: Props) => {
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
           placeholder="Name"
           value={folder}
+          autoComplete="off"
           onChange={(e) => setFolder(e.target.value)}
           required
         />
