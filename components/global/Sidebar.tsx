@@ -6,7 +6,7 @@ import { Folder } from '@prisma/client'
 import Apps from 'types/global/sidebar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import AddFolder from 'components/jots/AddJot'
+import AddFolder from 'components/folders/AddFolder'
 
 const Sidebar = () => {
   const router = useRouter()

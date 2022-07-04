@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
 export type BaseModalProps = {
-  children: ReactNode;
+  children?: ReactNode;
   onClose: Function;
   action?: Function | null;
 };

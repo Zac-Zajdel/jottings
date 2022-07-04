@@ -3,7 +3,7 @@ import React from 'react'
 import axios from 'axios'
 import BaseModal, { BaseModalProps } from 'components/global/BaseModal'
 
-const AddFolder = (props: BaseModalProps) => {
+const AddJot = (props: BaseModalProps) => {
   const [jot, setJot] = useState('')
 
   /**
@@ -11,12 +11,11 @@ const AddFolder = (props: BaseModalProps) => {
    */
   const createJot = async () => {
     try {
-      const newFolder = await axios.post('/api/jot', {
-        name: jot,
+      const newJot = await axios.post('/api/jot', {
+        title: jot,
       })
 
-      if (props.action) props.action(newFolder.data)
-
+      if (props.action) props.action(newJot.data)
       props.onClose()
     } catch (e: any) {
       alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
@@ -26,14 +25,14 @@ const AddFolder = (props: BaseModalProps) => {
   return (
     <BaseModal onClose={() => props.onClose()}>
       <div>
-        <label htmlFor="folder" className="text-sm font-medium text-gray-900 block mb-2">
-          Folder
+        <label htmlFor="jot" className="text-sm font-medium text-gray-900 block mb-2">
+          Create Jot
         </label>
         <input
           type="text"
-          id="folder"
+          id="jot"
           className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
-          placeholder="Name"
+          placeholder="Title"
           value={jot}
           onChange={(e) => setJot(e.target.value)}
           required
@@ -53,4 +52,4 @@ const AddFolder = (props: BaseModalProps) => {
   )
 }
 
-export default AddFolder
+export default AddJot

@@ -5,13 +5,13 @@ import folderSchema from 'validation/folderSchema'
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      const folders = await getFolders()
-      return res.status(200).json(folders)
+      const jots = await getJots()
+      return res.status(200).json(jots)
     case 'POST':
       try {
         await folderSchema.validate(req.body)
-        const folder = await createFolder(req)
-        return res.status(200).json(folder)
+        const jot = await createJot(req)
+        return res.status(200).json(jot)
       } catch (e) {
         return res.status(400).json(e)
       }
@@ -19,10 +19,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 }
 
 /**
- * @desc Grabs folders from specific user
+ * @desc Grabs jots from specific user
  */
-export async function getFolders() {
-  return await prisma.folder.findMany({
+export async function getJots() {
+  return await prisma.jot.findMany({
     where: {
       userId: 1,
       deletedAt: null,
@@ -31,13 +31,13 @@ export async function getFolders() {
 }
 
 /**
- * @desc Grabs a new folder.
+ * @desc Creates a new jot.
  */
-export async function createFolder(req: NextApiRequest) {
-  const { name } = req.body
-  return await prisma.folder.create({
+export async function createJot(req: NextApiRequest) {
+  const { title } = req.body
+  return await prisma.jot.create({
     data: {
-      name: name,
+      title: title,
       userId: 1,
     },
   })

@@ -1,3 +1,4 @@
+import { HeartIcon } from '@heroicons/react/outline'
 import AddJot from 'components/jots/AddJot'
 import { useState } from 'react'
 
@@ -12,7 +13,6 @@ const Notes = () => {
         <div className="container px-5 pb-5 mx-auto">
           <div className="flex justify-between item-center pb-10">
             <h1 className="text-2xl tracking-wide font-medium">All notes</h1>
-            {/* Call BaseModal and adjust the background color */}
             <button
               type="submit"
               className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-jot-blue-100 hover:bg-jot-blue-200"
@@ -24,11 +24,12 @@ const Notes = () => {
           <div className="-my-8 divide-y-2 divide-gray-100">
             <div className="py-8 flex flex-wrap md:flex-nowrap">
               <div className="md:flex-grow">
-                <h2 className="text-xl font-medium tracking-wide mb-2">AWS Certification</h2>
-                <p className="leading-relaxed">
-                  Glossier echo park pug, church-key sartorial biodiesel vexillologist pop-up
-                  snackwave ramps cornhole. Marfa 3 wolf moon party messenger bag selfies, poke
-                  vaporware kombucha lumbersexual pork belly polaroid hoodie portland craft beer.
+                <div className="flex items-center mb-2">
+                  <h2 className="text-xl font-medium tracking-wide">AWS Certification</h2>
+                  <HeartIcon className="h-5 w-5 ml-3 text-gray-400 hover:cursor-pointer hover:text-red-500 hover:fill-red-500" />
+                </div>
+                <p className="leading-relaxed text-sm text-gray-400">
+                  Last edited on July 2nd at 2:34AM
                 </p>
                 <a className="text-indigo-500 inline-flex items-center mt-4">
                   Learn More

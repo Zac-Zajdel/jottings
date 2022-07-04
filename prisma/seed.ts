@@ -19,7 +19,7 @@ async function main() {
     },
   })
 
-  await prisma.jots.upsert({
+  await prisma.jot.upsert({
     where: { title: 'Rough Draft' },
     update: {},
     create: {
