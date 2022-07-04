@@ -22,9 +22,9 @@ const Notes = () => {
       {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} />}
 
       <section className="body-font overflow-hidden">
-        <div className="container px-5 pb-5 mx-auto">
+        <div className="px-5 pb-5">
           <div className="flex justify-between item-center pb-10">
-            <h1 className="text-2xl tracking-wide font-medium">All notes</h1>
+            <h1 className="text-2xl tracking-wide font-light">All notes</h1>
             <button
               type="submit"
               className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-jot-blue-100 hover:bg-jot-blue-200"
@@ -34,7 +34,6 @@ const Notes = () => {
             </button>
           </div>
           <div className="-my-8 divide-y-2 divide-gray-100 divide-opacity-10">
-            {/* Below here is where we loop */}
             {jots.map((folder) => {
               return (
                 <div key={folder.id} className="py-4 flex flex-wrap md:flex-nowrap">
@@ -43,6 +42,7 @@ const Notes = () => {
                       <h2 className="text-xl font-medium tracking-wide">{folder.title}</h2>
                       <HeartIcon className="h-5 w-5 ml-3 text-gray-400 hover:cursor-pointer hover:text-red-500 hover:fill-red-500" />
                     </div>
+                    {/* Have tags > 3 will display + n */}
                     <p className="leading-relaxed text-sm text-gray-400">
                       Last edited on {folder.updatedAt}
                     </p>

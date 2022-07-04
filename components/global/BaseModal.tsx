@@ -10,7 +10,7 @@ export type BaseModalProps = {
 const BaseModal = (props: BaseModalProps) => {
   return (
     <div
-      className="relative z-10 text-black"
+      className="relative z-10 text-white"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -18,8 +18,8 @@ const BaseModal = (props: BaseModalProps) => {
       <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
       <div className="fixed inset-0 overflow-y-auto">
         <div className="flex items-center justify-center min-h-full p-4 text-center sm:p-0">
-          <div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-            <div className="bg-white px-4 py-5">{props.children}</div>
+          <div className="relative bg-jot-light-gray first-line:rounded-lg text-left overflow-hidden rounded-xl shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+            <div className="px-4 py-5">{props.children}</div>
           </div>
         </div>
       </div>

@@ -25,13 +25,13 @@ const AddFolder = (props: BaseModalProps) => {
   return (
     <BaseModal onClose={() => props.onClose()}>
       <div>
-        <label htmlFor="folder" className="text-sm font-medium text-gray-900 block mb-2">
+        <label htmlFor="folder" className="text-sm font-light block mb-2">
           Folder
         </label>
         <input
           type="text"
+          className="block p-2.5 w-full rounded-lg sm:text-sm bg-gray-700 dark:placeholder-gray-400 text-white"
           id="folder"
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5"
           placeholder="Name"
           value={folder}
           autoComplete="off"
@@ -39,7 +39,7 @@ const AddFolder = (props: BaseModalProps) => {
           required
         />
 
-        <div className="pt-3 text-right">
+        <div className="pt-5 text-right">
           <button
             type="submit"
             className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-jot-blue-100 hover:bg-jot-blue-200"
