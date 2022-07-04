@@ -1,15 +1,6 @@
 import { prisma } from '../lib/prisma'
 
 async function main() {
-  await prisma.user.upsert({
-    where: { email: 'alice@prisma.io' },
-    update: {},
-    create: {
-      email: 'alice@prisma.io',
-      name: 'Alice',
-    },
-  })
-
   const user = await prisma.user.upsert({
     where: { email: 'bob@prisma.io' },
     update: {},
@@ -19,10 +10,17 @@ async function main() {
     },
   })
 
-  await prisma.jot.upsert({
-    where: { title: 'Rough Draft' },
+  await prisma.user.upsert({
+    where: { email: 'alice@prisma.io' },
     update: {},
     create: {
+      email: 'alice@prisma.io',
+      name: 'Alice',
+    },
+  })
+
+  await prisma.jot.create({
+    data: {
       userId: user.id,
       title: 'Rough Draft',
       jot: {

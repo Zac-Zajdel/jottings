@@ -1,6 +1,6 @@
 import { prisma } from '../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import folderSchema from 'validation/folderSchema'
+import jotSchema from 'validation/jotSchema'
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -9,7 +9,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       return res.status(200).json(jots)
     case 'POST':
       try {
-        await folderSchema.validate(req.body)
+        await jotSchema.validate(req.body)
         const jot = await createJot(req)
         return res.status(200).json(jot)
       } catch (e) {
@@ -35,6 +35,7 @@ export async function getJots() {
  */
 export async function createJot(req: NextApiRequest) {
   const { title } = req.body
+
   return await prisma.jot.create({
     data: {
       title: title,

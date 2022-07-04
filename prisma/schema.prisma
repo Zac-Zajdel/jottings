@@ -23,7 +23,7 @@ model Jot {
   id        Int       @id @default(autoincrement())
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
-  title     String    @unique
+  title     String
   jot       Json?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
