@@ -17,6 +17,7 @@ export interface Jot {
   userId: number;
   title: string;
   jot: string;
+  isFavorite: boolean;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;
@@ -30,6 +31,7 @@ export interface Folder {
   id: number;
   userId: number;
   name: string;
+  isFavorite: boolean;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;

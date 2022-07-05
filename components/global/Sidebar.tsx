@@ -16,8 +16,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     const grabFolders = async () => {
-      const folders = await axios.get('/api/folder')
-      setFolders(folders.data)
+      const folders: Folders = (await axios.get('/api/folder')).data
+      setFolders(folders)
     }
 
     grabFolders()
@@ -28,7 +28,7 @@ const Sidebar = () => {
    * @param folder - New folder added by user
    */
   const addFolder = async (folder: Folder) => {
-    setFolders((prevState) => prevState.concat(folder))
+    setFolders([...folders, folder])
   }
 
   return (

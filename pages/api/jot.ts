@@ -15,6 +15,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
       } catch (e) {
         return res.status(400).json(e)
       }
+    case 'PUT':
+      try {
+        const jot = await updateJot(req)
+        return res.status(200).json(jot)
+      } catch (e) {
+        return res.status(400).json(e)
+      }
   }
 }
 
@@ -23,6 +30,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
  */
 export async function getJots() {
   return await prisma.jot.findMany({
+    orderBy: {
+      updatedAt: 'desc',
+    },
     where: {
       userId: 1,
       deletedAt: null,
@@ -40,6 +50,22 @@ export async function createJot(req: NextApiRequest) {
     data: {
       title: title,
       userId: 1,
+    },
+  })
+}
+
+/**
+ * @desc Updates a new information
+ */
+export async function updateJot(req: NextApiRequest) {
+  const { jot } = req.body
+
+  return await prisma.jot.update({
+    where: {
+      id: jot.id,
+    },
+    data: {
+      isFavorite: jot.isFavorite,
     },
   })
 }

@@ -23,6 +23,7 @@ async function main() {
     data: {
       userId: user.id,
       title: 'Rough Draft',
+      isFavorite: true,
       jot: {
         hello: 'world',
         mother: 'nature',
