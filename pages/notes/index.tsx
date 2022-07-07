@@ -29,7 +29,7 @@ const Notes = () => {
         })
       ).data
 
-      const index = jots.findIndex((j) => (j.id = jot.id))
+      const index = jots.findIndex((j) => j.id === jot.id)
       jots[index].isFavorite = updatedJot.isFavorite
       setJots([...jots])
     } catch (e: any) {
@@ -37,9 +37,17 @@ const Notes = () => {
     }
   }
 
+  /**
+   * @desc Adds new jot to local state
+   * @param jot - New jot added by user
+   */
+  const addJot = async (jot: Jot) => {
+    setJots([jot, ...jots])
+  }
+
   return (
     <>
-      {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} />}
+      {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />}
 
       <section className="body-font overflow-hidden">
         <div className="px-5 pb-5">

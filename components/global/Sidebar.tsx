@@ -24,7 +24,7 @@ const Sidebar = () => {
   }, [])
 
   /**
-   * @desc Queries for result set of folders for user
+   * @desc Adds new folder to local state
    * @param folder - New folder added by user
    */
   const addFolder = async (folder: Folder) => {
