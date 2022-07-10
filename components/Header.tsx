@@ -1,4 +1,9 @@
+import { useSession } from 'next-auth/react'
+import Image from 'next/image'
+
 const Header = () => {
+  const { data: session } = useSession()
+
   return (
     <header className="header border-b border-gray-600 bg-jot-light-gray shadow py-4 px-4">
       <div className="header-content flex items-center flex-row">
@@ -42,14 +47,16 @@ const Header = () => {
             </a>
           </div>
         </form>
-        {/* Will have a set of dropdown actions for them here */}
-        <div className="flex ml-auto">
+
+        <div className="flex ml-auto text-sm font-medium">
           <a href="#" className="flex flex-row items-center">
-            <span className="flex flex-col ml-2">
-              <span className="truncate w-20 font-semibold tracking-wide leading-none">
-                John Doe
-              </span>
-            </span>
+            <Image
+              src={session?.user?.image || ''}
+              width={50}
+              height={50}
+              alt="profile photo"
+              className="rounded-full"
+            />
           </a>
         </div>
       </div>

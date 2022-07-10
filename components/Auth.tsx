@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { useSession } from 'next-auth/react'
-import Login from 'pages/login'
+import Signin from 'pages/auth/signin'
 
 type Props = {
   children: ReactNode;
@@ -12,7 +12,7 @@ const Auth = ({ children }: Props) => {
   if (!session) {
     return (
       <>
-        <Login />
+        <Signin />
       </>
     )
   } else {
