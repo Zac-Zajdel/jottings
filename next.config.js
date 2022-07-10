@@ -9,7 +9,7 @@ module.exports = withPWA({
     return [
       {
         source: '/',
-        destination: '/notes',
+        destination: '/login',
         permanent: true,
       },
     ]

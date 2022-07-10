@@ -44,6 +44,7 @@
     "axios": "^0.27.2",
     "babel-plugin-superjson-next": "^0.4.3",
     "next": "^12.2.0",
+    "next-auth": "^4.9.0",
     "next-pwa": "^5.5.4",
     "postcss": "^8.4.5",
     "prisma": "^4.0.0",
