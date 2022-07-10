@@ -14,30 +14,33 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-
-  jots    Jot[]
-  Folders Folder[]
+  Folders   Folder[]
+  jots      Jot[]
 }
 
 model Jot {
   id         Int       @id @default(autoincrement())
   userId     Int
-  user       User      @relation(fields: [userId], references: [id])
   title      String
   jot        Json?
-  isFavorite Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
+  isFavorite Boolean   @default(false)
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Jot_userId_fkey")
 }
 
 model Folder {
   id         Int       @id @default(autoincrement())
   userId     Int
-  user       User      @relation(fields: [userId], references: [id])
   name       String    @unique
-  isFavorite Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   deletedAt  DateTime?
+  isFavorite Boolean   @default(false)
+  user       User      @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Folder_userId_fkey")
 }
