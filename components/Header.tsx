@@ -1,4 +1,4 @@
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 
 const Header = () => {
@@ -49,15 +49,15 @@ const Header = () => {
         </form>
 
         <div className="flex ml-auto text-sm font-medium">
-          <a href="#" className="flex flex-row items-center">
+          <span onClick={() => signOut()} className="flex flex-row items-center cursor-pointer">
             <Image
               src={session?.user?.image || ''}
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               alt="profile photo"
               className="rounded-full"
             />
-          </a>
+          </span>
         </div>
       </div>
     </header>
