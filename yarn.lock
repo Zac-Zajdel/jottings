@@ -3850,6 +3850,11 @@ randombytes@^2.1.0:
   dependencies:
     safe-buffer "^5.1.0"
 
+react-click-away-listener@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/react-click-away-listener/-/react-click-away-listener-2.2.1.tgz#c04b72783baf1a70b1f5bee3969019b3517cc565"
+  integrity sha512-l6KoQXrVgPVTGXTQllqMjzpmHDLBkm7LTOr3NIAhWeNc1JWyeecP/jh/3r77Jn9LxDxuYC0pJFuFg+fu06HdlA==
+
 react-dom@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.2.tgz#ecffb6845e3ad8dbfcdc498f0d0a939736502c23"

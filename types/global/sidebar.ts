@@ -10,9 +10,9 @@ export type SidebarApps = SidebarApp[];
 export default class Apps {
   static navigation: SidebarApps = [
     {
-      label: 'All notes',
+      label: 'All Jots',
       icon: DocumentTextIcon,
-      to: '/notes',
+      to: '/jots',
     },
     {
       label: 'Favorites',

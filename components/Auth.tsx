@@ -15,7 +15,7 @@ const Auth = ({ children }: Props) => {
     if (!session) {
       router.push({ pathname: '/auth/signin' }, undefined, { shallow: true })
     } else {
-      router.push({ pathname: '/notes' }, undefined, { shallow: true })
+      router.push({ pathname: '/jots' }, undefined, { shallow: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session])

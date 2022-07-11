@@ -58,22 +58,20 @@ const Sidebar = () => {
                 <Link key={app.to} href={app.to}>
                   <li
                     className={`my-px
-                          ml-1
-                          flex
-                          flex-row
-                          items-center
-                          h-10
-                          px-3
-                          rounded-lg
-                          text-gray-300
-                          bg-opacity-50
-                          hover:bg-opacity-50
-                          hover:bg-jot-hover-gray-200
-                          hover:text-gray-200
-                          cursor-pointer ${
-                            router.pathname === app.to ? 'bg-jot-hover-gray-200' : null
-                          }
-                        `}
+                      ml-1
+                      flex
+                      flex-row
+                      items-center
+                      h-10
+                      px-3
+                      rounded-lg
+                      text-gray-300
+                      bg-opacity-50
+                      hover:bg-opacity-50
+                      hover:bg-jot-hover-gray-200
+                      hover:text-gray-200
+                      cursor-pointer ${router.pathname === app.to ? 'bg-jot-hover-gray-200' : null}
+                    `}
                   >
                     <DynamicComponent className="h-5 w-5 text-gray-400" />
                     <span className="ml-3">{app.label}</span>

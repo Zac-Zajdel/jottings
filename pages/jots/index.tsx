@@ -1,5 +1,6 @@
 import { HeartIcon } from '@heroicons/react/outline'
 import axios from 'axios'
+import Header from 'components/Header'
 import AddJot from 'components/jots/AddJot'
 import { useEffect, useState } from 'react'
 import { Jot, Jots } from 'types/models'
@@ -7,6 +8,13 @@ import { Jot, Jots } from 'types/models'
 const Notes = () => {
   const [jots, setJots] = useState<Jots>([])
   const [isCreatingJot, setIsCreatingJot] = useState(false)
+
+  const breadcrumbs = [
+    {
+      title: 'Jots',
+      route: '/jots',
+    },
+  ]
 
   useEffect(() => {
     const grabJots = async () => {
@@ -49,10 +57,11 @@ const Notes = () => {
     <>
       {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />}
 
-      <section className="body-font overflow-hidden">
+      <Header breadcrumbs={breadcrumbs} />
+      <section className="body-font overflow-hidden mx-5">
         <div className="px-5 pb-5">
-          <div className="flex justify-between item-center pb-10">
-            <h1 className="text-2xl tracking-wide font-light">All notes</h1>
+          <div className="flex justify-between item-center">
+            <h1 className="text-2xl tracking-wide font-light">All Jots</h1>
             <button
               type="submit"
               className="inline-flex justify-center py-2 px-4 shadow-sm text-sm font-medium rounded-md text-white bg-jot-blue-100 hover:bg-jot-blue-200"
@@ -61,7 +70,21 @@ const Notes = () => {
               New Jot
             </button>
           </div>
-          <div className="-my-8 divide-y-2 divide-gray-100 divide-opacity-10">
+
+          <div className="my-10">
+            <div className="border-b border-gray-100/25">
+              <div className="flex items-center text-sm">
+                <span className="border-b-2 border-white text-white pb-[14px] cursor-pointer">
+                  Jots
+                </span>
+                <span className="pl-5 pb-[16px] text-gray-400 cursor-pointer hover:text-gray-200">
+                  Deleted
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="-my-8 divide-y-2 divide-gray-100 divide-opacity-10 mx-2">
             {jots.map((jot) => {
               return (
                 <div key={jot.id} className="py-4 flex flex-wrap md:flex-nowrap">
@@ -84,8 +107,8 @@ const Notes = () => {
                       </span>
                     </div>
                     {/* Have tags > 3 will display + n */}
-                    <p className="leading-relaxed text-sm text-gray-400">
-                      Last edited on {jot.isFavorite}
+                    <p className="font-light text-sm text-gray-400">
+                      Last edited on {jot.updatedAt}
                     </p>
                   </div>
                 </div>
