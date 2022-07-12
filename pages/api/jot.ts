@@ -5,7 +5,8 @@ import jotSchema from 'validation/jotSchema'
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      const jots = await getJots()
+      // add schema
+      const jots = await getJots(req)
       return res.status(200).json(jots)
     case 'POST':
       try {
@@ -28,14 +29,16 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 /**
  * @desc Grabs jots from specific user
  */
-export async function getJots() {
+export async function getJots(req: NextApiRequest) {
+  const { isDeleted } = req.query
+
   return await prisma.jot.findMany({
     orderBy: {
       updatedAt: 'desc',
     },
     where: {
       userId: 1,
-      deletedAt: null,
+      ...(isDeleted === 'true' ? { NOT: { deletedAt: null } } : { deletedAt: null }),
     },
   })
 }
