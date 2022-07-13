@@ -51,9 +51,8 @@ const Notes = () => {
   const updateJot = async (jot: Jot) => {
     jot.isFavorite = !jot.isFavorite
     try {
-      // update to have a normal CRUD API call
       const updatedJot: Jot = (
-        await axios.put('/api/jot', {
+        await axios.put(`/api/jot/${jot.id}`, {
           jot,
         })
       ).data
@@ -62,7 +61,7 @@ const Notes = () => {
       jots[index].isFavorite = updatedJot.isFavorite
       setJots([...jots])
     } catch (e: any) {
-      alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
+      alert(e?.response?.data ?? 'An error occurred. Please try again')
     }
   }
 
@@ -72,7 +71,7 @@ const Notes = () => {
    */
   const deleteJot = async (jot: Jot) => {
     try {
-      await axios.delete('/api/jot', {
+      await axios.delete(`/api/jot/${jot.id}`, {
         data: {
           jot,
         },
@@ -85,7 +84,7 @@ const Notes = () => {
       setJots([...jots])
       setDropdownIndex(-1)
     } catch (e: any) {
-      alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
+      alert(e?.response?.data ?? 'An error occurred. Please try again')
     }
   }
 
@@ -152,26 +151,29 @@ const Notes = () => {
                   <div className="flex-grow">
                     <div className="flex items-center mb-1">
                       <h2 className="text-xl font-medium tracking-wide">{jot.title}</h2>
-                      <span onClick={() => updateJot(jot)}>
-                        <HeartIcon
-                          className={`
-                            h-5
-                            w-5
-                            ml-3
-                            text-gray-400
-                            hover:cursor-pointer
-                            hover:text-red-500
-                            hover:fill-red-500
-                            ${jot.isFavorite ? 'text-red-500 fill-red-500' : null}
-                          `}
-                        />
-                      </span>
+                      {!jot.deletedAt && (
+                        <span onClick={() => updateJot(jot)}>
+                          <HeartIcon
+                            className={`
+                              h-5
+                              w-5
+                              ml-3
+                              text-gray-400
+                              hover:cursor-pointer
+                              hover:text-red-500
+                              hover:fill-red-500
+                              ${jot.isFavorite ? 'text-red-500 fill-red-500' : null}
+                            `}
+                          />
+                        </span>
+                      )}
                     </div>
                     {/* Have tags > 3 will display + n */}
                     <p className="font-light text-sm text-gray-400">
                       Last edited on {jot.updatedAt}
                     </p>
                   </div>
+
                   <div onClick={() => setDropdownIndex(jot.id)}>
                     <DotsHorizontalIcon
                       className={`
@@ -186,6 +188,7 @@ const Notes = () => {
                       `}
                     />
                   </div>
+
                   <div className="relative inline-block text-left">
                     {dropdownIndex === jot.id && (
                       <ClickAwayListener onClickAway={() => setDropdownIndex(-1)}>

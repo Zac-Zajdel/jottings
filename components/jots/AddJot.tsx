@@ -18,7 +18,7 @@ const AddJot = (props: BaseModalProps) => {
       if (props.action) props.action(newJot.data)
       props.onClose()
     } catch (e: any) {
-      alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
+      alert(e?.response?.data ?? 'An error occurred. Please try again')
     }
   }
 
