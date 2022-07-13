@@ -8,17 +8,15 @@ type Props = {
 };
 
 const Auth = ({ children }: Props) => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const router = useRouter()
 
   useEffect(() => {
-    if (!session) {
-      router.push({ pathname: '/auth/signin' }, undefined, { shallow: true })
-    } else {
+    if (status === 'authenticated') {
       router.push({ pathname: '/jots' }, undefined, { shallow: true })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session])
+  }, [status])
 
   if (!session) {
     return <Signin />
