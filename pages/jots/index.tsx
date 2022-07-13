@@ -3,11 +3,13 @@ import axios from 'axios'
 import Header from 'components/Header'
 import AddJot from 'components/jots/AddJot'
 import { useEffect, useState } from 'react'
+import ClickAwayListener from 'react-click-away-listener'
 import { Jot, Jots } from 'types/models'
 
 const Notes = () => {
   const [nav, setNav] = useState('Jots')
   const [jots, setJots] = useState<Jots>([])
+  const [dropdownIndex, setDropdownIndex] = useState(-1)
   const [isCreatingJot, setIsCreatingJot] = useState(false)
 
   const breadcrumbs = [
@@ -35,12 +37,21 @@ const Notes = () => {
   }
 
   /**
+   * @desc Adds new jot to local state
+   * @param jot - New jot added by user
+   */
+  const addJot = async (jot: Jot) => {
+    setJots([jot, ...jots])
+  }
+
+  /**
    * @desc Calls API to update favorite boolean status
    * @param jot - Jot that is being updated
    */
   const updateJot = async (jot: Jot) => {
     jot.isFavorite = !jot.isFavorite
     try {
+      // update to have a normal CRUD API call
       const updatedJot: Jot = (
         await axios.put('/api/jot', {
           jot,
@@ -56,11 +67,26 @@ const Notes = () => {
   }
 
   /**
-   * @desc Adds new jot to local state
-   * @param jot - New jot added by user
+   * @desc Delete jot and update local state
+   * @param jot - Jot being deleted by user
    */
-  const addJot = async (jot: Jot) => {
-    setJots([jot, ...jots])
+  const deleteJot = async (jot: Jot) => {
+    try {
+      await axios.delete('/api/jot', {
+        data: {
+          jot,
+        },
+      })
+
+      const index = jots.findIndex((j) => j.id === jot.id)
+      jots.splice(index, 1)
+
+      // Update local state
+      setJots([...jots])
+      setDropdownIndex(-1)
+    } catch (e: any) {
+      alert(e?.response?.data?.errors?.[0] ?? 'An error occurred. Please try again')
+    }
   }
 
   return (
@@ -68,7 +94,7 @@ const Notes = () => {
       {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />}
 
       <Header breadcrumbs={breadcrumbs} />
-      <section className="body-font overflow-hidden mx-5">
+      <section className="body-font mx-5">
         <div className="px-5 pb-10">
           <h1 className="text-2xl tracking-wide font-light">All Jots</h1>
 
@@ -146,7 +172,7 @@ const Notes = () => {
                       Last edited on {jot.updatedAt}
                     </p>
                   </div>
-                  <div>
+                  <div onClick={() => setDropdownIndex(jot.id)}>
                     <DotsHorizontalIcon
                       className={`
                         h-5
@@ -159,6 +185,25 @@ const Notes = () => {
                         hover:cursor-pointer
                       `}
                     />
+                  </div>
+                  <div className="relative inline-block text-left">
+                    {dropdownIndex === jot.id && (
+                      <ClickAwayListener onClickAway={() => setDropdownIndex(-1)}>
+                        <div className="origin-top-right absolute right-3 mt-9 w-44 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
+                          <div className="py-1 cursor-pointer text-sm font-light">
+                            <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">
+                              Rename
+                            </span>
+                            <span
+                              className="block px-4 py-2 hover:bg-jot-hover-gray-200"
+                              onClick={() => deleteJot(jot)}
+                            >
+                              Delete
+                            </span>
+                          </div>
+                        </div>
+                      </ClickAwayListener>
+                    )}
                   </div>
                 </div>
               )

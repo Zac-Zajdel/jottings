@@ -5,7 +5,6 @@ import jotSchema from 'validation/jotSchema'
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
     case 'GET':
-      // add schema
       const jots = await getJots(req)
       return res.status(200).json(jots)
     case 'POST':
@@ -19,6 +18,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     case 'PUT':
       try {
         const jot = await updateJot(req)
+        return res.status(200).json(jot)
+      } catch (e) {
+        return res.status(400).json(e)
+      }
+    case 'DELETE':
+      try {
+        const jot = await deleteJot(req)
         return res.status(200).json(jot)
       } catch (e) {
         return res.status(400).json(e)
@@ -58,7 +64,7 @@ export async function createJot(req: NextApiRequest) {
 }
 
 /**
- * @desc Updates a new information
+ * @desc Updates an existing jot.
  */
 export async function updateJot(req: NextApiRequest) {
   const { jot } = req.body
@@ -69,6 +75,23 @@ export async function updateJot(req: NextApiRequest) {
     },
     data: {
       isFavorite: jot.isFavorite,
+      updatedAt: new Date(),
+    },
+  })
+}
+
+/**
+ * @desc Deletes a jot.
+ */
+export async function deleteJot(req: NextApiRequest) {
+  const { jot } = req.body
+
+  return await prisma.jot.update({
+    where: {
+      id: jot.id,
+    },
+    data: {
+      deletedAt: new Date(),
     },
   })
 }

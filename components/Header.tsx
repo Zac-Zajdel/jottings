@@ -67,7 +67,7 @@ const Header = (props: HeaderProps) => {
             {showDropdown && (
               <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
                 <div className="origin-top-right absolute right-0 mt-6 w-56 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
-                  <div className="py-1 cursor-pointer text-sm">
+                  <div className="py-1 cursor-pointer text-sm font-light">
                     <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">Profile</span>
                     <span
                       onClick={() => signOut()}
