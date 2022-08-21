@@ -70,7 +70,7 @@ const Header = (props: HeaderProps) => {
                   <div className="py-1 cursor-pointer text-sm font-light">
                     <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">Profile</span>
                     <span
-                      onClick={() => signOut()}
+                      onClick={() => signOut({ callbackUrl: process.env.NEXTAUTH_URL })}
                       className="block px-4 py-2 hover:bg-jot-hover-gray-200"
                     >
                       Sign out
