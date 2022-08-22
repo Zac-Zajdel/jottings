@@ -14,7 +14,7 @@ const Signin = () => {
 
   const login = (provider: ClientSafeProvider) => {
     setIsLoading(true)
-    signIn(provider.id, { callbackUrl: `http://localhost:3000/jots` })
+    signIn(provider.id, { callbackUrl: `${window.location.origin}/jots` })
   }
 
   return (
