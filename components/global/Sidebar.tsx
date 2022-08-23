@@ -45,11 +45,11 @@ const Sidebar = () => {
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
         <div className="sidebar-header flex items-center p-4">
           <div className="flex flex-col w-full">
-            <a href="#" className="inline-flex flex-row items-center">
+            <Link href="/" className="inline-flex flex-row items-center">
               <span className="leading-10 text-gray-100 text-2xl px-1 font-bold ml-1 uppercase">
                 Jottings
               </span>
-            </a>
+            </Link>
           </div>
         </div>
 

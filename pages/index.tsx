@@ -119,7 +119,7 @@ const Notes = () => {
                   className={`
                   text-white
                     pb-4
-                    ml-4
+                    ml-5
                     cursor-pointer
                     ${nav === 'Deleted' ? 'border-b-2 border-white' : 'text-gray-400'}
                   `}
