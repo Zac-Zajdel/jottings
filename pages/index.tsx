@@ -1,7 +1,7 @@
 import { HeartIcon, DotsHorizontalIcon } from '@heroicons/react/outline'
 import axios from 'axios'
-import Header from 'components/Header'
-import AddJot from 'components/jots/AddJot'
+import Header from '@/components/Header'
+import AddJot from '@/components/jots/AddJot'
 import { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { Jot, Jots } from 'types/models'
@@ -15,7 +15,7 @@ const Notes = () => {
   const breadcrumbs = [
     {
       title: 'Jots',
-      route: '/jots',
+      route: '/',
     },
   ]
 
@@ -119,7 +119,7 @@ const Notes = () => {
                   className={`
                   text-white
                     pb-4
-                    ml-4
+                    ml-5
                     cursor-pointer
                     ${nav === 'Deleted' ? 'border-b-2 border-white' : 'text-gray-400'}
                   `}

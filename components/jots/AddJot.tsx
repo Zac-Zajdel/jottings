@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import React from 'react'
 import axios from 'axios'
-import BaseModal, { BaseModalProps } from 'components/global/BaseModal'
+import BaseModal, { BaseModalProps } from '@/components/global/BaseModal'
 
 const AddJot = (props: BaseModalProps) => {
   const [jot, setJot] = useState('')

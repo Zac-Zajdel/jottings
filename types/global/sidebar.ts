@@ -12,7 +12,7 @@ export default class Apps {
     {
       label: 'All Jots',
       icon: DocumentTextIcon,
-      to: '/jots',
+      to: '/',
     },
     {
       label: 'Favorites',

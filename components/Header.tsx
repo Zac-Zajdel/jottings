@@ -1,8 +1,5 @@
-import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
-import ClickAwayListener from 'react-click-away-listener'
+import { BellIcon, CogIcon } from '@heroicons/react/outline'
 
 interface BreadCrumbs {
   title: string;
@@ -14,9 +11,6 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-  const { data: session } = useSession()
-  const [showDropdown, setShowDropdown] = useState(false)
-
   return (
     <header className="header border-b border-gray-600/50 bg-jot-light-gray shadow py-2 px-4 mb-6">
       <div className="header-content flex items-center flex-row">
@@ -48,38 +42,10 @@ const Header = (props: HeaderProps) => {
           </ol>
         </nav>
 
-        <div className="flex justify-center items-center ml-auto text-sm text-gray-300 font-medium">
-          <span className="mr-3">{session?.user?.name}</span>
-          <span
-            onClick={() => setShowDropdown(true)}
-            className="flex flex-row items-center cursor-pointer"
-          >
-            <Image
-              src={session?.user?.image || ''}
-              width={30}
-              height={30}
-              alt="profile photo"
-              className="rounded-full"
-            />
-          </span>
-
-          <div className="relative inline-block text-left">
-            {showDropdown && (
-              <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
-                <div className="origin-top-right absolute right-0 mt-6 w-56 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
-                  <div className="py-1 cursor-pointer text-sm font-light">
-                    <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">Profile</span>
-                    <span
-                      onClick={() => signOut({ callbackUrl: window.location.origin })}
-                      className="block px-4 py-2 hover:bg-jot-hover-gray-200"
-                    >
-                      Sign out
-                    </span>
-                  </div>
-                </div>
-              </ClickAwayListener>
-            )}
-          </div>
+        {/* Action icons */}
+        <div className="flex justify-end items-center ml-auto text-sm pr-1">
+          <BellIcon className="h-5 w-5 font-light cursor-pointer" />
+          <CogIcon className="ml-4 h-5 w-5 font-light cursor-pointer" />
         </div>
       </div>
     </header>

@@ -6,12 +6,17 @@ import { Folder } from '@prisma/client'
 import Apps from 'types/global/sidebar'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import AddFolder from 'components/folders/AddFolder'
+import AddFolder from '@/components/folders/AddFolder'
+import Image from 'next/image'
+import { signOut, useSession } from 'next-auth/react'
+import ClickAwayListener from 'react-click-away-listener'
 
 const Sidebar = () => {
   const router = useRouter()
+  const { data: session } = useSession()
 
   const [folders, setFolders] = useState<Folders>([])
+  const [showDropdown, setShowDropdown] = useState(false)
   const [isCreatingFolder, setCreatingFolder] = useState(false)
 
   useEffect(() => {
@@ -36,17 +41,19 @@ const Sidebar = () => {
       {isCreatingFolder && (
         <AddFolder onClose={() => setCreatingFolder(false)} action={addFolder} />
       )}
+
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
         <div className="sidebar-header flex items-center p-4">
           <div className="flex flex-col w-full">
-            <a href="#" className="inline-flex flex-row items-center">
+            <Link href="/" className="inline-flex flex-row items-center">
               <span className="leading-10 text-gray-100 text-2xl px-1 font-bold ml-1 uppercase">
                 Jottings
               </span>
-            </a>
+            </Link>
           </div>
         </div>
 
+        {/* Modules */}
         <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
             <li className="my-px">
@@ -82,6 +89,7 @@ const Sidebar = () => {
           </ul>
         </div>
 
+        {/* Folders */}
         <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
             <li className="flex justify-between items-center my-px rounded-lg hover:bg-jot-hover-gray-100 py-1 pr-2">
@@ -109,83 +117,45 @@ const Sidebar = () => {
           </ul>
         </div>
 
-        {/* Footer */}
-        <div className="h-[50px] absolute w-full bottom-0 px-8 border-t border-gray-700">
-          <ul className="w-full flex items-center justify-between">
-            <li className="cursor-pointer text-white pt-5 pb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-bell"
-                width={20}
-                height={20}
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-              </svg>
-            </li>
-            <li className="cursor-pointer text-white pt-5 pb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-messages"
-                width={20}
-                height={20}
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
-                <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />
-              </svg>
-            </li>
-            <li className="cursor-pointer text-white pt-5 pb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-settings"
-                width={20}
-                height={20}
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <circle cx={12} cy={12} r={3} />
-              </svg>
-            </li>
-            <li className="cursor-pointer text-white pt-5 pb-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-archive"
-                width={20}
-                height={20}
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" />
-                <rect x={3} y={4} width={18} height={4} rx={2} />
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
-                <line x1={10} y1={12} x2={14} y2={12} />
-              </svg>
-            </li>
-          </ul>
+        {/* User */}
+        <div className="h-[65px] absolute w-full bottom-0 pl-6 pt-4 border-t border-gray-700 text-sm text-gray-300">
+          <div className="flex items-center ml-auto font-medium">
+            <span
+              onClick={() => setShowDropdown(true)}
+              className="flex-inline flex-row items-center cursor-pointer"
+            >
+              <Image
+                src={session?.user?.image || ''}
+                width={30}
+                height={30}
+                alt="profile photo"
+                className="rounded-full"
+              />
+            </span>
+
+            <div className="ml-4">
+              <span>{session?.user?.name}</span>
+              <span className="flex items-center text-xs font-light">Private</span>
+            </div>
+
+            <div className="relative inline-block text-left">
+              {showDropdown && (
+                <div className="absolute bottom-9 -left-[140px] mt-6 w-64 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
+                  <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
+                    <div className="py-1 cursor-pointer text-sm font-light">
+                      <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">Profile</span>
+                      <span
+                        onClick={() => signOut({ callbackUrl: window.location.origin })}
+                        className="block px-4 py-2 hover:bg-jot-hover-gray-200"
+                      >
+                        Sign out
+                      </span>
+                    </div>
+                  </ClickAwayListener>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </aside>
     </>
