@@ -15,7 +15,7 @@ const Notes = () => {
   const breadcrumbs = [
     {
       title: 'Jots',
-      route: '/jots',
+      route: '/',
     },
   ]
 
