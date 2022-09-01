@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react'
 import { AppProps } from 'next/app'
 import { useEffect } from 'react'
 import 'styles/globals.css'
+import 'styles/tiptap.css'
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   useEffect(() => {
