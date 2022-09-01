@@ -6,7 +6,7 @@ interface Item {
 }
 
 // Convert this to a functional component.
-class CommandsList extends Component {
+class CommandsList extends Component<{ items: Array<Item>; command: Function }> {
   state = {
     selectedIndex: 0,
   }
