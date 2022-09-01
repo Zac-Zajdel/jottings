@@ -5,8 +5,10 @@ import AddJot from '@/components/jots/AddJot'
 import { useEffect, useState } from 'react'
 import ClickAwayListener from 'react-click-away-listener'
 import { Jot, Jots } from 'types/models'
+import { useRouter } from 'next/router'
 
 const Notes = () => {
+  const router = useRouter()
   const [nav, setNav] = useState('Jots')
   const [jots, setJots] = useState<Jots>([])
   const [dropdownIndex, setDropdownIndex] = useState(-1)
@@ -150,7 +152,12 @@ const Notes = () => {
                 <div key={jot.id} className="py-4 flex flex-wrap md:flex-nowrap cursor-pointer">
                   <div className="flex-grow">
                     <div className="flex items-center mb-1">
-                      <h2 className="text-xl font-medium tracking-wide">{jot.title}</h2>
+                      <h2
+                        className="text-xl font-medium tracking-wide"
+                        onClick={() => router.push(`/jots/${jot.id}`)}
+                      >
+                        {jot.title}
+                      </h2>
                       {!jot.deletedAt && (
                         <span onClick={() => updateJot(jot)}>
                           <HeartIcon
