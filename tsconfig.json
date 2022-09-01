@@ -35,6 +35,6 @@
       "@/components/*": ["components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/editor/Tiptap.jsx"],
   "exclude": ["node_modules", ".next"]
 }
