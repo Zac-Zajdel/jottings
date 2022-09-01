@@ -23,6 +23,7 @@ const renderItems = () => {
         placement: "bottom-start"
       })
     },
+
     onUpdate(props) {
       component.updateProps(props)
 
@@ -30,6 +31,7 @@ const renderItems = () => {
         getReferenceClientRect: props.clientRect
       })
     },
+
     onKeyDown(props) {
       if (props.event.key === "Escape") {
         popup[0].hide()
@@ -37,11 +39,11 @@ const renderItems = () => {
         return true
       }
 
-      return component.ref?.onKeyDown(props);
+      return component.ref?.onKeyDown(props)
     },
+
     onExit() {
       popup[0].destroy()
-      component.destroy()
     }
   }
 }

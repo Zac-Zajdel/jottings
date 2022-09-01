@@ -1,14 +1,16 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import getSuggestionItems from "../../helpers/items.js"
-import renderItems from "../../helpers/renderItems"
-import Commands from "../../helpers/Commands"
+import Placeholder from '@tiptap/extension-placeholder'
+import getSuggestionItems from "@/helpers/tiptap/items"
+import renderItems from "@/helpers/tiptap/renderItems"
+import Commands from "@/helpers/tiptap/Commands"
 
 const Tiptap = () => {
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        // placeholder: 'Type / for more options',
+      StarterKit,
+      Placeholder.configure({
+        placeholder: 'Type / for options',
       }),
       Commands.configure({
         suggestion: {
@@ -17,14 +19,11 @@ const Tiptap = () => {
         }
       })
     ],
-    content: '<p>Hello World! 🌎️</p>',
+    content: '<p></p>',
   })
 
   return (
-    <>
-      {/* <button onClick={() => editor?.chain().focus().toggleBold().run()}>Bold</button> */}
-      <EditorContent editor={editor} className="editor" />
-    </>
+    <EditorContent editor={editor} className="editor" />
   )
 }
 

@@ -1,11 +1,17 @@
-import React, { Component } from 'react'
+import React, { Component, KeyboardEvent } from 'react'
 
-class CommandList extends Component {
+interface Item {
+  title: string;
+  command: Function;
+}
+
+// Convert this to a functional component.
+class CommandsList extends Component {
   state = {
     selectedIndex: 0,
-  };
+  }
 
-  componentDidUpdate(oldProps) {
+  componentDidUpdate(oldProps: { items: Array<Item> }) {
     if (this.props.items !== oldProps.items) {
       this.setState({
         selectedIndex: 0,
@@ -13,7 +19,7 @@ class CommandList extends Component {
     }
   }
 
-  onKeyDown({ event }) {
+  onKeyDown({ event }: { event: KeyboardEvent }) {
     if (event.key === 'ArrowUp') {
       this.upHandler()
       return true
@@ -49,7 +55,7 @@ class CommandList extends Component {
     this.selectItem(this.state.selectedIndex)
   }
 
-  selectItem(index) {
+  selectItem(index: number) {
     const item = this.props.items[index]
 
     if (item) {
@@ -58,7 +64,8 @@ class CommandList extends Component {
   }
 
   render() {
-    const { items } = this.props
+    const { items } = this.props as { items: Array<Item>; command: Function }
+
     return (
       <div className="items">
         {items.map((item, index) => {
@@ -68,7 +75,7 @@ class CommandList extends Component {
               key={index}
               onClick={() => this.selectItem(index)}
             >
-              {item.element || item.title}
+              {item.title}
             </button>
           )
         })}
@@ -77,4 +84,4 @@ class CommandList extends Component {
   }
 }
 
-export default CommandList
+export default CommandsList
