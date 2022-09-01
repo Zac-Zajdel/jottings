@@ -41,6 +41,10 @@ const renderItems = () => {
 
       return component.ref?.onKeyDown(props)
     },
+
+    onExit() {
+      if (!popup?.[0]?.state.isDestroyed) popup[0].destroy()
+    },
   }
 }
 
