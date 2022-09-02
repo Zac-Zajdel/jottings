@@ -1,3 +1,5 @@
+import { unstable_getServerSession } from 'next-auth/next'
+import { authOptions } from 'pages/api/auth/[...nextauth]'
 import { prisma } from '../../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createJot } from 'validation/jotSchema'
@@ -14,6 +16,7 @@ router.delete('/api/jot/:id', destroy)
  * @desc Grabs jots from specific user
  */
 export async function get(req: NextApiRequest, res: NextApiResponse) {
+  const session = await unstable_getServerSession(req, res, authOptions)
   const { isDeleted } = req.query
 
   const jots = await prisma.jot.findMany({
@@ -21,7 +24,7 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
       updatedAt: 'desc',
     },
     where: {
-      userId: 1,
+      userId: session?.user.id,
       ...(isDeleted === 'true' ? { NOT: { deletedAt: null } } : { deletedAt: null }),
     },
   })

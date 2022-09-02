@@ -1,7 +1,9 @@
 export interface User {
   id: number;
-  email: string;
   name: string;
+  email: string;
+  emailVerified: Date | null;
+  image: string | null;
   createdAt: Date;
   updatedAt: Date;
   deletedAt: Date | null;
