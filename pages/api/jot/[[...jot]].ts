@@ -1,9 +1,9 @@
-import { getSession } from 'next-auth/react'
 import { prisma } from '../../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createJot } from 'validation/jotSchema'
 import { createRouter } from 'next-connect'
 import { User } from '@prisma/client'
+import { getUserSession } from '../helpers/getUserSession'
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
@@ -12,25 +12,10 @@ router.post('/api/jot', store)
 router.put('/api/jot/:id', update)
 router.delete('/api/jot/:id', destroy)
 
-// todo - Move to helper function that will include all successful/error return API structure calls for front-end
-// call it nextHelper and possibly make it a class?
-/**
- *
- * @param req
- * @param res
- * @returns
- */
-async function getUserSession(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req })
-
-  if (!session?.user) return res.status(401).json({ error: true, message: 'Unauthenticated' })
-
-  return session.user
-}
-
 /**
  * @desc Grabs jots from specific user
  */
+// todo - use Zod for validation.
 export async function get(req: NextApiRequest, res: NextApiResponse) {
   const user: User = await getUserSession(req, res)
 
