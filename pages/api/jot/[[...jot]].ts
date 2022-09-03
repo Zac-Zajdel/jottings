@@ -1,11 +1,13 @@
+import { jotIndex, jotStore, jotUpdate } from '@/formRequests/jot'
 import { prisma } from '../../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { createJot } from 'validation/jotSchema'
 import { createRouter } from 'next-connect'
+import { User } from '@prisma/client'
+import { getUserSession } from '../helpers/getUserSession'
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
-router.get('/api/jot', get)
+router.get('/api/jot', index)
 router.post('/api/jot', store)
 router.put('/api/jot/:id', update)
 router.delete('/api/jot/:id', destroy)
@@ -13,16 +15,17 @@ router.delete('/api/jot/:id', destroy)
 /**
  * @desc Grabs jots from specific user
  */
-export async function get(req: NextApiRequest, res: NextApiResponse) {
-  const { isDeleted } = req.query
+export async function index(req: NextApiRequest, res: NextApiResponse) {
+  const user: User = await getUserSession(req, res)
+  const payload = jotIndex.parse(req.query)
 
   const jots = await prisma.jot.findMany({
     orderBy: {
       updatedAt: 'desc',
     },
     where: {
-      userId: 1,
-      ...(isDeleted === 'true' ? { NOT: { deletedAt: null } } : { deletedAt: null }),
+      userId: user.id,
+      ...(payload.isDeleted === 'true' ? { NOT: { deletedAt: null } } : { deletedAt: null }),
     },
   })
 
@@ -33,13 +36,13 @@ export async function get(req: NextApiRequest, res: NextApiResponse) {
  * @desc Creates a new jot.
  */
 export async function store(req: NextApiRequest, res: NextApiResponse) {
-  await createJot.validate(req.body)
+  const user: User = await getUserSession(req, res)
+  const payload = jotStore.parse(req.body)
 
-  const { title } = req.body
   const jot = await prisma.jot.create({
     data: {
-      title: title,
-      userId: 1,
+      title: payload.title,
+      userId: user.id,
     },
   })
 
@@ -50,37 +53,62 @@ export async function store(req: NextApiRequest, res: NextApiResponse) {
  * @desc Updates an existing jot.
  */
 export async function update(req: NextApiRequest, res: NextApiResponse) {
-  const { jot } = req.body
+  const user: User = await getUserSession(req, res)
+  const payload = jotUpdate.parse(req.body)
 
-  const updatedJot = await prisma.jot.update({
+  const jot = await prisma.jot.findFirst({
     where: {
-      id: jot.id,
-    },
-    data: {
-      isFavorite: jot.isFavorite,
-      updatedAt: new Date(),
+      id: payload.jot.id,
+      userId: user.id,
     },
   })
 
-  res.status(200).json(updatedJot)
+  if (jot) {
+    const updatedJot = await prisma.jot.update({
+      where: {
+        id: payload.jot.id,
+      },
+      data: {
+        isFavorite: payload.jot.isFavorite,
+        updatedAt: new Date(),
+      },
+    })
+
+    res.status(200).json(updatedJot)
+  } else {
+    res.status(401).json({ error: true, message: 'You are not the owner of this Jot.' })
+  }
 }
 
 /**
  * @desc Deletes a jot.
  */
 export async function destroy(req: NextApiRequest, res: NextApiResponse) {
-  const { jot } = req.body
+  const user: User = await getUserSession(req, res)
+  const payload = req.body
 
-  const deletedJot = await prisma.jot.update({
+  const jot = await prisma.jot.findFirst({
     where: {
-      id: jot.id,
-    },
-    data: {
-      deletedAt: new Date(),
+      id: payload.jot.id,
+      userId: user.id,
     },
   })
 
-  res.status(200).json(deletedJot)
+  if (jot) {
+    const deletedJot = await prisma.jot.update({
+      where: {
+        id: payload.jot.id,
+      },
+      data: {
+        updatedAt: new Date(),
+        deletedAt: new Date(),
+      },
+    })
+
+    res.status(200).json(deletedJot)
+  } else {
+    res.status(401).json({ error: true, message: 'You are not the owner of this Jot.' })
+  }
 }
 
 export default router.handler({
