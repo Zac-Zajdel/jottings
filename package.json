@@ -60,7 +60,7 @@
     "superjson": "^1.9.1",
     "tailwindcss": "^3.1.4",
     "tippy.js": "^6.3.7",
-    "yup": "^0.32.11"
+    "zod": "^3.18.0"
   },
   "devDependencies": {
     "@types/node": "^18.7.14",

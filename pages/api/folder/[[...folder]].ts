@@ -1,20 +1,24 @@
+import { folderStore } from '@/formRequests/folder'
 import { prisma } from '../../../lib/prisma'
 import { NextApiRequest, NextApiResponse } from 'next'
-import folderSchema from 'validation/folderSchema'
 import { createRouter } from 'next-connect'
+import { User } from '@prisma/client'
+import { getUserSession } from '../helpers/getUserSession'
 
 const router = createRouter<NextApiRequest, NextApiResponse>()
 
-router.get('/api/folder', get)
+router.get('/api/folder', index)
 router.post('/api/folder', store)
 
 /**
  * @desc Grabs folders from specific user
  */
-export async function get(_req: NextApiRequest, res: NextApiResponse) {
+export async function index(req: NextApiRequest, res: NextApiResponse) {
+  const user: User = await getUserSession(req, res)
+
   const folders = await prisma.folder.findMany({
     where: {
-      userId: 1,
+      userId: user.id,
       deletedAt: null,
     },
   })
@@ -26,13 +30,13 @@ export async function get(_req: NextApiRequest, res: NextApiResponse) {
  * @desc Stores a new folder
  */
 export async function store(req: NextApiRequest, res: NextApiResponse) {
-  await folderSchema.validate(req.body)
+  const user: User = await getUserSession(req, res)
+  const payload = folderStore.parse(req.body)
 
-  const { name } = req.body
   const newFolder = await prisma.folder.create({
     data: {
-      name: name,
-      userId: 1,
+      name: payload.name,
+      userId: user.id,
     },
   })
 

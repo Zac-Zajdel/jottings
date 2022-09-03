@@ -22,7 +22,7 @@ const Notes = () => {
   ]
 
   useEffect(() => {
-    grabJots()
+    grabJots({ isDeleted: false })
   }, [])
 
   /**

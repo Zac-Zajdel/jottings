@@ -33,7 +33,8 @@
     "incremental": true,
     "paths": {
       "@/components/*": ["components/*"],
-      "@/helpers/*": ["helpers/*"]
+      "@/helpers/*": ["helpers/*"],
+      "@/formRequests/*": ["formRequests/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
