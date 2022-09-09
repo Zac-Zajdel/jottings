@@ -37,6 +37,8 @@ const Tiptap = () => {
     content: '<p></p>',
   })
 
+  // todo - Set a timeout for every 10 seconds to check if dirty and if so save to database.
+
   return <EditorContent editor={editor} className="editor" />
 }
 

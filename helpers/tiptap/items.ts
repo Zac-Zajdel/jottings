@@ -90,12 +90,7 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
           },
         },
-
-        // ListItem
-        // OrderedList
-        // TaskList
-        // CodeBlockLowLight
-        // Table
+        // todo - Table
       ],
     },
   ]
