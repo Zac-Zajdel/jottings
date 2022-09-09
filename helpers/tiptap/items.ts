@@ -69,6 +69,27 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).setBlockquote().run()
           },
         },
+        {
+          title: 'Ordered List',
+          description: 'A numbered list.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleOrderedList().run()
+          },
+        },
+        {
+          title: 'Unordered List',
+          description: 'A bulleted list.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleBulletList().run()
+          },
+        },
+        {
+          title: 'Code',
+          description: 'Stylize your coding options.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+          },
+        },
 
         // ListItem
         // OrderedList

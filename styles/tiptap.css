@@ -1,6 +1,6 @@
 .ProseMirror {
   min-height: 40vh;
-  border: 2px solid peru;
+  /* border: 2px solid peru; */
   border-radius: 10px;
   outline: none;
   padding: 1em;
@@ -19,6 +19,11 @@
   padding-left: 1rem;
 }
 
+.ProseMirror ul,
+ol {
+  padding: 0 1rem;
+}
+
 .ProseMirror h1 {
   font-size: 32px;
 }
@@ -27,10 +32,72 @@
   font-size: 26px;
 }
 
-.item {
-  width: 100%;
-  color: black;
-  border: none;
+.ProseMirror pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: 'JetBrainsMono', monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin: 15px 0px;
+}
+
+.ProseMirror > pre > code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+
+.ProseMirror > pre > code > .hljs-comment,
+.hljs-quote {
+  color: #616161;
+}
+
+.ProseMirror > pre > code > .hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #f98181;
+}
+
+.ProseMirror > pre > code > .hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #fbbc88;
+}
+
+.ProseMirror > pre > code > .hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #b9f18d;
+}
+
+.ProseMirror > pre > code > .hljs-title,
+.hljs-section {
+  color: #faf594;
+}
+
+.ProseMirror > pre > code > .hljs-keyword,
+.hljs-selector-tag {
+  color: #70cff8;
+}
+
+.ProseMirror > pre > code > .hljs-emphasis {
+  font-style: italic;
+}
+
+.ProseMirror > pre > code > .hljs-strong {
+  font-weight: 700;
 }
 
 hr {

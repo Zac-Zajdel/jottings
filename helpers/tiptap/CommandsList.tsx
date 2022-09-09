@@ -88,7 +88,7 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
                   return (
                     <div key={index}>
                       <button
-                        className={`item rounded flex items-center p-[4px] hover:bg-gray-200 ${
+                        className={`w-full text-black rounded flex items-center p-[4px] hover:bg-gray-200 ${
                           index === this.state.selectedIndex ? 'bg-gray-200' : null
                         }`}
                         onClick={() => this.selectItem(index)}
