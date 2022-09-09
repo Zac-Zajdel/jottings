@@ -38,6 +38,9 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
           },
         },
+
+        // todo - bold and italic will be on the sidebar hover.
+        // todo - Add the react component inside of here to have dynamic components.
         {
           title: 'Bold',
           description: 'Small section heading.',
@@ -52,6 +55,26 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).setMark('italic').run()
           },
         },
+        {
+          title: 'Line Break',
+          description: 'Separate sections of text.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setHorizontalRule().run()
+          },
+        },
+        {
+          title: 'Block Quote',
+          description: 'Distinct separation for quotes.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setBlockquote().run()
+          },
+        },
+
+        // ListItem
+        // OrderedList
+        // TaskList
+        // CodeBlockLowLight
+        // Table
       ],
     },
   ]

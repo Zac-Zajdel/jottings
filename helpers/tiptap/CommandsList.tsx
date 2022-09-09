@@ -81,7 +81,7 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
         {items.map((item, index) => {
           return (
             <div key={index} className="p-2">
-              <span className="block text-gray-600 mb-3 pb-2 text-xs">{item.section}</span>
+              <span className="block text-gray-600 mb-3 text-xs">{item.section}</span>
 
               <div>
                 {item.options.map((option, index) => {
@@ -89,7 +89,7 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
                     <div key={index}>
                       <button
                         className={`item rounded flex items-center p-[4px] hover:bg-gray-200 ${
-                          index === this.state.selectedIndex ? 'bg-gray-200' : ''
+                          index === this.state.selectedIndex ? 'bg-gray-200' : null
                         }`}
                         onClick={() => this.selectItem(index)}
                       >
