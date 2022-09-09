@@ -8,39 +8,59 @@ interface Command {
   };
 }
 
-interface Item {
+interface Suggestions {
+  section: string;
+  options: Array<Options>;
+}
+
+interface Options {
   title: string;
+  description: string;
   command: Function;
 }
 
-const getSuggestionItems = ({ query }: { query: string }): Array<Item> => {
+const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> => {
   return [
     {
-      title: 'H1',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
-      },
-    },
-    {
-      title: 'H2',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
-      },
-    },
-    {
-      title: 'bold',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setMark('bold').run()
-      },
-    },
-    {
-      title: 'italic',
-      command: ({ editor, range }: Command) => {
-        editor.chain().focus().deleteRange(range).setMark('italic').run()
-      },
+      section: 'Styles',
+      options: [
+        {
+          title: 'Heading 1',
+          description: 'Big section heading.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 1 }).run()
+          },
+        },
+        {
+          title: 'Heading 2',
+          description: 'Medium section heading.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
+          },
+        },
+        {
+          title: 'Bold',
+          description: 'Small section heading.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setMark('bold').run()
+          },
+        },
+        {
+          title: 'Italic',
+          description: 'Just start writing.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setMark('italic').run()
+          },
+        },
+      ],
     },
   ]
-    .filter((item) => item.title.toLowerCase().startsWith(query.toLowerCase()))
+    .filter(
+      (item) =>
+        item.options.filter((option) =>
+          option.title.toLowerCase().startsWith(query.toLowerCase()),
+        )[0],
+    )
     .slice(0, 10)
 }
 

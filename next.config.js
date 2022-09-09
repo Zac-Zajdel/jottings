@@ -8,4 +8,7 @@ module.exports = withPWA({
   images: {
     domains: ['lh3.googleusercontent.com'],
   },
+  experimental: {
+    forceSwcTransforms: true,
+  },
 })
