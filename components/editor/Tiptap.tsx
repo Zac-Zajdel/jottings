@@ -1,5 +1,7 @@
 import { useEditor, EditorContent } from '@tiptap/react'
-import StarterKit from '@tiptap/starter-kit'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 import Placeholder from '@tiptap/extension-placeholder'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Blockquote from '@tiptap/extension-blockquote'
@@ -8,7 +10,11 @@ import OrderedList from '@tiptap/extension-ordered-list'
 import BulletList from '@tiptap/extension-bullet-list'
 import getSuggestionItems from '@/helpers/tiptap/items'
 import renderItems from '@/helpers/tiptap/renderItems'
+import Code from '@tiptap/extension-code'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+import Heading from '@tiptap/extension-heading'
 import Table from '@tiptap/extension-table'
 import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
@@ -19,9 +25,15 @@ import { lowlight } from 'lowlight/lib/common.js'
 const Tiptap = () => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      Document,
+      Paragraph,
+      Text,
       HorizontalRule,
+      Heading,
+      Italic,
       Blockquote,
+      Code,
+      Bold,
       ListItem,
       OrderedList,
       BulletList,
