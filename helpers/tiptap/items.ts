@@ -90,7 +90,18 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
           },
         },
-        // todo - Table
+        {
+          title: 'Table',
+          description: 'Add a 3*3 table.',
+          command: ({ editor, range }: Command) => {
+            editor
+              .chain()
+              .focus()
+              .deleteRange(range)
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
+          },
+        },
       ],
     },
   ]

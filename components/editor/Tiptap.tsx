@@ -9,6 +9,10 @@ import BulletList from '@tiptap/extension-bullet-list'
 import getSuggestionItems from '@/helpers/tiptap/items'
 import renderItems from '@/helpers/tiptap/renderItems'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import Table from '@tiptap/extension-table'
+import TableCell from '@tiptap/extension-table-cell'
+import TableHeader from '@tiptap/extension-table-header'
+import TableRow from '@tiptap/extension-table-row'
 import Commands from '@/helpers/tiptap/Commands'
 import { lowlight } from 'lowlight/lib/common.js'
 
@@ -21,6 +25,12 @@ const Tiptap = () => {
       ListItem,
       OrderedList,
       BulletList,
+      TableRow,
+      TableHeader,
+      TableCell,
+      Table.configure({
+        resizable: true,
+      }),
       CodeBlockLowlight.configure({
         lowlight,
       }),

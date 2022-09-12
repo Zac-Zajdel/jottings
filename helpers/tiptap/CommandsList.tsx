@@ -109,7 +109,7 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
             <div key={index} className="p-2">
               <span className="block text-gray-600 mb-3 text-xs">{item.section}</span>
 
-              {/* todo - Will need to get onMouseOver and MouseOut to set the selected one */}
+              {/* todo - Send to components file. */}
 
               <div>
                 {item.options.map((option, index) => {
