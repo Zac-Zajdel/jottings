@@ -3,7 +3,6 @@
   /* border: 2px solid peru; */
   border-radius: 10px;
   outline: none;
-  padding: 1em;
 }
 
 .ProseMirror p.is-editor-empty:first-child::before {
