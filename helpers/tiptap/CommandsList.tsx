@@ -27,6 +27,11 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
     }
   }
 
+  /**
+   *
+   * @param - Event listener from Keyboard
+   * @returns {boolean}
+   */
   onKeyDown({ event }: { event: KeyboardEvent }) {
     if (event.key === 'ArrowUp') {
       this.upHandler()
@@ -46,6 +51,9 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
     return false
   }
 
+  /**
+   * @desc Called when user presses ArrowUp to update hover value
+   */
   upHandler() {
     this.setState({
       selectedIndex:
@@ -54,6 +62,9 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
     })
   }
 
+  /**
+   * @desc Called when user presses ArrowDown to update hover value
+   */
   downHandler() {
     this.setState({
       selectedIndex:
@@ -61,16 +72,31 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
     })
   }
 
+  /**
+   * @desc Called when user presses Enter to update hover value
+   */
   enterHandler() {
     this.selectItem(this.state.selectedIndex)
   }
 
+  /**
+   * @desc Click/Enter keyboard event when user selects an item
+   * @param index suggestion index
+   */
   selectItem(index: number) {
     const item = this.props.items[this.state.optionIndex].options[index]
 
     if (item) {
       this.props.command(item)
     }
+  }
+
+  /**
+   * @desc Set selectedIndex value based on mouse enter/leave
+   * @param index suggestion index
+   */
+  hoverItemSelection(index: number) {
+    this.setState({ selectedIndex: index })
   }
 
   render() {
@@ -81,17 +107,20 @@ class CommandsList extends Component<{ items: Array<Suggestions>; command: Funct
         {items.map((item, index) => {
           return (
             <div key={index} className="p-2">
-              <span className="block text-gray-600 mb-3 pb-2 text-xs">{item.section}</span>
+              <span className="block text-gray-600 mb-3 text-xs">{item.section}</span>
+
+              {/* todo - Send to components file. */}
 
               <div>
                 {item.options.map((option, index) => {
                   return (
                     <div key={index}>
                       <button
-                        className={`item rounded flex items-center p-[4px] hover:bg-gray-200 ${
-                          index === this.state.selectedIndex ? 'bg-gray-200' : ''
+                        className={`w-full text-black rounded flex items-center p-[4px] ${
+                          index === this.state.selectedIndex ? 'bg-gray-200' : null
                         }`}
                         onClick={() => this.selectItem(index)}
+                        onMouseEnter={() => this.hoverItemSelection(index)}
                       >
                         <div className="bg-white rounded border p-0.5 border-gray-400">
                           <DocumentTextIcon className="h-7 w-7 text-gray-400" />

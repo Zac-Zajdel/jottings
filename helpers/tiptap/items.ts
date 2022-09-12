@@ -38,6 +38,9 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
             editor.chain().focus().deleteRange(range).setNode('heading', { level: 2 }).run()
           },
         },
+
+        // todo - bold and italic will be on the sidebar hover.
+        // todo - Add the react component inside of here to have dynamic components.
         {
           title: 'Bold',
           description: 'Small section heading.',
@@ -50,6 +53,53 @@ const getSuggestionItems = ({ query }: { query: string }): Array<Suggestions> =>
           description: 'Just start writing.',
           command: ({ editor, range }: Command) => {
             editor.chain().focus().deleteRange(range).setMark('italic').run()
+          },
+        },
+        {
+          title: 'Line Break',
+          description: 'Separate sections of text.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setHorizontalRule().run()
+          },
+        },
+        {
+          title: 'Block Quote',
+          description: 'Distinct separation for quotes.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).setBlockquote().run()
+          },
+        },
+        {
+          title: 'Ordered List',
+          description: 'A numbered list.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleOrderedList().run()
+          },
+        },
+        {
+          title: 'Unordered List',
+          description: 'A bulleted list.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleBulletList().run()
+          },
+        },
+        {
+          title: 'Code',
+          description: 'Stylize your coding options.',
+          command: ({ editor, range }: Command) => {
+            editor.chain().focus().deleteRange(range).toggleCodeBlock().run()
+          },
+        },
+        {
+          title: 'Table',
+          description: 'Add a 3*3 table.',
+          command: ({ editor, range }: Command) => {
+            editor
+              .chain()
+              .focus()
+              .deleteRange(range)
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
           },
         },
       ],
