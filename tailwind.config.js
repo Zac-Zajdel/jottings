@@ -4,7 +4,7 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
     './helpers/**/*.{js,ts,jsx,tsx}',
   ],
-  darkMode: 'media', // or 'media' or 'class'
+  darkMode: 'media',
   theme: {
     extend: {
       colors: {

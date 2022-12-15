@@ -1,11 +1,11 @@
-import { DocumentTextIcon, HeartIcon, TagIcon } from '@heroicons/react/outline'
+import { DocumentTextIcon } from '@heroicons/react/outline'
 
 export interface SidebarApp {
-  label: string;
-  icon: any;
-  to: string;
+  label: string
+  icon: any
+  to: string
 }
-export type SidebarApps = SidebarApp[];
+export type SidebarApps = SidebarApp[]
 
 export default class Apps {
   static navigation: SidebarApps = [
@@ -13,16 +13,6 @@ export default class Apps {
       label: 'All Jots',
       icon: DocumentTextIcon,
       to: '/',
-    },
-    {
-      label: 'Favorites',
-      icon: HeartIcon,
-      to: '/favorites',
-    },
-    {
-      label: 'Tags',
-      icon: TagIcon,
-      to: '/tags',
     },
   ]
 }
