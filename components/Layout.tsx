@@ -2,8 +2,8 @@ import { ReactNode } from 'react'
 import Sidebar from './global/Sidebar'
 
 type Props = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 const Layout = ({ children }: Props) => (
   <div className="bg-jot-light-gray text-white">

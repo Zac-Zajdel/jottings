@@ -25,7 +25,10 @@ const AddJot = (props: BaseModalProps) => {
   return (
     <BaseModal onClose={() => props.onClose()}>
       <div>
-        <label htmlFor="jot" className="text-sm font-medium text-white block mb-2">
+        <label
+          htmlFor="jot"
+          className="text-sm font-medium text-white block mb-2"
+        >
           Create Jot
         </label>
         <input

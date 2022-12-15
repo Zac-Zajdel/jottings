@@ -8,10 +8,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
  * @param res - API response if user is not authenticated
  * @returns {NextApiResponse | User }
  */
-export async function getUserSession(req: NextApiRequest, res: NextApiResponse) {
+export async function getUserSession(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const session = await getSession({ req })
 
-  if (!session?.user) return res.status(401).json({ error: true, message: 'Unauthenticated' })
+  if (!session?.user)
+    return res.status(401).json({ error: true, message: 'Unauthenticated' })
 
   return session.user
 }

@@ -92,7 +92,9 @@ const Notes = () => {
 
   return (
     <>
-      {isCreatingJot && <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />}
+      {isCreatingJot && (
+        <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />
+      )}
 
       <Header breadcrumbs={breadcrumbs} />
       <section className="body-font mx-5">
@@ -108,7 +110,11 @@ const Notes = () => {
                     text-white
                     pb-4
                     cursor-pointer
-                    ${nav === 'Jots' ? 'border-b-2 border-white' : 'text-gray-400'}
+                    ${
+                      nav === 'Jots'
+                        ? 'border-b-2 border-white'
+                        : 'text-gray-400'
+                    }
                   `}
                   onClick={() => {
                     grabJots({ isDeleted: false })
@@ -123,7 +129,11 @@ const Notes = () => {
                     pb-4
                     ml-5
                     cursor-pointer
-                    ${nav === 'Deleted' ? 'border-b-2 border-white' : 'text-gray-400'}
+                    ${
+                      nav === 'Deleted'
+                        ? 'border-b-2 border-white'
+                        : 'text-gray-400'
+                    }
                   `}
                   onClick={() => {
                     grabJots({ isDeleted: true })
@@ -149,7 +159,10 @@ const Notes = () => {
           <div className="-my-8 divide-y-2 divide-gray-100 divide-opacity-10 mx-2">
             {jots.map((jot) => {
               return (
-                <div key={jot.id} className="py-4 flex flex-wrap md:flex-nowrap cursor-pointer">
+                <div
+                  key={jot.id}
+                  className="py-4 flex flex-wrap md:flex-nowrap cursor-pointer"
+                >
                   <div className="flex-grow">
                     <div className="flex items-center mb-1">
                       <h2
@@ -169,7 +182,11 @@ const Notes = () => {
                               hover:cursor-pointer
                               hover:text-red-500
                               hover:fill-red-500
-                              ${jot.isFavorite ? 'text-red-500 fill-red-500' : null}
+                              ${
+                                jot.isFavorite
+                                  ? 'text-red-500 fill-red-500'
+                                  : null
+                              }
                             `}
                           />
                         </span>
@@ -198,7 +215,9 @@ const Notes = () => {
 
                   <div className="relative inline-block text-left">
                     {dropdownIndex === jot.id && (
-                      <ClickAwayListener onClickAway={() => setDropdownIndex(-1)}>
+                      <ClickAwayListener
+                        onClickAway={() => setDropdownIndex(-1)}
+                      >
                         <div className="origin-top-right absolute right-3 mt-9 w-44 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
                           <div className="py-1 cursor-pointer text-sm font-light">
                             <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">

@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 
 const Signin = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const [providers, setProviders] = useState<Record<string, ClientSafeProvider>>({})
+  const [providers, setProviders] = useState<
+    Record<string, ClientSafeProvider>
+  >({})
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const res = await getProviders()
       if (res) setProviders(res)
     })()
@@ -23,11 +25,16 @@ const Signin = () => {
         <div className="">
           <div className="max-w-sm text-center">
             <h2 className="text-4xl">Jottings</h2>
-            <p className="mt-2">Keep organized in an increasingly unorganized digital world.</p>
+            <p className="mt-2">
+              Keep organized in an increasingly unorganized digital world.
+            </p>
           </div>
           {providers
             ? Object.values(providers).map((provider) => (
-                <div key={provider.name} className="flex flex-col justify-center mt-5">
+                <div
+                  key={provider.name}
+                  className="flex flex-col justify-center mt-5"
+                >
                   <button
                     className="px-6 py-3 mt-4 font-semibold text-white border-2 border-gray-500 rounded-md shadow outline-none hover:border-blue-400 focus:outline-none bg-jot-blue-100"
                     onClick={() => login(provider)}

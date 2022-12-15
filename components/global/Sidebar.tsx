@@ -39,7 +39,10 @@ const Sidebar = () => {
   return (
     <>
       {isCreatingFolder && (
-        <AddFolder onClose={() => setCreatingFolder(false)} action={addFolder} />
+        <AddFolder
+          onClose={() => setCreatingFolder(false)}
+          action={addFolder}
+        />
       )}
 
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-jot-dark-black">
@@ -77,7 +80,11 @@ const Sidebar = () => {
                       hover:bg-opacity-50
                       hover:bg-jot-hover-gray-200
                       hover:text-gray-200
-                      cursor-pointer ${router.pathname === app.to ? 'bg-jot-hover-gray-200' : null}
+                      cursor-pointer ${
+                        router.pathname === app.to
+                          ? 'bg-jot-hover-gray-200'
+                          : null
+                      }
                     `}
                   >
                     <DynamicComponent className="h-5 w-5 text-gray-400" />
@@ -104,13 +111,10 @@ const Sidebar = () => {
             {folders.map((folder) => {
               return (
                 <li key={folder.id} className="my-px ml-1">
-                  <a
-                    href="#"
-                    className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200 bg-opacity-50 hover:bg-opacity-50"
-                  >
+                  <span className="flex flex-row items-center h-10 px-3 rounded-lg text-gray-300 hover:bg-jot-hover-gray-200 hover:text-gray-200 bg-opacity-50 hover:bg-opacity-50">
                     <FolderIcon className="h-5 w-5 text-gray-400" />
                     <span className="ml-3">{folder.name}</span>
-                  </a>
+                  </span>
                 </li>
               )
             })}
@@ -135,7 +139,9 @@ const Sidebar = () => {
 
             <div className="ml-4">
               <span>{session?.user?.name}</span>
-              <span className="flex items-center text-xs font-light">Private</span>
+              <span className="flex items-center text-xs font-light">
+                Private
+              </span>
             </div>
 
             <div className="relative inline-block text-left">
@@ -143,9 +149,13 @@ const Sidebar = () => {
                 <div className="absolute bottom-9 -left-[140px] mt-6 w-64 rounded-md shadow-lg bg-jot-hover-gray-100 text-gray-100">
                   <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
                     <div className="py-1 cursor-pointer text-sm font-light">
-                      <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">Profile</span>
+                      <span className="block px-4 py-2 hover:bg-jot-hover-gray-200">
+                        Profile
+                      </span>
                       <span
-                        onClick={() => signOut({ callbackUrl: window.location.origin })}
+                        onClick={() =>
+                          signOut({ callbackUrl: window.location.origin })
+                        }
                         className="block px-4 py-2 hover:bg-jot-hover-gray-200"
                       >
                         Sign out
