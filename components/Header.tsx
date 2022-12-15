@@ -2,12 +2,12 @@ import Link from 'next/link'
 import { BellIcon, CogIcon } from '@heroicons/react/outline'
 
 interface BreadCrumbs {
-  title: string;
-  route: string;
+  title: string
+  route: string
 }
 
 interface HeaderProps {
-  breadcrumbs?: BreadCrumbs[];
+  breadcrumbs?: BreadCrumbs[]
 }
 
 const Header = (props: HeaderProps) => {

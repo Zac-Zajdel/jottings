@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react'
 import Signin from 'pages/auth/signin'
 
 type Props = {
-  children: ReactNode;
-};
+  children: ReactNode
+}
 
 const Auth = ({ children }: Props) => {
   const { data: session } = useSession()

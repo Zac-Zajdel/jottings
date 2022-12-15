@@ -20,7 +20,7 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Commands from '@/helpers/tiptap/Commands'
-import { lowlight } from 'lowlight/lib/common.js'
+import { lowlight } from 'lowlight/lib/common'
 
 const Tiptap = () => {
   const editor = useEditor({

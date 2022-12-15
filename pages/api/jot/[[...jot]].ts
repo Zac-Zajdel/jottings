@@ -25,7 +25,9 @@ export async function index(req: NextApiRequest, res: NextApiResponse) {
     },
     where: {
       userId: user.id,
-      ...(payload.isDeleted === 'true' ? { NOT: { deletedAt: null } } : { deletedAt: null }),
+      ...(payload.isDeleted === 'true'
+        ? { NOT: { deletedAt: null } }
+        : { deletedAt: null }),
     },
   })
 
@@ -76,7 +78,9 @@ export async function update(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(200).json(updatedJot)
   } else {
-    res.status(401).json({ error: true, message: 'You are not the owner of this Jot.' })
+    res
+      .status(401)
+      .json({ error: true, message: 'You are not the owner of this Jot.' })
   }
 }
 
@@ -107,7 +111,9 @@ export async function destroy(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(200).json(deletedJot)
   } else {
-    res.status(401).json({ error: true, message: 'You are not the owner of this Jot.' })
+    res
+      .status(401)
+      .json({ error: true, message: 'You are not the owner of this Jot.' })
   }
 }
 

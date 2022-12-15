@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { ReactNode } from 'react'
 import { XIcon } from '@heroicons/react/outline'
 
 export type BaseModalProps = {
-  children?: ReactNode;
-  onClose: Function;
-  action?: Function | null;
-};
+  children?: ReactNode
+  onClose: Function
+  action?: Function | null
+}
 
 const BaseModal = (props: BaseModalProps) => {
   return (
