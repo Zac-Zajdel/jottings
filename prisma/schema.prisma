@@ -69,7 +69,7 @@ model Jot {
   isFavorite Boolean   @default(false)
   user       User      @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "Jot_userId_fkey")
+  @@index([userId])
 }
 
 model Folder {
@@ -82,5 +82,5 @@ model Folder {
   isFavorite Boolean   @default(false)
   user       User      @relation(fields: [userId], references: [id])
 
-  @@index([userId], map: "Folder_userId_fkey")
+  @@index([userId])
 }

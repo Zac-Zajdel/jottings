@@ -59,9 +59,6 @@ const Sidebar = () => {
         {/* Modules */}
         <div className="p-3">
           <ul className="flex flex-col w-full text-sm font-medium">
-            <li className="my-px">
-              <span className="flex text-white px-4 mb-2">Quick links</span>
-            </li>
             {Apps.navigation.map((app) => {
               const DynamicComponent = app.icon
               return (
