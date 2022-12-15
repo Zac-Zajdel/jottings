@@ -14,13 +14,6 @@ const Notes = () => {
   const [dropdownIndex, setDropdownIndex] = useState(-1)
   const [isCreatingJot, setIsCreatingJot] = useState(false)
 
-  const breadcrumbs = [
-    {
-      title: 'Jots',
-      route: '/',
-    },
-  ]
-
   useEffect(() => {
     grabJots({ isDeleted: false })
   }, [])
@@ -96,7 +89,7 @@ const Notes = () => {
         <AddJot onClose={() => setIsCreatingJot(false)} action={addJot} />
       )}
 
-      <Header breadcrumbs={breadcrumbs} />
+      <Header />
       <section className="body-font mx-5">
         <div className="px-5 pb-10">
           <h1 className="text-2xl tracking-wide font-light">All Jots</h1>
