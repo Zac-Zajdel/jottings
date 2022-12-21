@@ -378,10 +378,10 @@
   dependencies:
     prosemirror-state "1.4.1"
 
-"@tiptap/extension-italic@^2.0.0-beta.194":
-  version "2.0.0-beta.194"
-  resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.0.0-beta.194.tgz#9b43faa48becb0931fa95186ee67c3ab789156ee"
-  integrity sha512-Gyw2qNQ2qiSWvpKzYSKFY9qdbF7Pz92X1n/ot8iC8wbEfK/GdoXFwX9Y7rSI7iANUieWLWVumWJksblnjIg/pQ==
+"@tiptap/extension-italic@^2.0.0-beta.209":
+  version "2.0.0-beta.209"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-italic/-/extension-italic-2.0.0-beta.209.tgz#892ff90de43a5e1e88197e7a9839bbd877027321"
+  integrity sha512-KnRdbqfD01tcCnUNypA3TX3FqmQSFwu7/9YU3vwS8Zyaz+OIc/g/vJai5twg1DzFAvIcYWzRFPTFcqkjwkcW1w==
 
 "@tiptap/extension-list-item@^2.0.0-beta.23":
   version "2.0.0-beta.23"
