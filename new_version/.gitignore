@@ -40,3 +40,5 @@ package-lock.json
 # PWA
 public/sw.js
 public/workbox-*.js
+
+.contentlayer
