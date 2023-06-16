@@ -53,11 +53,12 @@ export function DocsSidebarNavItems({
             )}
             target={item.external ? "_blank" : ""}
             rel={item.external ? "noreferrer" : ""}
+            prefetch={false}
           >
             {item.title}
           </Link>
         ) : (
-          <span className="flex w-full cursor-not-allowed items-center rounded-md p-2 opacity-60">
+          <span key={index} className="flex w-full cursor-not-allowed items-center rounded-md p-2 opacity-60">
             {item.title}
           </span>
         )

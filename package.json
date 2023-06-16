@@ -1,10 +1,10 @@
 {
-  "name": "taxonomy",
-  "version": "0.2.0",
+  "name": "jotting",
+  "version": "0.1.0",
   "private": true,
   "author": {
-    "name": "shadcn",
-    "url": "https://twitter.com/shadcn"
+    "name": "Zac Zajdel",
+    "url": "https://zaczajdel.com/"
   },
   "scripts": {
     "dev": "concurrently \"contentlayer dev\" \"next dev\"",
