@@ -1,12 +1,9 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import GoogleProvider from 'next-auth/providers/google'
-import { Client } from "postmark"
 
 import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
-
-const postmarkClient = new Client(env.POSTMARK_API_TOKEN)
 
 export const authOptions: NextAuthOptions = {
   // huh any! I know.

@@ -11,7 +11,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     DATABASE_URL: z.string().min(1),
     SMTP_FROM: z.string().optional(),
-    POSTMARK_API_TOKEN: z.string().min(1),
+    POSTMARK_API_TOKEN: z.string().optional(),
     POSTMARK_SIGN_IN_TEMPLATE: z.string().optional(),
     POSTMARK_ACTIVATION_TEMPLATE: z.string().optional(),
     STRIPE_API_KEY: z.string().optional(),
