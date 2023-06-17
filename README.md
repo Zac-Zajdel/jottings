@@ -1,77 +1,90 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Taxonomy
+
+An open source application built using the new router, server components and
+everything new in Next.js 13.
+
+> **Warning** This app is a work in progress. I'm building this in public. You
+> can follow the progress on Twitter [@shadcn](https://twitter.com/shadcn). See
+> the roadmap below.
+
+## About this project
+
+This project as an experiment to see how a modern app (with features like
+authentication, subscriptions, API routes, static pages for docs ...etc) would
+work in Next.js 13 and server components.
+
+**This is not a starter template.**
+
+A few people have asked me to turn this into a starter. I think we could do that
+once the new features are out of beta.
+
+## Note on Performance
+
+> **Warning** This app is using the unstable releases for Next.js 13 and
+> React 18. The new router and app dir is still in beta and not
+> production-ready. **Expect some performance hits when testing the dashboard**.
+> If you see something broken, you can ping me
+> [@shadcn](https://twitter.com/shadcn).
 
 ## Features
 
-- [React.js 18](https://reactjs.org/blog/2022/03/29/react-v18.html)
-- [Next.js 13](https://nextjs.org/blog/next-12)
-- [Typescript 4](https://www.typescriptlang.org/)
-- [Tailwind CSS 3](https://tailwindcss.com/docs/)
-- [Eslint 7](https://eslint.org/docs/user-guide/getting-started)
-- [Prettier 2](https://prettier.io/docs/en/index.html)
-- [Husky 7](https://typicode.github.io/husky/#/)
-- [Lint Staged 13](https://github.com/okonet/lint-staged)
+- New `/app` dir,
+- Routing, Layouts, Nested Layouts and Layout Groups
+- Data Fetching, Caching and Mutation
+- Loading UI
+- Route handlers
+- Metadata files
+- Server and Client Components
+- API Routes and Middlewares
+- Authentication using **NextAuth.js**
+- ORM using **Prisma**
+- Database on **PlanetScale**
+- UI Components built using **Radix UI**
+- Documentation and blog using **MDX** and **Contentlayer**
+- Subscriptions using **Stripe**
+- Styled using **Tailwind CSS**
+- Validations using **Zod**
+- Written in **TypeScript**
 
-## Usage
+## Roadmap
 
-This project using node >= 16.14.2 & yarn
+- [x] ~Add MDX support for basic pages~
+- [x] ~Build marketing pages~
+- [x] ~Subscriptions using Stripe~
+- [x] ~Responsive styles~
+- [x] ~Add OG image for blog using @vercel/og~
+- [x] Dark mode
 
-### Installation
+## Known Issues
 
-```bash
-git clone https://github.com/Zac-Zajdel/PrismaNext.git
-```
+A list of things not working right now:
 
-```bash
+1. ~GitHub authentication (use email)~
+2. ~[Prisma: Error: ENOENT: no such file or directory, open '/var/task/.next/server/chunks/schema.prisma'](https://github.com/prisma/prisma/issues/16117)~
+3. ~[Next.js 13: Client side navigation does not update head](https://github.com/vercel/next.js/issues/42414)~
+4. [Cannot use opengraph-image.tsx inside catch-all routes](https://github.com/vercel/next.js/issues/48162)
+
+## Running Locally
+
+1. Install dependencies using yarn:
+
+```sh
 yarn install
 ```
 
-## Setup Prisma
+2. Copy `.env.example` to `.env.local` and update the variables.
 
-Create a `.env` file and setup DATABASE_URL variable for example:
-
-```bash
-DATABASE_URL="mysql://root:password@localhost:3306/next"
+```sh
+cp .env.example .env.local
 ```
 
-Run the following command to create generate Schema & Migration & Seed Table
+3. Start the development server:
 
-```bash
-yarn prisma migrate dev --name init
-```
-
-#### Development
-
-```bash
+```sh
 yarn dev
 ```
 
-Reset your database to generate your own migration:
+## License
 
-```bash
-yarn prisma migrate reset
-```
-
-If you change the seeder file, you can easily run the seeder with the following:
-
-```bash
-yarn prisma db seed
-```
-
-#### Production
-
-```bash
-npm run build or yarn build
-yarn start
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/user](http://localhost:3000/api/user). This endpoint can be edited in `pages/api/user.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-```
-
-```
+Licensed under the
+[MIT license](https://github.com/shadcn/taxonomy/blob/main/LICENSE.md).
