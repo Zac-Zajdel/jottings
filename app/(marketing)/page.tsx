@@ -14,7 +14,7 @@ export default function IndexPage() {
             Jottings
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            Organizer your projects in a streamlined workflow with all your data in one location.
+            Organize your projects in a streamlined workflow with all your data in one location.
           </p>
           <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
             Get Started
