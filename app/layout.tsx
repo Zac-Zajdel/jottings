@@ -3,7 +3,7 @@ import localFont from "next/font/local"
 
 import "@/styles/globals.css"
 import { siteConfig } from "@/config/site"
-import { absoluteUrl, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
@@ -14,7 +14,7 @@ const fontSans = FontSans({
   variable: "--font-sans",
 })
 
-// Font files can be colocated inside of `pages`
+// Font files can be co-located inside of `pages`
 const fontHeading = localFont({
   src: "../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-heading",
@@ -32,19 +32,18 @@ export const metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "Next.js",
-    "React",
-    "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
+    "Project Management",
+    "Jottings",
+    "Zac Zajdel",
+    "Editor"
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "Zac Zajdel",
+      url: "https://zaczajdel.com/",
     },
   ],
-  creator: "shadcn",
+  creator: "Zac Zajdel",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
@@ -61,8 +60,7 @@ export const metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
-    creator: "@shadcn",
+    creator: "@zac_zajdel",
   },
   icons: {
     icon: "/favicon.ico",
