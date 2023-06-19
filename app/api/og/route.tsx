@@ -116,7 +116,6 @@ export async function GET(req: Request) {
                   stroke-linejoin="round"
                 />
               </svg>
-              <div tw="flex ml-2">github.com/shadcn/taxonomy</div>
             </div>
           </div>
         </div>
