@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn(className)}>
-      <div className="container flex justify-end gap-4 py-10">
+      <div className="flex justify-end gap-4 p-10">
         <ModeToggle />
       </div>
     </footer>
