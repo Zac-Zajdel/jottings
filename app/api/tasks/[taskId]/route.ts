@@ -3,11 +3,11 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { postPatchSchema } from "@/lib/validations/post"
+import { taskPatchSchema } from "@/lib/validations/task"
 
 const routeContextSchema = z.object({
   params: z.object({
-    postId: z.string(),
+    taskId: z.string(),
   }),
 })
 
@@ -16,23 +16,26 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    console.log('REQ', req)
+    console.log('CONTEXT', context)
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    // Check if the user has access to this task.
+    if (!(await verifyCurrentUserHasAccessToTask(params.taskId))) {
       return new Response(null, { status: 403 })
     }
 
-    // Delete the post.
-    await db.post.delete({
+    // Delete the task.
+    await db.task.delete({
       where: {
-        id: params.postId as string,
+        id: params.taskId as string,
       },
     })
 
     return new Response(null, { status: 204 })
   } catch (error) {
+    console.log(error)
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
@@ -49,20 +52,20 @@ export async function PATCH(
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this post.
-    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+    // Check if the user has access to this task.
+    if (!(await verifyCurrentUserHasAccessToTask(params.taskId))) {
       return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = postPatchSchema.parse(json)
+    const body = taskPatchSchema.parse(json)
 
-    // Update the post.
+    // Update the task.
     // TODO: Implement sanitization for content.
-    await db.post.update({
+    await db.task.update({
       where: {
-        id: params.postId,
+        id: params.taskId,
       },
       data: {
         title: body.title,
@@ -72,6 +75,8 @@ export async function PATCH(
 
     return new Response(null, { status: 200 })
   } catch (error) {
+    console.log(error)
+
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
@@ -80,11 +85,11 @@ export async function PATCH(
   }
 }
 
-async function verifyCurrentUserHasAccessToPost(postId: string) {
+async function verifyCurrentUserHasAccessToTask(taskId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.post.count({
+  const count = await db.task.count({
     where: {
-      id: postId,
+      id: taskId,
       authorId: session?.user.id,
     },
   })
