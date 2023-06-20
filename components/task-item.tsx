@@ -3,34 +3,34 @@ import { Post } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { PostOperations } from "@/components/post-operations"
+import { TaskOperations } from "@/components/task-operations"
 
-interface PostItemProps {
-  post: Pick<Post, "id" | "title" | "published" | "createdAt">
+interface TaskItemProps {
+  task: Pick<Post, "id" | "title" | "published" | "createdAt">
 }
 
-export function PostItem({ post }: PostItemProps) {
+export function TaskItem({ task }: TaskItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${post.id}`}
+          href={`/editor/${task.id}`}
           className="font-semibold hover:underline"
         >
-          {post.title}
+          {task.title}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(post.createdAt?.toDateString())}
+            {formatDate(task.createdAt?.toDateString())}
           </p>
         </div>
       </div>
-      <PostOperations post={{ id: post.id, title: post.title }} />
+      <TaskOperations task={{ id: task.id, title: task.title }} />
     </div>
   )
 }
 
-PostItem.Skeleton = function PostItemSkeleton() {
+TaskItem.Skeleton = function TaskItemSkeleton() {
   return (
     <div className="p-4">
       <div className="space-y-3">

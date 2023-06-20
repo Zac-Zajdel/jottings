@@ -3,7 +3,7 @@ import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 
-const postCreateSchema = z.object({
+const taskCreateSchema = z.object({
   title: z.string(),
   content: z.string().optional(),
 })
@@ -16,7 +16,7 @@ export async function GET() {
     }
 
     const { user } = session
-    const posts = await db.post.findMany({
+    const tasks = await db.post.findMany({
       select: {
         id: true,
         title: true,
@@ -28,7 +28,7 @@ export async function GET() {
       },
     })
 
-    return new Response(JSON.stringify(posts))
+    return new Response(JSON.stringify(tasks))
   } catch (error) {
     return new Response(null, { status: 500 })
   }
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json()
-    const body = postCreateSchema.parse(json)
+    const body = taskCreateSchema.parse(json)
 
     const post = await db.post.create({
       data: {
