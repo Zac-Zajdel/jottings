@@ -20,7 +20,7 @@ export default async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const tasks = await db.post.findMany({
+  const tasks = await db.task.findMany({
     where: {
       authorId: user.id,
     },

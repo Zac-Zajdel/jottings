@@ -1,12 +1,12 @@
 import Link from "next/link"
-import { Post } from "@prisma/client"
+import { Task } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TaskOperations } from "@/components/task-operations"
 
 interface TaskItemProps {
-  task: Pick<Post, "id" | "title" | "published" | "createdAt">
+  task: Pick<Task, "id" | "title" | "published" | "createdAt">
 }
 
 export function TaskItem({ task }: TaskItemProps) {

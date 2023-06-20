@@ -11,7 +11,7 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Tasks",
       href: "/dashboard",
-      icon: "page",
+      icon: "listCheck",
     },
     {
       title: "Settings",

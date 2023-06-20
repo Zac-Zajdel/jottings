@@ -27,7 +27,7 @@ export async function DELETE(
     }
 
     // Delete the task.
-    await db.post.delete({
+    await db.task.delete({
       where: {
         id: params.taskId as string,
       },
@@ -63,7 +63,7 @@ export async function PATCH(
 
     // Update the task.
     // TODO: Implement sanitization for content.
-    await db.post.update({
+    await db.task.update({
       where: {
         id: params.taskId,
       },
@@ -87,7 +87,7 @@ export async function PATCH(
 
 async function verifyCurrentUserHasAccessToTask(taskId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.post.count({
+  const count = await db.task.count({
     where: {
       id: taskId,
       authorId: session?.user.id,

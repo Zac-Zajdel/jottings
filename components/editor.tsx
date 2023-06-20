@@ -5,7 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import EditorJS from "@editorjs/editorjs"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Post } from "@prisma/client"
+import { Task } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import TextareaAutosize from "react-textarea-autosize"
 import * as z from "zod"
@@ -18,12 +18,12 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 interface EditorProps {
-  post: Pick<Post, "id" | "title" | "content" | "published">
+  task: Pick<Task, "id" | "title" | "content" | "published">
 }
 
 type FormData = z.infer<typeof taskPatchSchema>
 
-export function Editor({ post }: EditorProps) {
+export function Editor({ task }: EditorProps) {
   const { register, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(taskPatchSchema),
   })
@@ -42,7 +42,7 @@ export function Editor({ post }: EditorProps) {
     const LinkTool = (await import("@editorjs/link")).default
     const InlineCode = (await import("@editorjs/inline-code")).default
 
-    const body = taskPatchSchema.parse(post)
+    const body = taskPatchSchema.parse(task)
 
     if (!ref.current) {
       const editor = new EditorJS({
@@ -64,7 +64,7 @@ export function Editor({ post }: EditorProps) {
         },
       })
     }
-  }, [post])
+  }, [task])
 
   React.useEffect(() => {
     if (typeof window !== "undefined") {
@@ -88,7 +88,7 @@ export function Editor({ post }: EditorProps) {
 
     const blocks = await ref.current?.save()
 
-    const response = await fetch(`/api/tasks/${post.id}`, {
+    const response = await fetch(`/api/tasks/${task.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export function Editor({ post }: EditorProps) {
               </>
             </Link>
             <p className="text-sm text-muted-foreground">
-              {post.published ? "Published" : "Draft"}
+              {task.published ? "Published" : "Draft"}
             </p>
           </div>
           <button type="submit" className={cn(buttonVariants())}>
@@ -149,7 +149,7 @@ export function Editor({ post }: EditorProps) {
           <TextareaAutosize
             autoFocus
             id="title"
-            defaultValue={post.title}
+            defaultValue={task.title}
             placeholder="Task title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
             {...register("title")}

@@ -16,7 +16,7 @@ export async function GET() {
     }
 
     const { user } = session
-    const tasks = await db.post.findMany({
+    const tasks = await db.task.findMany({
       select: {
         id: true,
         title: true,
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
     const json = await req.json()
     const body = taskCreateSchema.parse(json)
 
-    const post = await db.post.create({
+    const post = await db.task.create({
       data: {
         title: body.title,
         content: body.content,
