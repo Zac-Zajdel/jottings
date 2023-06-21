@@ -123,7 +123,7 @@ export function Editor({ task }: EditorProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="grid w-full gap-10">
-        <div className="flex w-full items-center justify-between">
+        {/* <div className="flex w-full items-center justify-between">
           <div className="flex items-center space-x-10">
             <Link
               href="/dashboard"
@@ -144,9 +144,9 @@ export function Editor({ task }: EditorProps) {
             )}
             <span>Save</span>
           </button>
-        </div>
+        </div> */}
         <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
-          <TextareaAutosize
+          {/* <TextareaAutosize
             autoFocus
             id="title"
             defaultValue={task.title}
@@ -154,14 +154,13 @@ export function Editor({ task }: EditorProps) {
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
             {...register("title")}
           />
-          <div id="editor" className="min-h-[500px]" />
-          <p className="text-sm text-gray-500">
-            Use{" "}
-            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
-              Tab
-            </kbd>{" "}
-            to open the command menu.
-          </p>
+
+          <div className="w-full border-b border-opacity-30 border-gray-600"></div> */}
+
+          <div
+            id="editor"
+            className="min-h-[500px]"
+          />
         </div>
       </div>
     </form>
