@@ -71,16 +71,34 @@ model VerificationToken {
 }
 
 model Task {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
+  authorId  String
   title     String
   content   Json?
-  published Boolean  @default(false)
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-  authorId  String
+  status    Status    @default(TODO)
+  priority  Prority   @default(NONE)
+  published Boolean   @default(false)
+  dueAt     DateTime? @map(name: "due_at")
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @default(now()) @map(name: "updated_at")
 
   author User @relation(fields: [authorId], references: [id])
 
   @@index([authorId])
   @@map(name: "tasks")
+}
+
+enum Status {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  CLOSED
+}
+
+enum Prority {
+  NONE
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
 }
