@@ -1,38 +1,20 @@
 "use client"
 
-import * as React from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import EditorJS from "@editorjs/editorjs"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Task } from "@prisma/client"
-import { useForm } from "react-hook-form"
-import TextareaAutosize from "react-textarea-autosize"
-import * as z from "zod"
-
 import "@/styles/editor.css"
-import { cn } from "@/lib/utils"
+import { useState, useEffect, useRef, useCallback } from "react"
+import EditorJS from "@editorjs/editorjs"
+import { Task } from "@prisma/client"
 import { taskPatchSchema } from "@/lib/validations/task"
-import { buttonVariants } from "@/components/ui/button"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
 
 interface EditorProps {
   task: Pick<Task, "id" | "title" | "content" | "published">
 }
 
-type FormData = z.infer<typeof taskPatchSchema>
-
 export function Editor({ task }: EditorProps) {
-  const { register, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(taskPatchSchema),
-  })
-  const ref = React.useRef<EditorJS>()
-  const router = useRouter()
-  const [isSaving, setIsSaving] = React.useState<boolean>(false)
-  const [isMounted, setIsMounted] = React.useState<boolean>(false)
+  const ref = useRef<EditorJS>()
+  const [isMounted, setIsMounted] = useState<boolean>(false)
 
-  const initializeEditor = React.useCallback(async () => {
+  const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default
     const Header = (await import("@editorjs/header")).default
     const Embed = (await import("@editorjs/embed")).default
@@ -66,13 +48,13 @@ export function Editor({ task }: EditorProps) {
     }
   }, [task])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== "undefined") {
       setIsMounted(true)
     }
   }, [])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMounted) {
       initializeEditor()
 
@@ -83,86 +65,18 @@ export function Editor({ task }: EditorProps) {
     }
   }, [isMounted, initializeEditor])
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true)
-
-    const blocks = await ref.current?.save()
-
-    const response = await fetch(`/api/tasks/${task.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: data.title,
-        content: blocks,
-      }),
-    })
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
-      return toast({
-        title: "Something went wrong.",
-        description: "Your task was not saved. Please try again.",
-        variant: "destructive",
-      })
-    }
-
-    router.refresh()
-
-    return toast({
-      description: "Your task has been saved.",
-    })
-  }
-
   if (!isMounted) {
     return null
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="grid w-full gap-10">
-        {/* <div className="flex w-full items-center justify-between">
-          <div className="flex items-center space-x-10">
-            <Link
-              href="/dashboard"
-              className={cn(buttonVariants({ variant: "ghost" }))}
-            >
-              <>
-                <Icons.chevronLeft className="mr-2 h-4 w-4" />
-                Back
-              </>
-            </Link>
-            <p className="text-sm text-muted-foreground">
-              {task.published ? "Published" : "Draft"}
-            </p>
-          </div>
-          <button type="submit" className={cn(buttonVariants())}>
-            {isSaving && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Save</span>
-          </button>
-        </div> */}
-        <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
-          {/* <TextareaAutosize
-            autoFocus
-            id="title"
-            defaultValue={task.title}
-            placeholder="Task title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-            {...register("title")}
-          />
-
-          <div className="w-full border-b border-opacity-30 border-gray-600"></div> */}
-
-          <div
-            id="editor"
-            className="min-h-[500px]"
-          />
-        </div>
+    <div className="grid w-full gap-10">
+      <div className="prose prose-stone mx-auto w-[800px] dark:prose-invert">
+        <div
+          id="editor"
+          className="min-h-[500px]"
+        />
       </div>
-    </form>
+    </div>
   )
 }

@@ -22,20 +22,21 @@ interface EditorPageProps {
 
 export default async function EditorPage({ params }: EditorPageProps) {
   const user = await getCurrentUser()
-
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
   const task = await getTaskForUser(params.taskId, user.id)
-
   if (!task) {
     notFound()
   }
 
   return (
     <>
-      <TaskDetails task={task} />
+      <TaskDetails
+        task={task}
+        user={user}
+      />
     </>
   )
 }
