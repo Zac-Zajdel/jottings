@@ -1,36 +1,28 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Task } from "@prisma/client"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 import { Icons } from "@/components/icons"
 import TextareaAutosize from "react-textarea-autosize"
 import { buttonVariants } from "@/components/ui/button"
 import { Editor } from "@/components/editor"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import * as z from "zod"
-
-import { useForm } from "react-hook-form"
-import { taskPatchSchema } from "@/lib/validations/task"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "@/components/ui/use-toast"
 
-type FormData = z.infer<typeof taskPatchSchema>
+type EditorHandle = {
+  getChildData: () => void;
+};
 
 export function TaskDetails({ task, user }: { task: Task, user: any }) {
-  const router = useRouter()
+  const childRef = useRef<EditorHandle>(null);
   const [isSaving, setIsSaving] = useState(false)
-  const { register, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(taskPatchSchema),
-  })
 
   async function onSubmit() {
-    console.log('HERE')
     setIsSaving(true)
 
-    const blocks = {} //await ref.current?.save()
+    const blocks = await childRef.current?.getChildData();
 
     const response = await fetch(`/api/tasks/${task.id}`, {
       method: "PATCH",
@@ -39,7 +31,7 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
       },
       body: JSON.stringify({
         title: task.title,
-        content: task.content,
+        content: blocks,
       }),
     })
 
@@ -52,8 +44,6 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
         variant: "destructive",
       })
     }
-
-    router.refresh()
 
     return toast({
       description: "Your task has been saved.",
@@ -74,7 +64,10 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
             </>
           </Link>
         </div>
-        <button onClick={() => onSubmit()} className={cn(buttonVariants())}>
+        <button
+          onClick={() => onSubmit()}
+          className={cn(buttonVariants())}
+        >
           {isSaving && (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           )}
@@ -87,13 +80,18 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
           autoFocus
           id="title"
           defaultValue={task.title}
+          rows={1}
           placeholder="Task title"
           className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          {...register("title")}
+          onChange={ev => task.title = ev.target.value}
         />
 
-        <div className="w-full border-b border-opacity-30 border-gray-600 mb-2" />
+        {/* Divisor */}
+        <div
+          className="w-full border-b border-opacity-30 border-gray-600 mb-2"
+        />
 
+        {/* Metadata */}
         <div className="flex items-center">
           Due date
           <span className="ml-4">{task.dueAt?.toLocaleString()}</span>
@@ -102,9 +100,9 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
           Status
           <span className="ml-4">{task.status}</span>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center mb-5">
           Created by
-          <Avatar className="h-8 w-8 ml-4">
+          <Avatar className="h-6 w-6 ml-4">
             <AvatarImage
               className="mt-0"
               src={user?.image ?? ""}
@@ -115,11 +113,9 @@ export function TaskDetails({ task, user }: { task: Task, user: any }) {
         </div>
 
         <Editor
+          ref={childRef}
           task={{
-            id: task.id,
-            title: task.title,
             content: task.content,
-            published: task.published,
           }}
         />
       </div>

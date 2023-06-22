@@ -1,18 +1,29 @@
 "use client"
 
 import "@/styles/editor.css"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from "react"
 import EditorJS from "@editorjs/editorjs"
 import { Task } from "@prisma/client"
 import { taskPatchSchema } from "@/lib/validations/task"
 
 interface EditorProps {
-  task: Pick<Task, "id" | "title" | "content" | "published">
+  task: Pick<Task, "content">
 }
 
-export function Editor({ task }: EditorProps) {
-  const ref = useRef<EditorJS>()
+export type EditorHandle = {
+  getChildData: () => void;
+};
+
+export const Editor = forwardRef<EditorHandle, EditorProps>(({ task }, ref) => {
+  const editorRef = useRef<EditorJS>()
   const [isMounted, setIsMounted] = useState<boolean>(false)
+
+  useImperativeHandle(ref, () => ({
+    getChildData: async () => {
+      const blocks = await editorRef.current?.save()
+      return blocks;
+    },
+  }));
 
   const initializeEditor = useCallback(async () => {
     const EditorJS = (await import("@editorjs/editorjs")).default
@@ -26,11 +37,11 @@ export function Editor({ task }: EditorProps) {
 
     const body = taskPatchSchema.parse(task)
 
-    if (!ref.current) {
+    if (!editorRef.current) {
       const editor = new EditorJS({
         holder: "editor",
         onReady() {
-          ref.current = editor
+          editorRef.current = editor
         },
         placeholder: "Type here to write your task...",
         inlineToolbar: true,
@@ -57,11 +68,6 @@ export function Editor({ task }: EditorProps) {
   useEffect(() => {
     if (isMounted) {
       initializeEditor()
-
-      return () => {
-        ref.current?.destroy()
-        ref.current = undefined
-      }
     }
   }, [isMounted, initializeEditor])
 
@@ -79,4 +85,4 @@ export function Editor({ task }: EditorProps) {
       </div>
     </div>
   )
-}
+})

@@ -16,8 +16,6 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    console.log('REQ', req)
-    console.log('CONTEXT', context)
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
@@ -35,7 +33,6 @@ export async function DELETE(
 
     return new Response(null, { status: 204 })
   } catch (error) {
-    console.log(error)
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
@@ -75,8 +72,6 @@ export async function PATCH(
 
     return new Response(null, { status: 200 })
   } catch (error) {
-    console.log(error)
-
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }

@@ -1,6 +1,5 @@
 import { notFound, redirect } from "next/navigation"
 import { Task, User } from "@prisma/client"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
