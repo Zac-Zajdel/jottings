@@ -5,6 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { Editor } from "@/components/editor"
+import DocumentEditor from "@/components/document-editor"
 
 async function getTaskForUser(taskId: Task["id"], userId: User["id"]) {
   return await db.task.findFirst({
@@ -33,13 +34,14 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   return (
-    <Editor
-      task={{
-        id: task.id,
-        title: task.title,
-        content: task.content,
-        published: task.published,
-      }}
-    />
+    <DocumentEditor />
+    // <Editor
+    //   task={{
+    //     id: task.id,
+    //     title: task.title,
+    //     content: task.content,
+    //     published: task.published,
+    //   }}
+    // />
   )
 }
