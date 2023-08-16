@@ -5,7 +5,6 @@ import {
   PlateElementProps,
   Value,
 } from '@udecode/plate-common';
-// TODO
 import {
   Caption,
   CaptionTextarea,

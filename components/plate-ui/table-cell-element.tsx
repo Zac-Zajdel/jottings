@@ -1,12 +1,14 @@
 import React from 'react';
 import { PlateElement, PlateElementProps } from '@udecode/plate-common';
 import {
-  TableCellElementResizable,
   useTableCellElement,
+  useTableCellElementResizable,
+  useTableCellElementResizableState,
   useTableCellElementState,
 } from '@udecode/plate-table';
 
 import { cn } from '@/lib/utils';
+import { ResizeHandle } from './resize-handle';
 
 export interface TableCellElementProps extends PlateElementProps {
   hideBorder?: boolean;
@@ -30,6 +32,16 @@ const TableCellElement = React.forwardRef<
     borders,
   } = useTableCellElementState();
   const { props: cellProps } = useTableCellElement({ element: props.element });
+  const resizableState = useTableCellElementResizableState({
+    colIndex,
+    rowIndex,
+  });
+  const {
+    rightProps,
+    bottomProps,
+    leftProps,
+    hiddenLeft,
+  } = useTableCellElementResizable(resizableState);
 
   const Cell = isHeader ? 'th' : 'td';
 
@@ -74,11 +86,47 @@ const TableCellElement = React.forwardRef<
           className="group absolute top-0 h-full w-full select-none"
           contentEditable={false}
         >
-          <TableCellElementResizable
+          {/* <TableCellElementResizable
             colIndex={colIndex}
             rowIndex={rowIndex}
             readOnly={readOnly}
-          />
+          /> */}
+
+          {!readOnly && (
+            <>
+              <ResizeHandle
+                {...rightProps}
+                className="-top-3 right-[-5px] w-[10px]"
+              />
+              <ResizeHandle
+                {...bottomProps}
+                className="bottom-[-5px] h-[10px]"
+              />
+              {!hiddenLeft && (
+                <ResizeHandle
+                  {...leftProps}
+                  className="-top-3 left-[-5px] w-[10px]"
+                />
+              )}
+
+              {hovered && (
+                <div
+                  className={cn(
+                    'absolute -top-3 z-30 h-[calc(100%_+_12px)] w-1 bg-ring',
+                    'right-[-1.5px]'
+                  )}
+                />
+              )}
+              {hoveredLeft && (
+                <div
+                  className={cn(
+                    'absolute -top-3 z-30 h-[calc(100%_+_12px)] w-1 bg-ring',
+                    'left-[-1.5px]'
+                  )}
+                />
+              )}
+            </>
+          )}
 
           {!readOnly && hovered && (
             <div
