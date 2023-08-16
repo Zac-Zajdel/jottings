@@ -4,7 +4,7 @@ import { Task, User } from "@prisma/client"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
-import { Editor } from "@/components/editor"
+// import { Editor } from "@/components/editor"
 import DocumentEditor from "@/components/document-editor"
 
 async function getTaskForUser(taskId: Task["id"], userId: User["id"]) {
