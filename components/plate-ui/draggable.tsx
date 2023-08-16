@@ -12,7 +12,7 @@ import { DropTargetMonitor } from 'react-dnd';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 
-import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './tooltip';
 
 export interface DraggableProps
   extends PlateElementProps,
@@ -110,12 +110,14 @@ const Draggable = forwardRef<HTMLDivElement, DraggableProps>(
                 classNames.blockToolbar
               )}
             >
-              <Tooltip>
-                <TooltipTrigger ref={handleRef}>
-                  <Icons.dragHandle className="h-4 w-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>Drag to move</TooltipContent>
-              </Tooltip>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger ref={handleRef}>
+                    <Icons.dragHandle className="h-4 w-4 text-muted-foreground" />
+                  </TooltipTrigger>
+                  <TooltipContent>Drag to move</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
         </div>

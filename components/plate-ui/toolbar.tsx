@@ -15,6 +15,7 @@ import {
   TooltipContent,
   TooltipPortal,
   TooltipTrigger,
+  TooltipProvider,
 } from './tooltip';
 
 const toolbarVariants = cva(
@@ -145,13 +146,15 @@ const ToolbarButton = React.forwardRef<
       );
 
     return isLoaded && tooltip ? (
-      <Tooltip>
-        <TooltipTrigger>{content}</TooltipTrigger>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>{content}</TooltipTrigger>
 
-        <TooltipPortal>
-          <TooltipContent>{tooltip}</TooltipContent>
-        </TooltipPortal>
-      </Tooltip>
+          <TooltipPortal>
+            <TooltipContent>{tooltip}</TooltipContent>
+          </TooltipPortal>
+        </Tooltip>
+      </TooltipProvider>
     ) : (
       <>{content}</>
     );
