@@ -94,7 +94,7 @@ export async function GET(req: Request) {
               tw="flex text-xl"
               style={{ fontFamily: "Inter", fontWeight: "normal" }}
             >
-              tx.shadcn.com
+              zaczajdel.com
             </div>
             <div
               tw="flex items-center text-xl"
