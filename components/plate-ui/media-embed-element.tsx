@@ -10,9 +10,7 @@ import {
 import { useResizableStore } from '@udecode/plate-resizable';
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import { Tweet } from 'react-tweet';
-
 import { cn } from '@/lib/utils';
-
 import { Caption, CaptionTextarea } from './caption';
 import { MediaPopover } from './media-popover';
 import { Resizable, ResizeHandle } from './resizable';

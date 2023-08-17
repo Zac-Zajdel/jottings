@@ -7,7 +7,6 @@ export type EmojiPickerPreviewProps = Pick<
 >;
 
 export type EmojiPreviewProps = Pick<UseEmojiPickerType, 'emoji'>;
-
 export type NoEmojiPreviewProps = Pick<UseEmojiPickerType, 'i18n'>;
 export type PickAnEmojiPreviewProps = NoEmojiPreviewProps;
 

@@ -8,7 +8,6 @@ import {
   useDraggableState,
 } from '@udecode/plate-dnd';
 import { DropTargetMonitor } from 'react-dnd';
-
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 

@@ -6,7 +6,6 @@ import { PlateLeaf, PlateLeafProps } from '@udecode/plate-common';
 
 export function CodeSyntaxLeaf({ children, ...props }: PlateLeafProps) {
   const { leaf } = props;
-
   const { tokenProps } = useCodeSyntaxLeaf({ leaf });
 
   return (

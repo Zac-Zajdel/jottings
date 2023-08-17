@@ -1,7 +1,6 @@
 import React from 'react';
 import { PlateElement, PlateElementProps, Value } from '@udecode/plate-common';
 import { TLinkElement, useLink } from '@udecode/plate-link';
-
 import { cn } from '@/lib/utils';
 
 const LinkElement = React.forwardRef<

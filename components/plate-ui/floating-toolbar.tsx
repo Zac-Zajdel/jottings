@@ -4,20 +4,14 @@ import {
   useFloatingToolbar,
   UseVirtualFloatingOptions,
 } from '@udecode/plate-floating';
-
 import { cn } from '@/lib/utils';
-
 import { Toolbar, ToolbarProps } from './toolbar';
 
 export interface FloatingToolbarProps extends ToolbarProps {
   children: ReactNode;
-
   portalElement?: Element;
-
   floatingOptions?: UseVirtualFloatingOptions;
-
   ignoreReadOnly?: boolean;
-
   hideToolbar?: boolean;
 }
 

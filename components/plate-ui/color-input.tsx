@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useColorInput } from '@udecode/plate-font';
-
 import { cn } from '@/lib/utils';
 
 export function ColorInput({

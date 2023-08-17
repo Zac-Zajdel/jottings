@@ -11,9 +11,7 @@ import {
   useFloatingMediaSelectors,
 } from '@udecode/plate-media';
 import { useReadOnly, useSelected } from 'slate-react';
-
 import { Icons } from '@/components/icons';
-
 import { Button, buttonVariants } from './button';
 import { inputVariants } from './input';
 import { Popover, PopoverAnchor, PopoverContent } from './popover';

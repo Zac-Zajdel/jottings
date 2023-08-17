@@ -6,14 +6,12 @@ import {
   useColorDropdownMenu,
   useColorDropdownMenuState,
 } from '@udecode/plate-font';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/plate-ui/dropdown-menu';
 import { ToolbarButton } from '@/components/plate-ui/toolbar';
-
 import { DEFAULT_COLORS, DEFAULT_CUSTOM_COLORS } from './color-constants';
 import { ColorPicker } from './color-picker';
 

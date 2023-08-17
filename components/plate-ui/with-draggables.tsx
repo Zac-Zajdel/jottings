@@ -16,7 +16,6 @@ import {
 } from '@udecode/plate-heading';
 import { ELEMENT_OL, ELEMENT_UL } from '@udecode/plate-list';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
-
 import { Draggable, DraggableProps } from './draggable';
 
 export const withDraggable = (

@@ -1,6 +1,5 @@
 import React from 'react';
 import { PlateElement, PlateElementProps } from '@udecode/plate-common';
-
 import { cn } from '@/lib/utils';
 
 export interface PlateTableRowElementProps extends PlateElementProps {

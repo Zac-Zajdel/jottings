@@ -6,7 +6,6 @@ import {
   CursorOverlayProps,
   CursorProps,
 } from '@udecode/plate-cursor';
-
 import { cn } from '@/lib/utils';
 
 export const cursorStore = createStore('cursor')({

@@ -18,10 +18,8 @@ import {
 } from '@udecode/plate-table';
 import { Path } from 'slate';
 import { useReadOnly } from 'slate-react';
-
 import { cn } from '@/lib/utils';
 import { Icons, iconVariants } from '@/components/icons';
-
 import { Button } from './button';
 import {
   DropdownMenu,

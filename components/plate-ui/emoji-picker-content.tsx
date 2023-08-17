@@ -5,7 +5,6 @@ import {
   GridRow,
   UseEmojiPickerType,
 } from '@udecode/plate-emoji';
-
 import { cn } from '@/lib/utils';
 
 export type EmojiPickerContentProps = Pick<

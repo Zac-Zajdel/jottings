@@ -10,7 +10,6 @@ import {
   ToolbarButton,
   ToolbarButtonProps,
 } from '@/components/plate-ui/toolbar';
-
 import { emojiCategoryIcons, emojiSearchIcons } from './emoji-icons';
 import { EmojiPicker } from './emoji-picker';
 
@@ -22,8 +21,7 @@ export function EmojiDropdownMenu({
   options,
   ...props
 }: EmojiDropdownMenuProps) {
-  const { isOpen, setIsOpen, emojiPickerState } =
-    useEmojiDropdownMenuState(options);
+  const { isOpen, setIsOpen, emojiPickerState } = useEmojiDropdownMenuState(options);
 
   return (
     <EmojiToolbarDropdown

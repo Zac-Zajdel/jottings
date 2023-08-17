@@ -6,7 +6,6 @@ import {
   ResizeHandle as ResizeHandlePrimitive,
 } from '@udecode/plate-resizable';
 import { cva, VariantProps } from 'class-variance-authority';
-
 import { cn } from '@/lib/utils';
 
 const resizeHandleVariants = cva(

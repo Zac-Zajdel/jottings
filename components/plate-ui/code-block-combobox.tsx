@@ -7,10 +7,8 @@ import {
   useCodeBlockCombobox,
   useCodeBlockComboboxState,
 } from '@udecode/plate-code-block';
-
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
-
 import { Button } from './button';
 import {
   Command,

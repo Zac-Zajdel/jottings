@@ -7,9 +7,7 @@ import {
   useTableCellElementResizableState,
   useTableCellElementState,
 } from '@udecode/plate-table';
-
 import { cn } from '@/lib/utils';
-
 import { ResizeHandle } from './resizable';
 
 export interface TableCellElementProps

@@ -1,6 +1,5 @@
 import React from 'react';
 import { PlateLeaf, PlateLeafProps } from '@udecode/plate-common';
-
 import { cn } from '@/lib/utils';
 
 export function KbdLeaf({ className, children, ...props }: PlateLeafProps) {

@@ -6,9 +6,7 @@ import {
   usePlateReadOnly,
   usePlateStore,
 } from '@udecode/plate-common';
-
 import { Icons } from '@/components/icons';
-
 import {
   DropdownMenu,
   DropdownMenuContent,

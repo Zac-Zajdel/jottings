@@ -4,7 +4,6 @@ import {
   CaptionTextarea as CaptionTextareaPrimitive,
 } from '@udecode/plate-caption';
 import { cva, VariantProps } from 'class-variance-authority';
-
 import { cn } from '@/lib/utils';
 
 const captionVariants = cva('max-w-full', {

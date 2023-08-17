@@ -58,6 +58,7 @@ import {
   RectangleHorizontal,
   Minus,
   Smile,
+  ChevronsUpDown,
   MessageSquarePlus,
   MoreHorizontal,
   Superscript,
@@ -73,6 +74,9 @@ import {
   X,
 } from "lucide-react"
 import { cva } from 'class-variance-authority';
+
+import type { LucideIcon } from 'lucide-react';
+export type Icon = LucideIcon;
 
 const borderAll = (props: LucideProps) => (
   <svg
@@ -172,6 +176,7 @@ export const Icons = {
   delete: Trash,
   borderAll,
   borderBottom,
+  chevronsUpDown: ChevronsUpDown,
   borderLeft,
   borderNone,
   borderRight,

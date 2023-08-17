@@ -13,9 +13,7 @@ import {
 } from '@udecode/plate-common';
 import { ELEMENT_H1, ELEMENT_H2, ELEMENT_H3 } from '@udecode/plate-heading';
 import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
-
 import { Icons } from '@/components/icons';
-
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -22,7 +22,6 @@ import {
   usePlateEditorState,
 } from '@udecode/plate-common';
 import { createVirtualRef } from '@udecode/plate-floating';
-
 import { cn } from '@/lib/utils';
 
 export function ComboboxItem<TData extends Data = NoData>({
@@ -56,9 +55,7 @@ export function ComboboxContent<TData extends Data = NoData>(
   } = props;
 
   const editor = usePlateEditorState();
-
-  const filteredItems =
-    useComboboxSelectors.filteredItems() as TComboboxItem<TData>[];
+  const filteredItems = useComboboxSelectors.filteredItems() as TComboboxItem<TData>[];
   const activeComboboxStore = useActiveComboboxStore()!;
 
   const state = useComboboxContentState({ items, combobox });

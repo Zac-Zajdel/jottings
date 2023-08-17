@@ -14,9 +14,7 @@ import {
   insertTableColumn,
   insertTableRow,
 } from '@udecode/plate-table';
-
 import { Icons, iconVariants } from '@/components/icons';
-
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -2,13 +2,8 @@
 
 import React from 'react';
 import { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
-import {
-  useAlignDropdownMenu,
-  useAlignDropdownMenuState,
-} from '@udecode/plate-alignment';
-
+import {useAlignDropdownMenu, useAlignDropdownMenuState } from '@udecode/plate-alignment';
 import { Icons, iconVariants } from '@/components/icons';
-
 import {
   DropdownMenu,
   DropdownMenuContent,

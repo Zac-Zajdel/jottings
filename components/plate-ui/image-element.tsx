@@ -7,9 +7,7 @@ import {
   useMediaState,
 } from '@udecode/plate-media';
 import { useResizableStore } from '@udecode/plate-resizable';
-
 import { cn } from '@/lib/utils';
-
 import { Caption, CaptionTextarea } from './caption';
 import { MediaPopover } from './media-popover';
 import { Resizable, ResizeHandle } from './resizable';

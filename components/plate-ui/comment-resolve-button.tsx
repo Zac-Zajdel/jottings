@@ -5,7 +5,6 @@ import {
   CommentResolveButton as CommentResolveButtonPrimitive,
   useComment,
 } from '@udecode/plate-comments';
-
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { buttonVariants } from '@/components/plate-ui/button';
