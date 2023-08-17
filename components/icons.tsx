@@ -17,29 +17,217 @@ import {
   Clipboard,
   Moon,
   MoreVertical,
+  ChevronDown,
+  Quote,
+  Indent,
   Plus,
   Settings,
   SunMedium,
   ListChecks,
-  Trash,
   LogIn,
+  Heading1,
+  Heading2,
+  Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
   Twitter,
   Key,
+  Bold,
+  Italic,
   User,
+  Trash,
+  Pilcrow,
+  Underline,
+  Strikethrough,
+  Baseline,
   Users,
+  PaintBucket,
+  Code2,
+  AlignCenter,
+  AlignJustify,
+  AlignLeft,
+  AlignRight,
+  WrapText,
+  List,
+  ListOrdered,
+  Link2,
+  Table,
+  Search,
+  RectangleVertical,
+  RectangleHorizontal,
+  Minus,
+  Smile,
+  ChevronsUpDown,
+  MessageSquarePlus,
+  MoreHorizontal,
+  Superscript,
+  Subscript,
+  RotateCcw,
+  Outdent,
+  GripVertical,
+  ExternalLink,
+  Link2Off,
+  Edit2,
+  Text,
+  Eye,
   X,
-  type Icon as LucideIcon,
 } from "lucide-react"
+import { cva } from 'class-variance-authority';
 
-export type Icon = LucideIcon
+import type { LucideIcon } from 'lucide-react';
+export type Icon = LucideIcon;
+
+const borderAll = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M3 6a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6zm10 13h5a1 1 0 0 0 1-1v-5h-6v6zm-2-6H5v5a1 1 0 0 0 1 1h5v-6zm2-2h6V6a1 1 0 0 0-1-1h-5v6zm-2-6H6a1 1 0 0 0-1 1v5h6V5z" />
+  </svg>
+);
+
+const borderBottom = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M13 5a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2h2zm-8 6a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2zm-2 7a1 1 0 1 1 2 0 1 1 0 0 0 1 1h12a1 1 0 0 0 1-1 1 1 0 1 1 2 0 3 3 0 0 1-3 3H6a3 3 0 0 1-3-3zm17-8a1 1 0 0 0-1 1v2a1 1 0 1 0 2 0v-2a1 1 0 0 0-1-1zM7 4a1 1 0 0 0-1-1 3 3 0 0 0-3 3 1 1 0 0 0 2 0 1 1 0 0 1 1-1 1 1 0 0 0 1-1zm11-1a1 1 0 1 0 0 2 1 1 0 0 1 1 1 1 1 0 1 0 2 0 3 3 0 0 0-3-3z" />
+  </svg>
+);
+
+const borderLeft = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M6 21a1 1 0 1 0 0-2 1 1 0 0 1-1-1V6a1 1 0 0 1 1-1 1 1 0 0 0 0-2 3 3 0 0 0-3 3v12a3 3 0 0 0 3 3zm7-16a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2h2zm6 6a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0v-2zm-5 9a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm4-17a1 1 0 1 0 0 2 1 1 0 0 1 1 1 1 1 0 1 0 2 0 3 3 0 0 0-3-3zm-1 17a1 1 0 0 0 1 1 3 3 0 0 0 3-3 1 1 0 1 0-2 0 1 1 0 0 1-1 1 1 1 0 0 0-1 1z" />
+  </svg>
+);
+
+const borderNone = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M14 4a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-9 7a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2zm14 0a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0v-2zm-6 10a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2h2zM7 4a1 1 0 0 0-1-1 3 3 0 0 0-3 3 1 1 0 0 0 2 0 1 1 0 0 1 1-1 1 1 0 0 0 1-1zm11-1a1 1 0 1 0 0 2 1 1 0 0 1 1 1 1 1 0 1 0 2 0 3 3 0 0 0-3-3zM7 20a1 1 0 0 1-1 1 3 3 0 0 1-3-3 1 1 0 1 1 2 0 1 1 0 0 0 1 1 1 1 0 0 1 1 1zm11 1a1 1 0 1 1 0-2 1 1 0 0 0 1-1 1 1 0 1 1 2 0 3 3 0 0 1-3 3z" />
+  </svg>
+);
+
+const borderRight = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M13 5a1 1 0 1 0 0-2h-2a1 1 0 1 0 0 2h2zm-8 6a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2zm9 9a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zM6 3a1 1 0 0 1 0 2 1 1 0 0 0-1 1 1 1 0 0 1-2 0 3 3 0 0 1 3-3zm1 17a1 1 0 0 1-1 1 3 3 0 0 1-3-3 1 1 0 1 1 2 0 1 1 0 0 0 1 1 1 1 0 0 1 1 1zm11 1a1 1 0 1 1 0-2 1 1 0 0 0 1-1V6a1 1 0 0 0-1-1 1 1 0 1 1 0-2 3 3 0 0 1 3 3v12a3 3 0 0 1-3 3z" />
+  </svg>
+);
+
+const borderTop = (props: LucideProps) => (
+  <svg
+    viewBox="0 0 24 24"
+    height="48"
+    width="48"
+    focusable="false"
+    role="img"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path d="M3 6a1 1 0 0 0 2 0 1 1 0 0 1 1-1h12a1 1 0 0 1 1 1 1 1 0 1 0 2 0 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3zm2 5a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2zm14 0a1 1 0 1 1 2 0v2a1 1 0 1 1-2 0v-2zm-5 9a1 1 0 0 1-1 1h-2a1 1 0 1 1 0-2h2a1 1 0 0 1 1 1zm-8 1a1 1 0 1 0 0-2 1 1 0 0 1-1-1 1 1 0 1 0-2 0 3 3 0 0 0 3 3zm11-1a1 1 0 0 0 1 1 3 3 0 0 0 3-3 1 1 0 1 0-2 0 1 1 0 0 1-1 1 1 1 0 0 0-1 1z" />
+  </svg>
+);
 
 export const Icons = {
   logo: Command,
   close: X,
+  clear: X,
+  text: Text,
+  delete: Trash,
+  borderAll,
+  borderBottom,
+  chevronsUpDown: ChevronsUpDown,
+  borderLeft,
+  borderNone,
+  borderRight,
+  borderTop,
+  externalLink: ExternalLink,
+  unlink: Link2Off,
+  dragHandle: GripVertical,
+  table: Table,
+  editing: Edit2,
+  viewing: Eye,
+  more: MoreHorizontal,
+  commentAdd: MessageSquarePlus,
+  subscript: Subscript,
+  superscript: Superscript,
+  emoji: Smile,
+  refresh: RotateCcw,
+  column: RectangleVertical,
+  row: RectangleHorizontal,
+  minus: Minus,
+  image: Image,
+  search: Search,
+  outdent: Outdent,
+  code: Code2,
+  link: Link2,
+  ul: List,
+  ol: ListOrdered,
+  bg: PaintBucket,
+  h1: Heading1,
+  h2: Heading2,
+  h3: Heading3,
+  h4: Heading4,
+  lineHeight: WrapText,
+  alignCenter: AlignCenter,
+  alignJustify: AlignJustify,
+  alignLeft: AlignLeft,
+  alignRight: AlignRight,
+  paragraph: Pilcrow,
+  h5: Heading5,
+  h6: Heading6,
+  color: Baseline,
+  strikethrough: Strikethrough,
   board: Clipboard,
   group: Users,
+  underline: Underline,
+  bold: Bold,
+  italic: Italic,
   spinner: Loader2,
+  arrowDown: ChevronDown,
+  blockquote: Quote,
   chevronLeft: ChevronLeft,
+  indent: Indent,
   chevronRight: ChevronRight,
   listCheck: ListChecks,
   trash: Trash,
@@ -80,3 +268,17 @@ export const Icons = {
   twitter: Twitter,
   check: Check,
 }
+
+export const iconVariants = cva('', {
+  variants: {
+    variant: {
+      toolbar: 'h-5 w-5',
+      menuItem: 'mr-2 h-5 w-5',
+    },
+    size: {
+      sm: 'mr-2 h-4 w-4',
+      md: 'mr-2 h-6 w-6',
+    },
+  },
+  defaultVariants: {},
+});
