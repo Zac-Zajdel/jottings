@@ -46,10 +46,6 @@ import {
 } from '@udecode/plate-common';
 // import { createDndPlugin } from '@udecode/plate-dnd';
 import { createEmojiPlugin } from '@udecode/plate-emoji';
-// import {
-//   createExcalidrawPlugin,
-//   ELEMENT_EXCALIDRAW,
-// } from '@udecode/plate-excalidraw';
 import {
   createFontBackgroundColorPlugin,
   createFontColorPlugin,
