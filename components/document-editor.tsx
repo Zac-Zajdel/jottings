@@ -98,14 +98,18 @@ export default function Editor() {
 
       <div className="border border-gray-400 border-opacity-20">
         <div className="grid w-full gap-5">
-          <FixedToolbar>
-            <FixedToolbarButtons />
-          </FixedToolbar>
-
           <PlateProvider
             plugins={plugins}
             initialValue={initialValue}
+            onChange={(newValue) => {
+              // save newValue...
+              console.log(newValue)
+            }}
           >
+            <FixedToolbar>
+              <FixedToolbarButtons />
+            </FixedToolbar>
+
             <div className="flex overflow-y-hidden max-h-[80vh]">
               <CommentsProvider users={commentsUsers} myUserId={myUserId}>
                 <div
