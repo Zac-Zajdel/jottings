@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import { CommentsProvider } from '@udecode/plate-comments';
-import { Plate, PlateProvider } from '@udecode/plate-common';
+import { Plate, PlateEditor, PlateProvider } from '@udecode/plate-common';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { formatDate } from "@/lib/utils"
@@ -36,16 +36,14 @@ interface EditorProps {
 
 export default function DocumentEditor({ task }: EditorProps) {
   const router = useRouter()
-  const editorRef = useRef(null);
+  const editorRef = useRef<PlateEditor>(null);
   const containerRef = useRef(null);
   const [isSaving, setIsSaving] = useState(false)
 
   async function save() {
     setIsSaving(true)
 
-    // TODO - Find out what the type is of this.
     const blocks = await editorRef.current?.children
-
     const response = await fetch(`/api/tasks/${task.id}`, {
       method: "PATCH",
       headers: {
