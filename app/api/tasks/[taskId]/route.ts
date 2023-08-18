@@ -49,6 +49,7 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    console.log('INSIDE OF HERE')
     // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
@@ -61,8 +62,9 @@ export async function PATCH(
     const json = await req.json()
     const body = taskPatchSchema.parse(json)
 
+    console.log('BODY', body)
+
     // Update the task.
-    // TODO: Implement sanitization for content.
     await db.task.update({
       where: {
         id: params.taskId,

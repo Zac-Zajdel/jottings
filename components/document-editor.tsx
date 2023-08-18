@@ -25,7 +25,7 @@ import { toast } from "@/components/ui/use-toast"
 
 export default function Editor() {
   const router = useRouter()
-  // const ref = React.useRef<EditorJS>()
+  const editorRef = useRef(null);
   const containerRef = useRef(null);
   const [isSaving, setIsSaving] = useState(false)
 
@@ -36,38 +36,37 @@ export default function Editor() {
     },
   ];
 
-  async function onSubmit(e) {
+  async function save() {
     setIsSaving(true)
-    e.preventDefault()
 
-    console.log('containerref', containerRef)
+    // TODO - Find out what the type is of this.
+    const blocks = await editorRef.current?.children
+    console.log('blocks', blocks)
 
-    // const blocks = await ref.current?.save()
-
-    // const response = await fetch(`/api/posts/${1}`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     title: data.title,
-    //     content: blocks,
-    //   }),
-    // })
+    const response = await fetch(`/api/tasks/${1}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: 'HELLO WORLD',
+        content: blocks,
+      }),
+    })
 
     setIsSaving(false)
 
-    // if (!response?.ok) {
-    //   return toast({
-    //     title: "Something went wrong.",
-    //     description: "Your post was not saved. Please try again.",
-    //     variant: "destructive",
-    //   })
-    // }
+    if (!response?.ok) {
+      return toast({
+        title: "Something went wrong.",
+        description: "Your task was not saved. Please try again.",
+        variant: "destructive",
+      })
+    }
 
     // router.refresh()
     return toast({
-      description: "Your post has been saved.",
+      description: "Your task has been saved.",
     })
   }
 
@@ -87,7 +86,7 @@ export default function Editor() {
         </span>
         <button
           type="submit"
-          onClick={onSubmit}
+          onClick={save}
         >
           {isSaving && (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
@@ -100,11 +99,8 @@ export default function Editor() {
         <div className="grid w-full gap-5">
           <PlateProvider
             plugins={plugins}
+            editorRef={editorRef}
             initialValue={initialValue}
-            onChange={(newValue) => {
-              // save newValue...
-              console.log(newValue)
-            }}
           >
             <FixedToolbar>
               <FixedToolbarButtons />
