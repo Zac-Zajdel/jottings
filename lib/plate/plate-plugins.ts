@@ -74,7 +74,7 @@ import {
   createIndentListPlugin,
   KEY_LIST_STYLE_TYPE,
 } from '@udecode/plate-indent-list';
-import { createJuicePlugin } from '@udecode/plate-juice';
+// import { createJuicePlugin } from '@udecode/plate-juice';
 import { createKbdPlugin, MARK_KBD } from '@udecode/plate-kbd';
 import { createLineHeightPlugin } from '@udecode/plate-line-height';
 import { createLinkPlugin, ELEMENT_LINK } from '@udecode/plate-link';
@@ -350,7 +350,7 @@ export const plugins = createPlugins(
     // Deserialization
     createDeserializeDocxPlugin(),
     createDeserializeMdPlugin(),
-    createJuicePlugin(),
+    // createJuicePlugin(),
   ],
   {
     components: // withDraggables(
