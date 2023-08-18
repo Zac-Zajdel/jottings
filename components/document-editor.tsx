@@ -3,9 +3,9 @@
 import React, { useRef, useState } from 'react';
 import { CommentsProvider } from '@udecode/plate-comments';
 import { Plate, PlateProvider } from '@udecode/plate-common';
-import { ELEMENT_PARAGRAPH } from '@udecode/plate-paragraph';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { formatDate } from "@/lib/utils"
 import { commentsUsers, myUserId } from '@/lib/plate/comments';
 import { MENTIONABLES } from '@/lib/plate/mentionables';
 import { plugins } from '@/lib/plate/plate-plugins';
@@ -22,28 +22,31 @@ import Link from 'next/link';
 import { Icons } from './icons';
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
+import { MyValue } from '@/types/plate-types';
 
-export default function Editor() {
+interface EditorProps {
+  task: {
+    id: string
+    title: string
+    content: MyValue
+    createdAt: Date
+    published: boolean
+  },
+}
+
+export default function DocumentEditor({ task }: EditorProps) {
   const router = useRouter()
   const editorRef = useRef(null);
   const containerRef = useRef(null);
   const [isSaving, setIsSaving] = useState(false)
-
-  const initialValue = [
-    {
-      type: ELEMENT_PARAGRAPH,
-      children: [{ text: 'Hello, World!' }],
-    },
-  ];
 
   async function save() {
     setIsSaving(true)
 
     // TODO - Find out what the type is of this.
     const blocks = await editorRef.current?.children
-    console.log('blocks', blocks)
 
-    const response = await fetch(`/api/tasks/${1}`, {
+    const response = await fetch(`/api/tasks/${task.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +67,7 @@ export default function Editor() {
       })
     }
 
-    // router.refresh()
+    router.refresh()
     return toast({
       description: "Your task has been saved.",
     })
@@ -72,6 +75,13 @@ export default function Editor() {
 
   return (
     <div>
+      <div className="flex w-full justify-center items-center mb-2">
+        { task.title }
+      </div>
+      <div className="flex w-full justify-center items-center text-sm text-muted-foreground">
+        {formatDate(task.createdAt?.toDateString())}
+      </div>
+
       <div className="flex w-full items-center justify-between mb-2">
         <span className="flex space-x-10">
           <Link
@@ -85,7 +95,7 @@ export default function Editor() {
           </Link>
         </span>
         <button
-          type="submit"
+          className={cn(buttonVariants({ variant: "ghost" }))}
           onClick={save}
         >
           {isSaving && (
@@ -100,7 +110,7 @@ export default function Editor() {
           <PlateProvider
             plugins={plugins}
             editorRef={editorRef}
-            initialValue={initialValue}
+            initialValue={task.content}
           >
             <FixedToolbar>
               <FixedToolbarButtons />
