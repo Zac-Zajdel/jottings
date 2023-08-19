@@ -2,7 +2,7 @@ import { CardSkeleton } from "@/components/card-skeleton"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
 
-export default function DashboardSettingsLoading() {
+export default function TemplatesLoading() {
   return (
     <PageShell>
       <PageHeader

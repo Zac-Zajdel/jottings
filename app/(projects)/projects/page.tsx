@@ -14,7 +14,7 @@ export const metadata = {
   description: "Create and manage Projects.",
 }
 
-export default async function TasksPage() {
+export default async function ProjectsPage() {
   const user = await getCurrentUser()
 
   if (!user) {

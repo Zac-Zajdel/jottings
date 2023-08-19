@@ -11,7 +11,7 @@ interface JotsLayoutProps {
   children?: React.ReactNode
 }
 
-export default async function JotsLayout({
+export default async function TasksLayout({
   children,
 }: JotsLayoutProps) {
   const user = await getCurrentUser()

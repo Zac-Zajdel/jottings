@@ -1,31 +1,64 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/lib/auth"
+import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
+import { JotCreateButton } from "@/components/jot-create-button"
+import { JotItem } from "@/components/jot-item"
 import { PageShell } from "@/components/page-shell"
-import { UserNameForm } from "@/components/user-name-form"
 
 export const metadata = {
   title: "Templates",
-  description: "Templates to get up and running quickly.",
 }
 
-export default async function SettingsPage() {
+export default async function TemplatesPage() {
   const user = await getCurrentUser()
 
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
+  const jots = await db.jot.findMany({
+    where: {
+      authorId: user.id,
+    },
+    select: {
+      id: true,
+      title: true,
+      published: true,
+      createdAt: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  })
+
   return (
     <PageShell>
       <PageHeader
-        heading="Templates"
-        text="Templates to get up and running quickly."
-      />
-      <div className="grid gap-10">
-        <UserNameForm user={{ id: user.id, name: user.name || "" }} />
+        heading="Jots"
+        text="Create and manage jots."
+      >
+        <JotCreateButton />
+      </PageHeader>
+      <div>
+        {jots?.length ? (
+          <div className="divide-y divide-border rounded-md border">
+            {jots.map((jot) => (
+              <JotItem key={jot.id} jot={jot} />
+            ))}
+          </div>
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="file" />
+            <EmptyPlaceholder.Title>No Templates created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              You don&apos;t have any Templates yet. Start creating content.
+            </EmptyPlaceholder.Description>
+            <JotCreateButton variant="outline" />
+          </EmptyPlaceholder>
+        )}
       </div>
     </PageShell>
   )
