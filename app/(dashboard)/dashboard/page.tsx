@@ -5,8 +5,8 @@ import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { TaskCreateButton } from "@/components/task-create-button"
-import { TaskItem } from "@/components/task-item"
+import { JotCreateButton } from "@/components/jot-create-button"
+import { JotItem } from "@/components/jot-item"
 import { DashboardShell } from "@/components/shell"
 
 export const metadata = {
@@ -20,7 +20,7 @@ export default async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const tasks = await db.task.findMany({
+  const jots = await db.jot.findMany({
     where: {
       authorId: user.id,
     },
@@ -37,24 +37,24 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Tasks" text="Create and manage tasks.">
-        <TaskCreateButton />
+      <DashboardHeader heading="Jots" text="Create and manage jots.">
+        <JotCreateButton />
       </DashboardHeader>
       <div>
-        {tasks?.length ? (
+        {jots?.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {tasks.map((task) => (
-              <TaskItem key={task.id} task={task} />
+            {jots.map((jot) => (
+              <JotItem key={jot.id} jot={jot} />
             ))}
           </div>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No tasks created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>No jots created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any tasks yet. Start creating content.
+              You don&apos;t have any jots yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <TaskCreateButton variant="outline" />
+            <JotCreateButton variant="outline" />
           </EmptyPlaceholder>
         )}
       </div>

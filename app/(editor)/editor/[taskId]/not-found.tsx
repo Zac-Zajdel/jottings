@@ -9,7 +9,7 @@ export default function NotFound() {
       <EmptyPlaceholder.Icon name="warning" />
       <EmptyPlaceholder.Title>Uh oh! Not Found</EmptyPlaceholder.Title>
       <EmptyPlaceholder.Description>
-        This task could not be found. Please try again.
+        This jot could not be found. Please try again.
       </EmptyPlaceholder.Description>
       <Link href="/dashboard" className={buttonVariants({ variant: "ghost" })}>
         Go to Dashboard

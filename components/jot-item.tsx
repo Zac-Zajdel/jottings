@@ -1,36 +1,36 @@
 import Link from "next/link"
-import { Task } from "@prisma/client"
+import { Jot } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { TaskOperations } from "@/components/task-operations"
+import { JotOperations } from "@/components/jot-operations"
 
-interface TaskItemProps {
-  task: Pick<Task, "id" | "title" | "published" | "createdAt">
+interface JotItemProps {
+  jot: Pick<Jot, "id" | "title" | "published" | "createdAt">
 }
 
-export function TaskItem({ task }: TaskItemProps) {
+export function JotItem({ jot }: JotItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${task.id}`}
+          href={`/editor/${jot.id}`}
           className="font-semibold hover:underline"
         >
-          {task.title}
+          {jot.title}
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {formatDate(task.createdAt?.toDateString())}
+            {formatDate(jot.createdAt?.toDateString())}
           </p>
         </div>
       </div>
-      <TaskOperations task={{ id: task.id, title: task.title }} />
+      <JotOperations jot={{ id: jot.id, title: jot.title }} />
     </div>
   )
 }
 
-TaskItem.Skeleton = function TaskItemSkeleton() {
+JotItem.Skeleton = function JotItemSkeleton() {
   return (
     <div className="p-4">
       <div className="space-y-3">

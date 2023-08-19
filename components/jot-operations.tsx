@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Task } from "@prisma/client"
+import { Jot } from "@prisma/client"
 
 import {
   AlertDialog,
@@ -25,15 +25,15 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-async function deleteTask(taskId: string) {
-  const response = await fetch(`/api/tasks/${taskId}`, {
+async function deleteJot(jotId: string) {
+  const response = await fetch(`/api/jots/${jotId}`, {
     method: "DELETE",
   })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your task was not deleted. Please try again.",
+      description: "Your jot was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -42,10 +42,10 @@ async function deleteTask(taskId: string) {
 }
 
 interface PostOperationsProps {
-  task: Pick<Task, "id" | "title">
+  jot: Pick<Jot, "id" | "title">
 }
 
-export function TaskOperations({ task }: PostOperationsProps) {
+export function JotOperations({ jot }: PostOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
@@ -59,7 +59,7 @@ export function TaskOperations({ task }: PostOperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${task.id}`} className="flex w-full">
+            <Link href={`/editor/${jot.id}`} className="flex w-full">
               Edit
             </Link>
           </DropdownMenuItem>
@@ -76,7 +76,7 @@ export function TaskOperations({ task }: PostOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this task?
+              Are you sure you want to delete this jot?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -89,7 +89,7 @@ export function TaskOperations({ task }: PostOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteTask(task.id)
+                const deleted = await deleteJot(jot.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)
