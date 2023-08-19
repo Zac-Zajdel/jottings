@@ -1,9 +1,8 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { useSelectedLayoutSegment } from "next/navigation"
-
 import { MainNavItem } from "types"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
@@ -17,11 +16,14 @@ interface MainNavProps {
 
 export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
+  const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
+      <Link
+        href="/dashboard"
+        className="hidden items-center space-x-2 md:flex"
+      >
         <span className="hidden font-bold sm:inline-block text-2xl">
           {siteConfig.name}
         </span>

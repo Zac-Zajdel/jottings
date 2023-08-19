@@ -10,8 +10,13 @@ export const dashboardConfig: DashboardConfig = {
   sidebarNav: [
     {
       title: "Jots",
-      href: "/dashboard",
+      href: "/jots",
       icon: "file",
+    },
+    {
+      title: "Tasks",
+      href: "/tasks",
+      icon: "listCheck",
     },
     {
       title: "Templates",

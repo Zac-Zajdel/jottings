@@ -7,13 +7,13 @@ import { DashboardNav } from "@/components/nav"
 import { SiteFooter } from "@/components/site-footer"
 import { UserAccountNav } from "@/components/user-account-nav"
 
-interface SettingLayoutProps {
+interface JotsLayoutProps {
   children?: React.ReactNode
 }
 
-export default async function SettingLayout({
+export default async function JotsLayout({
   children,
-}: SettingLayoutProps) {
+}: JotsLayoutProps) {
   const user = await getCurrentUser()
 
   if (!user) {
