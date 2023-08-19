@@ -234,7 +234,7 @@ export const Icons = {
   trash: Trash,
   post: FileText,
   file: File,
-  box: Box,
+  project: Box,
   permissions: Key,
   login: LogIn,
   media: Image,

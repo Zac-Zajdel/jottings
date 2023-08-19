@@ -10,8 +10,8 @@ import { JotItem } from "@/components/jot-item"
 import { DashboardShell } from "@/components/shell"
 
 export const metadata = {
-  title: "Tasks",
-  description: "Create and manage Tasks.",
+  title: "Projects",
+  description: "Create and manage Projects.",
 }
 
 export default async function TasksPage() {
@@ -39,8 +39,8 @@ export default async function TasksPage() {
   return (
     <DashboardShell>
       <DashboardHeader
-        heading="Tasks"
-        text="Create and manage Tasks."
+        heading="Projects"
+        text="Create and manage Projects."
       >
         <JotCreateButton />
       </DashboardHeader>
@@ -53,10 +53,10 @@ export default async function TasksPage() {
           </div>
         ) : (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="listCheck" />
-            <EmptyPlaceholder.Title>No Tasks created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Icon name="project" />
+            <EmptyPlaceholder.Title>No Projects created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any Tasks yet. Start creating content.
+              You don&apos;t have any Projects yet. Start creating content.
             </EmptyPlaceholder.Description>
             <JotCreateButton variant="outline" />
           </EmptyPlaceholder>
