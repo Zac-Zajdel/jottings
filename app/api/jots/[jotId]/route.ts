@@ -3,11 +3,11 @@ import * as z from "zod"
 
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { taskPatchSchema } from "@/lib/validations/task"
+import { jotPatchSchema } from "@/lib/validations/jot"
 
 const routeContextSchema = z.object({
   params: z.object({
-    taskId: z.string(),
+    jotId: z.string(),
   }),
 })
 
@@ -16,18 +16,16 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    // Validate the route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this task.
-    if (!(await verifyCurrentUserHasAccessToTask(params.taskId))) {
+    // Check if the user has access to this jot.
+    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
       return new Response(null, { status: 403 })
     }
 
-    // Delete the task.
-    await db.task.delete({
+    await db.jot.delete({
       where: {
-        id: params.taskId as string,
+        id: params.jotId as string,
       },
     })
 
@@ -46,22 +44,21 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    // Validate route params.
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this task.
-    if (!(await verifyCurrentUserHasAccessToTask(params.taskId))) {
+    // Check if the user has access to this jot.
+    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
       return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = taskPatchSchema.parse(json)
+    const body = jotPatchSchema.parse(json)
 
-    // Update the task.
-    await db.task.update({
+    // Update the jot.
+    await db.jot.update({
       where: {
-        id: params.taskId,
+        id: params.jotId,
       },
       data: {
         title: body.title,
@@ -79,11 +76,11 @@ export async function PATCH(
   }
 }
 
-async function verifyCurrentUserHasAccessToTask(taskId: string) {
+async function verifyCurrentUserHasAccessToJot(jotId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.task.count({
+  const count = await db.jot.count({
     where: {
-      id: taskId,
+      id: jotId,
       authorId: session?.user.id,
     },
   })

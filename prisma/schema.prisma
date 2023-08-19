@@ -56,7 +56,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
-  Task     Task[]
+  Jot      Jot[]
 
   @@map(name: "users")
 }
@@ -70,7 +70,7 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
-model Task {
+model Jot {
   id        String   @id @default(cuid())
   title     String
   content   Json?
@@ -82,5 +82,5 @@ model Task {
   author User @relation(fields: [authorId], references: [id])
 
   @@index([authorId])
-  @@map(name: "tasks")
+  @@map(name: "jots")
 }
