@@ -1,17 +1,17 @@
 import { CardSkeleton } from "@/components/card-skeleton"
-import { DashboardHeader } from "@/components/header"
-import { DashboardShell } from "@/components/shell"
+import { PageHeader } from "@/components/page-header"
+import { PageShell } from "@/components/page-shell"
 
 export default function SettingsLoading() {
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <PageShell>
+      <PageHeader
         heading="Settings"
         text="Manage account and website settings."
       />
       <div className="grid gap-10">
         <CardSkeleton />
       </div>
-    </DashboardShell>
+    </PageShell>
   )
 }

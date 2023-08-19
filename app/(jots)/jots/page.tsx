@@ -4,10 +4,10 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { DashboardHeader } from "@/components/header"
+import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jot-create-button"
 import { JotItem } from "@/components/jot-item"
-import { DashboardShell } from "@/components/shell"
+import { PageShell } from "@/components/page-shell"
 
 export const metadata = {
   title: "Jots",
@@ -37,13 +37,13 @@ export default async function JotsPage() {
   })
 
   return (
-    <DashboardShell>
-      <DashboardHeader
+    <PageShell>
+      <PageHeader
         heading="Jots"
         text="Create and manage Jots."
       >
         <JotCreateButton />
-      </DashboardHeader>
+      </PageHeader>
       <div>
         {jots?.length ? (
           <div className="divide-y divide-border rounded-md border">
@@ -62,6 +62,6 @@ export default async function JotsPage() {
           </EmptyPlaceholder>
         )}
       </div>
-    </DashboardShell>
+    </PageShell>
   )
 }
