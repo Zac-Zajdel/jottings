@@ -37,7 +37,10 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Jots" text="Create and manage jots.">
+      <DashboardHeader
+        heading="Jots"
+        text="Create and manage jots."
+      >
         <JotCreateButton />
       </DashboardHeader>
       <div>
@@ -49,8 +52,8 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No jots created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Icon name="file" />
+            <EmptyPlaceholder.Title>No Jots created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
               You don&apos;t have any jots yet. Start creating content.
             </EmptyPlaceholder.Description>

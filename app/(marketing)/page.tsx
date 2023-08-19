@@ -48,7 +48,7 @@ export default function IndexPage() {
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <Icons.page className="h-12 w-12" />
+              <Icons.file className="h-12 w-12" />
               <div className="space-y-2">
                 <h3 className="font-bold">Jots</h3>
                 <p className="text-sm text-muted-foreground">

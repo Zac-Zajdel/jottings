@@ -11,11 +11,16 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Jots",
       href: "/dashboard",
-      icon: "listCheck",
+      icon: "file",
+    },
+    {
+      title: "Templates",
+      href: "/templates",
+      icon: "template",
     },
     {
       title: "Settings",
-      href: "/dashboard/settings",
+      href: "/settings",
       icon: "settings",
     },
   ],
