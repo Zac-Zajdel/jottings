@@ -8,14 +8,29 @@ export const dashboardConfig: DashboardConfig = {
     // },
   ],
   sidebarNav: [
+    // {
+    //   title: "Projects",
+    //   href: "/projects",
+    //   icon: "project",
+    // },
     {
       title: "Jots",
-      href: "/dashboard",
-      icon: "listCheck",
+      href: "/jots",
+      icon: "file",
+    },
+    // {
+    //   title: "Tasks",
+    //   href: "/tasks",
+    //   icon: "listCheck",
+    // },
+    {
+      title: "Templates",
+      href: "/templates",
+      icon: "template",
     },
     {
       title: "Settings",
-      href: "/dashboard/settings",
+      href: "/settings",
       icon: "settings",
     },
   ],
