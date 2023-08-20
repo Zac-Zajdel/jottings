@@ -5,8 +5,8 @@ import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jot-create-button"
-import { JotItem } from "@/components/jot-item"
 import { PageShell } from "@/components/page-shell"
+import { TemplateItem } from "@/components/template-item"
 
 export const metadata = {
   title: "Templates",
@@ -14,44 +14,43 @@ export const metadata = {
 
 export default async function TemplatesPage() {
   const user = await getCurrentUser()
-
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const jots = await db.jot.findMany({
+  const templates = await db.jotTemplate.findMany({
     where: {
       authorId: user.id,
     },
     select: {
       id: true,
       title: true,
-      published: true,
+      isPublished: true,
       createdAt: true,
     },
     orderBy: {
-      updatedAt: "desc",
+      updatedAt: 'desc',
     },
   })
 
   return (
     <PageShell>
       <PageHeader
-        heading="Jots"
-        text="Create and manage jots."
+        heading="Templates"
+        text="Create and manage Templates."
       >
         <JotCreateButton />
       </PageHeader>
       <div>
-        {jots?.length ? (
+        {templates?.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {jots.map((jot) => (
-              <JotItem key={jot.id} jot={jot} />
+            {templates.map((template) => (
+              <TemplateItem key={template.id} template={template} />
             ))}
           </div>
         ) : (
           <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="file" />
+            <EmptyPlaceholder.Icon name="template" />
             <EmptyPlaceholder.Title>No Templates created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
               You don&apos;t have any Templates yet. Start creating content.
