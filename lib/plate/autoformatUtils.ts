@@ -11,8 +11,7 @@ import {
 } from '@udecode/plate-common';
 import { toggleList, unwrapList } from '@udecode/plate-list';
 
-export const preFormat: AutoformatBlockRule['preFormat'] = (editor) =>
-  unwrapList(editor);
+export const preFormat: AutoformatBlockRule['preFormat'] = (editor) => unwrapList(editor);
 
 export const format = (editor: PlateEditor, customFormatting: any) => {
   if (editor.selection) {

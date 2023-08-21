@@ -4,9 +4,9 @@ import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
-import { JotCreateButton } from "@/components/jot-create-button"
 import { PageShell } from "@/components/page-shell"
 import { TemplateItem } from "@/components/template-item"
+import { JotTemplateCreateButton } from "@/components/jot-template-create-button"
 
 export const metadata = {
   title: "Templates",
@@ -39,7 +39,7 @@ export default async function TemplatesPage() {
         heading="Templates"
         text="Create and manage Templates."
       >
-        <JotCreateButton />
+        <JotTemplateCreateButton />
       </PageHeader>
       <div>
         {templates?.length ? (
@@ -55,7 +55,7 @@ export default async function TemplatesPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Templates yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotTemplateCreateButton variant="outline" />
           </EmptyPlaceholder>
         )}
       </div>
