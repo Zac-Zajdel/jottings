@@ -6,7 +6,7 @@ import { jotPatchSchema } from "@/lib/validations/jot"
 
 const routeContextSchema = z.object({
   params: z.object({
-    jotId: z.string(),
+    jotTemplateId: z.string(),
   }),
 })
 
@@ -18,7 +18,7 @@ export async function PATCH(
     const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this jot.
-    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
+    if (!(await verifyCurrentUserHasAccessToTemplate(params.jotTemplateId))) {
       return new Response(null, { status: 403 })
     }
 
@@ -26,10 +26,10 @@ export async function PATCH(
     const json = await req.json()
     const body = jotPatchSchema.parse(json)
 
-    // Update the jot.
-    await db.jot.update({
+    // Update the template.
+    await db.jotTemplate.update({
       where: {
-        id: params.jotId,
+        id: params.jotTemplateId,
       },
       data: {
         title: body.title,
@@ -54,14 +54,14 @@ export async function DELETE(
   try {
     const { params } = routeContextSchema.parse(context)
 
-    // Check if the user has access to this jot.
-    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
+    // Check if the user has access to this template.
+    if (!(await verifyCurrentUserHasAccessToTemplate(params.jotTemplateId))) {
       return new Response(null, { status: 403 })
     }
 
-    await db.jot.delete({
+    await db.jotTemplate.delete({
       where: {
-        id: params.jotId as string,
+        id: params.jotTemplateId as string,
       },
     })
 
@@ -75,11 +75,11 @@ export async function DELETE(
   }
 }
 
-async function verifyCurrentUserHasAccessToJot(jotId: string) {
+async function verifyCurrentUserHasAccessToTemplate(jotTemplateId: string) {
   const session = await getServerSession(authOptions)
-  const count = await db.jot.count({
+  const count = await db.jotTemplate.count({
     where: {
-      id: jotId,
+      id: jotTemplateId,
       authorId: session?.user.id,
     },
   })

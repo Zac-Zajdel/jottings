@@ -11,7 +11,7 @@ interface JotsLayoutProps {
   children?: React.ReactNode
 }
 
-export default async function JotsLayout({
+export default async function TasksLayout({
   children,
 }: JotsLayoutProps) {
   const user = await getCurrentUser()
@@ -35,7 +35,7 @@ export default async function JotsLayout({
         </div>
       </header>
 
-      <div className="grid flex-1 gap-12 md:grid-cols-[200px_1fr] px-10">
+      <div className="grid flex-1 gap-4 md:grid-cols-[200px_1fr] px-10">
         <aside className="hidden w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardConfig.sidebarNav} />
         </aside>

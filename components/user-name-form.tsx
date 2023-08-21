@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { HTMLAttributes, useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { User } from "@prisma/client"
@@ -23,7 +23,7 @@ import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-interface UserNameFormProps extends React.HTMLAttributes<HTMLFormElement> {
+interface UserNameFormProps extends HTMLAttributes<HTMLFormElement> {
   user: Pick<User, "id" | "name">
 }
 
@@ -41,7 +41,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       name: user?.name || "",
     },
   })
-  const [isSaving, setIsSaving] = React.useState<boolean>(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)

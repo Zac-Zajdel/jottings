@@ -54,9 +54,10 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @default(now()) @map(name: "updated_at")
 
-  accounts Account[]
-  sessions Session[]
-  Jot      Jot[]
+  accounts    Account[]
+  sessions    Session[]
+  Jot         Jot[]
+  JotTemplate JotTemplate[]
 
   @@map(name: "users")
 }
@@ -83,4 +84,19 @@ model Jot {
 
   @@index([authorId])
   @@map(name: "jots")
+}
+
+model JotTemplate {
+  id          String   @id @default(cuid())
+  authorId    String
+  title       String
+  content     Json?
+  isPublished Boolean  @default(false) @map(name: "is_published")
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@map(name: "jot_templates")
 }

@@ -1,33 +1,32 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
-
 import { cn } from "@/lib/utils"
-import { ButtonProps, buttonVariants } from "@/components/ui/button"
+import { Button, ButtonProps, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-interface JotCreateButtonProps extends ButtonProps {}
+interface JotTemplateCreateButtonProps extends ButtonProps {}
 
-export function JotCreateButton({
+export function JotTemplateCreateButton({
   className,
   variant,
   ...props
-}: JotCreateButtonProps) {
+}: JotTemplateCreateButtonProps) {
   const router = useRouter()
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function onClick() {
     setIsLoading(true)
 
-    const response = await fetch("/api/jots", {
+    const response = await fetch("/api/jot_templates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "Untitled Jot",
+        title: "Untitled Template",
       }),
     })
 
@@ -36,21 +35,21 @@ export function JotCreateButton({
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
-        description: "Your jot was not created. Please try again.",
+        description: "Your template was not created. Please try again.",
         variant: "destructive",
       })
     }
 
-    const jot = await response.json()
+    const template = await response.json()
 
     // This forces a cache invalidation.
     router.refresh()
 
-    router.push(`/editor/${jot.id}`)
+    router.push(`/templates/${template.id}`)
   }
 
   return (
-    <button
+    <Button
       onClick={onClick}
       className={cn(
         buttonVariants({ variant }),
@@ -67,7 +66,7 @@ export function JotCreateButton({
       ) : (
         <Icons.add className="mr-2 h-4 w-4" />
       )}
-      New jot
-    </button>
+      New Template
+    </Button>
   )
 }

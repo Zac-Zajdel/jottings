@@ -1,14 +1,13 @@
 import * as React from "react"
-
 import { cn } from "@/lib/utils"
 
-interface DashboardShellProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface PageShellProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function DashboardShell({
+export function PageShell({
   children,
   className,
   ...props
-}: DashboardShellProps) {
+}: PageShellProps) {
   return (
     <div className={cn("grid items-start gap-8", className)} {...props}>
       {children}

@@ -1,10 +1,9 @@
 "use client"
 
-import * as React from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Jot } from "@prisma/client"
-
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,8 +46,8 @@ interface PostOperationsProps {
 
 export function JotOperations({ jot }: PostOperationsProps) {
   const router = useRouter()
-  const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
-  const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
 
   return (
     <>
@@ -59,7 +58,10 @@ export function JotOperations({ jot }: PostOperationsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
-            <Link href={`/editor/${jot.id}`} className="flex w-full">
+            <Link
+              href={`/editor/${jot.id}`}
+              className="flex w-full"
+            >
               Edit
             </Link>
           </DropdownMenuItem>
@@ -72,7 +74,11 @@ export function JotOperations({ jot }: PostOperationsProps) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
+
+      <AlertDialog
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>

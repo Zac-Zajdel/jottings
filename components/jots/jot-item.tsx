@@ -3,7 +3,7 @@ import { Jot } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { JotOperations } from "@/components/jot-operations"
+import { JotOperations } from "@/components/jots/jot-operations"
 
 interface JotItemProps {
   jot: Pick<Jot, "id" | "title" | "published" | "createdAt">
@@ -14,7 +14,7 @@ export function JotItem({ jot }: JotItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${jot.id}`}
+          href={`/jots/${jot.id}`}
           className="font-semibold hover:underline"
         >
           {jot.title}

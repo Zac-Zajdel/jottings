@@ -8,7 +8,6 @@ import {
   MARK_UNDERLINE,
 } from '@udecode/plate-basic-marks';
 import { MARK_HIGHLIGHT } from '@udecode/plate-highlight';
-
 import { MyAutoformatRule } from '@/lib/plate/plate-types';
 
 export const autoformatMarks: MyAutoformatRule[] = [
