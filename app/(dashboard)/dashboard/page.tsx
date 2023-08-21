@@ -5,8 +5,8 @@ import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
-import { JotCreateButton } from "@/components/jot-create-button"
-import { JotItem } from "@/components/jot-item"
+import { JotCreateButton } from "@/components/jots/jot-create-button"
+import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
 
 export const metadata = {

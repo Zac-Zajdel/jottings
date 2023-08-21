@@ -3,20 +3,20 @@ import { JotTemplate, User } from "@prisma/client"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
-import DocumentEditor from "@/components/document-editor"
 import { MyValue } from "@/types/plate-types"
+import TemplateDetails from "@/components/templates/template-details"
 
-async function getJotTemplate(jotTemplateId: JotTemplate["id"], userId: User["id"]) {
+async function getJotTemplate(templateId: JotTemplate["id"], userId: User["id"]) {
   return await db.jotTemplate.findFirst({
     where: {
-      id: jotTemplateId,
+      id: templateId,
       authorId: userId,
     },
   })
 }
 
 interface EditorPageProps {
-  params: { jotTemplateId: string }
+  params: { templateId: string }
 }
 
 export default async function EditorPage({ params }: EditorPageProps) {
@@ -25,19 +25,18 @@ export default async function EditorPage({ params }: EditorPageProps) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const jot = await getJotTemplate(params.jotTemplateId, user.id)
-  if (!jot) {
+  const template = await getJotTemplate(params.templateId, user.id)
+  if (!template) {
     notFound()
   }
 
   return (
-    <DocumentEditor
-      jot={{
-        id: jot.id,
-        title: jot.title,
-        content: jot.content as MyValue,
-        createdAt: jot.createdAt,
-        published: jot.isPublished,
+    <TemplateDetails
+      jotTemplate={{
+        id: template.id,
+        title: template.title,
+        content: template.content as MyValue,
+        createdAt: template.createdAt,
       }}
     />
   )

@@ -3,7 +3,7 @@ import { Jot } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { JotOperations } from "@/components/jot-operations"
+import { JotOperations } from "@/components/jots/jot-operations"
 
 interface JotItemProps {
   jot: Pick<Jot, "id" | "title" | "published" | "createdAt">

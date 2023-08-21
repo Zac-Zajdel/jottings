@@ -5,8 +5,8 @@ import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
-import { TemplateItem } from "@/components/template-item"
-import { JotTemplateCreateButton } from "@/components/jot-template-create-button"
+import { TemplateItem } from "@/components/templates/template-item"
+import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 
 export const metadata = {
   title: "Templates",
