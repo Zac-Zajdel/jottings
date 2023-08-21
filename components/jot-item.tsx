@@ -14,7 +14,7 @@ export function JotItem({ jot }: JotItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
         <Link
-          href={`/editor/${jot.id}`}
+          href={`/jots/${jot.id}`}
           className="font-semibold hover:underline"
         >
           {jot.title}

@@ -45,7 +45,7 @@ export function JotTemplateCreateButton({
     // This forces a cache invalidation.
     router.refresh()
 
-    router.push(`/editor/${template.id}`)
+    router.push(`/templates/${template.id}`)
   }
 
   return (

@@ -45,7 +45,7 @@ export function JotCreateButton({
     // This forces a cache invalidation.
     router.refresh()
 
-    router.push(`/editor/${jot.id}`)
+    router.push(`/jots/${jot.id}`)
   }
 
   return (

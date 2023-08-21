@@ -83,7 +83,7 @@ export default function DocumentEditor({ jot }: EditorProps) {
       <div className="flex w-full items-center justify-between mb-2">
         <span className="flex space-x-10">
           <Link
-            href="/dashboard"
+            href="/jots"
             className={cn(buttonVariants({ variant: "ghost" }))}
           >
             <>
