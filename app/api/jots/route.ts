@@ -2,10 +2,12 @@ import { getServerSession } from "next-auth/next"
 import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { JotTemplate } from "@prisma/client"
 
 const jotCreateSchema = z.object({
   title: z.string(),
   content: z.string().optional(),
+  templateId: z.string().optional(),
 })
 
 export async function GET() {
@@ -15,7 +17,7 @@ export async function GET() {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
+    // TODO - Implement Pagination
     const jots = await db.jot.findMany({
       select: {
         id: true,
@@ -24,7 +26,7 @@ export async function GET() {
         createdAt: true,
       },
       where: {
-        authorId: user.id,
+        authorId: session.user.id,
       },
     })
 
@@ -43,11 +45,21 @@ export async function POST(req: Request) {
 
     const json = await req.json()
     const body = jotCreateSchema.parse(json)
+    
+    let template: JotTemplate|null = null
+    if (body.templateId) {
+      template = await db.jotTemplate.findFirst({
+        where: {
+          id: body.templateId,
+          authorId: session.user.id,
+        },
+      });
+    }
 
     const post = await db.jot.create({
       data: {
         title: body.title,
-        content: body.content,
+        content: template?.content ?? undefined,
         authorId: session.user.id,
       },
       select: {

@@ -15,6 +15,7 @@ export async function GET() {
       return new Response("Unauthorized", { status: 403 })
     }
 
+    // TODO - Implement Pagination
     const jotTemplates = await db.jotTemplate.findMany({
       select: {
         id: true,

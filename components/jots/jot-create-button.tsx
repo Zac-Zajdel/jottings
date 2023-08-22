@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button"
@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../plate-ui/dialog"
+import { JotTemplate } from "@prisma/client"
 
 interface JotCreateButtonProps extends ButtonProps {}
 
@@ -25,32 +26,22 @@ export function JotCreateButton({
   ...props
 }: JotCreateButtonProps) {
   const router = useRouter()
-  const [value, setValue] = useState("next.js")
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const templates = [
-    {
-      value: "next.js",
-      label: "Next.js",
-    },
-    {
-      value: "sveltekit",
-      label: "SvelteKit",
-    },
-    {
-      value: "nuxt.js",
-      label: "Nuxt.js",
-    },
-    {
-      value: "remix",
-      label: "Remix",
-    },
-    {
-      value: "astro",
-      label: "Astro",
-    },
-  ]
+  const [title, setTitle] = useState('Untitled')
+  const [templateId, setTemplateId] = useState('')
+  const [templates, setTemplates] = useState<JotTemplate[]>([]);
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      const response = await fetch("/api/jot_templates");
+      const data = await response.json();
+      setTemplates(data);
+    };
+
+    fetchTemplates();
+  }, []);
 
   async function onClick() {
     setIsLoading(true)
@@ -61,7 +52,8 @@ export function JotCreateButton({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: "Untitled Jot",
+        title: title,
+        templateId: templateId ?? null
       }),
     })
 
@@ -117,6 +109,8 @@ export function JotCreateButton({
               id="title"
               className="w-[400px]"
               placeholder="Title"
+              value={title}
+              onChange={(event) => setTitle(event?.target.value)}
               size={32}
             />
 
@@ -129,10 +123,10 @@ export function JotCreateButton({
                   variant="outline"
                   role="combobox"
                   onClick={() => setOpen(!open)}
-                  className="w-[400px] justify-between"
+                  className="w-[400px] justify-between mt-2"
                 >
-                  {value
-                    ? templates.find((framework) => framework.value === value)?.label
+                  {templateId
+                    ? templates.find((template) => template.id === templateId)?.title
                     : "Select Template..."}
                   <Icons.chevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
@@ -142,15 +136,16 @@ export function JotCreateButton({
                     {templates.map((template) => (
                       <li
                         className="relative cursor-pointer select-none py-2 pr-9 hover:bg-accent rounded-md"
+                        key={template.id}
                         onClick={() => {
-                          setValue(template.value)
+                          setTemplateId(template.id)
                           setOpen(false)
                         }}
                       >
                         <div className="flex items-center">
-                          <span className="font-normal ml-3 block truncate">{template.value}</span>
+                          <span className="font-normal ml-3 block truncate">{template.title}</span>
                         </div>
-                        {template.value === value ? (
+                        {template.id === templateId ? (
                           <span className="absolute inset-y-0 right-0 flex text-sm items-center pr-4">
                             <Icons.check className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </span>
