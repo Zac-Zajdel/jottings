@@ -4,9 +4,21 @@ import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { jotPatchSchema } from "@/lib/validations/jot"
 
+async function validateJotId(jotId: string) {
+  const session = await getServerSession(authOptions)
+  return !!await db.jot.findFirst({
+    where: {
+      id: jotId,
+      authorId: session?.user.id,
+    },
+  })
+}
+
 const routeContextSchema = z.object({
   params: z.object({
-    jotId: z.string(),
+    jotId: z.string().refine(validateJotId, val => ({
+      message: `${val} does not belong to the current user.`,
+    })),
   }),
 })
 
@@ -15,12 +27,7 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    const { params } = routeContextSchema.parse(context)
-
-    // Check if the user has access to this jot.
-    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
-      return new Response(null, { status: 403 })
-    }
+    const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
     const json = await req.json()
@@ -42,7 +49,6 @@ export async function PATCH(
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
-
     return new Response(null, { status: 500 })
   }
 }
@@ -52,12 +58,7 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    const { params } = routeContextSchema.parse(context)
-
-    // Check if the user has access to this jot.
-    if (!(await verifyCurrentUserHasAccessToJot(params.jotId))) {
-      return new Response(null, { status: 403 })
-    }
+    const { params } = await routeContextSchema.parseAsync(context)
 
     await db.jot.delete({
       where: {
@@ -70,19 +71,6 @@ export async function DELETE(
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
-
     return new Response(null, { status: 500 })
   }
-}
-
-async function verifyCurrentUserHasAccessToJot(jotId: string) {
-  const session = await getServerSession(authOptions)
-  const count = await db.jot.count({
-    where: {
-      id: jotId,
-      authorId: session?.user.id,
-    },
-  })
-
-  return count > 0
 }

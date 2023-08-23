@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Jot } from "@prisma/client"
+import { Jot, JotTemplate } from "@prisma/client"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,15 +24,15 @@ import {
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
-async function deleteJot(jotId: string) {
-  const response = await fetch(`/api/jots/${jotId}`, {
+async function deleteTemplate(templateId: string) {
+  const response = await fetch(`/api/jot_templates/${templateId}`, {
     method: "DELETE",
   })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your jot was not deleted. Please try again.",
+      description: "Your template was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -41,10 +41,10 @@ async function deleteJot(jotId: string) {
 }
 
 interface PostOperationsProps {
-  jot: Pick<Jot, "id" | "title">
+  template: Pick<JotTemplate, "id" | "title">
 }
 
-export function JotOperations({ jot }: PostOperationsProps) {
+export function TemplateOperations({ template }: PostOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
@@ -59,7 +59,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <Link
-              href={`/jots/${jot.id}`}
+              href={`/templates/${template.id}`}
               className="flex w-full"
             >
               Edit
@@ -82,7 +82,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this jot?
+              Are you sure you want to delete this template?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -95,14 +95,14 @@ export function JotOperations({ jot }: PostOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteJot(jot.id)
+                const deleted = await deleteTemplate(template.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
                   router.refresh()
                   toast({
-                    description: "Your Jot has been deleted.",
+                    description: "Your Template has been deleted.",
                   })
                 }
               }}

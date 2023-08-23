@@ -4,7 +4,7 @@ import * as z from "zod"
 import { getServerSession } from "next-auth"
 
 const jotTemplateCreateSchema = z.object({
-  title: z.string(),
+  title: z.string().min(2).max(191),
   content: z.string().optional(),
 })
 

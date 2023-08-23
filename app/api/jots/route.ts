@@ -5,7 +5,7 @@ import { db } from "@/lib/db"
 import { JotTemplate } from "@prisma/client"
 
 const jotCreateSchema = z.object({
-  title: z.string(),
+  title: z.string().min(2).max(191),
   content: z.string().optional(),
   templateId: z.string().optional(),
 })
@@ -72,7 +72,6 @@ export async function POST(req: Request) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
-
     return new Response(null, { status: 500 })
   }
 }

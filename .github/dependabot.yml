@@ -9,7 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-      day: "wednesday
+      day: "wednesday"
     assignees:
       - "Zac-Zajdel"
     labels:

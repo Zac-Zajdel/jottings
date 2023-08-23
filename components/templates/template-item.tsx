@@ -2,6 +2,7 @@ import Link from "next/link"
 import { JotTemplate } from "@prisma/client"
 import { formatDate } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
+import { TemplateOperations } from "./template-operations"
 
 interface templateItemProps {
   template: Pick<JotTemplate, "id" | "title" | "isPublished" | "createdAt">
@@ -23,6 +24,7 @@ export function TemplateItem({ template }: templateItemProps) {
           </p>
         </div>
       </div>
+      <TemplateOperations template={{ id: template.id, title: template.title }} />
     </div>
   )
 }

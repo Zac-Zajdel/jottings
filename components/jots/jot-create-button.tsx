@@ -29,19 +29,19 @@ export function JotCreateButton({
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const [title, setTitle] = useState('Untitled')
-  const [templateId, setTemplateId] = useState('')
-  const [templates, setTemplates] = useState<JotTemplate[]>([]);
+  const [title, setTitle] = useState("Untitled...")
+  const [templateId, setTemplateId] = useState("")
+  const [templates, setTemplates] = useState<JotTemplate[]>([])
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      const response = await fetch("/api/jot_templates");
-      const data = await response.json();
-      setTemplates(data);
-    };
+      const response = await fetch("/api/jot_templates")
+      const data = await response.json()
+      setTemplates(data)
+    }
 
-    fetchTemplates();
-  }, []);
+    fetchTemplates()
+  }, [])
 
   async function onClick() {
     setIsLoading(true)
@@ -53,7 +53,7 @@ export function JotCreateButton({
       },
       body: JSON.stringify({
         title: title,
-        templateId: templateId ?? null
+        templateId: templateId ?? null,
       }),
     })
 
@@ -102,9 +102,7 @@ export function JotCreateButton({
             <DialogTitle>Add Jot</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Label htmlFor="title">
-              Title
-            </Label>
+            <Label htmlFor="title">Title</Label>
             <Input
               id="title"
               className="w-[400px]"
@@ -116,43 +114,53 @@ export function JotCreateButton({
 
             <div>
               <div className="relative mt-2">
-                <Label>
-                  Template
-                </Label>
+                <Label>Template</Label>
                 <Button
                   variant="outline"
                   role="combobox"
                   onClick={() => setOpen(!open)}
-                  className="w-[400px] justify-between mt-2"
+                  className="mt-2 w-[400px] justify-between"
                 >
                   {templateId
-                    ? templates.find((template) => template.id === templateId)?.title
+                    ? templates.find((template) => template.id === templateId)
+                        ?.title
                     : "Select Template..."}
                   <Icons.chevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
 
                 {open && (
-                  <ul className="absolute z-10 mt-1 max-h-56 w-[400px] overflow-auto rounded-md bg-background py-1 ring-1 ring-black ring-opacity-5 focus:outline-none font-medium text-sm border">
-                    {templates.map((template) => (
-                      <li
-                        className="relative cursor-pointer select-none py-2 pr-9 hover:bg-accent rounded-md"
-                        key={template.id}
-                        onClick={() => {
-                          setTemplateId(template.id)
-                          setOpen(false)
-                        }}
-                      >
+                  <ul className="absolute z-10 mt-1 max-h-56 w-[400px] overflow-auto rounded-md border bg-background py-1 text-sm font-medium ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    {templates.length ? (
+                      templates.map((template) => (
+                        <li
+                          className="relative cursor-pointer select-none rounded-md py-2 pr-9 hover:bg-accent"
+                          key={template.id}
+                          onClick={() => {
+                            setTemplateId(template.id)
+                            setOpen(false)
+                          }}
+                        >
+                          <div className="flex items-center">
+                            <span className="ml-3 block truncate font-normal">
+                              {template.title}
+                            </span>
+                          </div>
+                          {template.id === templateId ? (
+                            <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-sm">
+                              <Icons.check className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </span>
+                          ) : null}
+                        </li>
+                      ))
+                    ) : (
+                      <li className="relative rounded-md py-2 pr-9">
                         <div className="flex items-center">
-                          <span className="font-normal ml-3 block truncate">{template.title}</span>
-                        </div>
-                        {template.id === templateId ? (
-                          <span className="absolute inset-y-0 right-0 flex text-sm items-center pr-4">
-                            <Icons.check className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          <span className="ml-3 block truncate font-normal">
+                            No Templates Found...
                           </span>
-                        ) : null
-                        }
+                        </div>
                       </li>
-                    ))}
+                    )}
                   </ul>
                 )}
               </div>
