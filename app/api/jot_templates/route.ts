@@ -3,19 +3,32 @@ import { db } from "@/lib/db"
 import * as z from "zod"
 import { getServerSession } from "next-auth"
 
+const getSchema = z.object({
+  search: z.string().optional(),
+})
+
 const jotTemplateCreateSchema = z.object({
   title: z.string().min(2).max(191),
   content: z.string().optional(),
 })
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    // TODO - Implement Pagination
+    /**
+     * TODO:
+     * 1. Validation with getSchema
+     * 2. Verify new URL() is correct way
+     * 3. Add Debounce hook on query in useEffect()
+     */
+
+    const url = new URL(req.url)
+    const search = url.searchParams.get("search")
+
     const jotTemplates = await db.jotTemplate.findMany({
       select: {
         id: true,
@@ -25,11 +38,17 @@ export async function GET() {
       },
       where: {
         authorId: session.user.id,
+        ...(search ? { title: { contains: search as string } } : {}),
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
+      take: 10,
     })
 
     return new Response(JSON.stringify(jotTemplates))
   } catch (error) {
+    console.log(error)
     return new Response(null, { status: 500 })
   }
 }

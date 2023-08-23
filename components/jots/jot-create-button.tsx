@@ -29,19 +29,22 @@ export function JotCreateButton({
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  const [searchTitle, setSearchTitle] = useState("")
   const [title, setTitle] = useState("Untitled...")
   const [templateId, setTemplateId] = useState("")
   const [templates, setTemplates] = useState<JotTemplate[]>([])
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      const response = await fetch("/api/jot_templates")
+      const response = await fetch("/api/jot_templates?" + new URLSearchParams({
+        search: searchTitle
+      }))
       const data = await response.json()
       setTemplates(data)
     }
 
     fetchTemplates()
-  }, [])
+  }, [searchTitle])
 
   async function onClick() {
     setIsLoading(true)
@@ -130,10 +133,17 @@ export function JotCreateButton({
 
                 {open && (
                   <ul className="absolute z-10 mt-1 max-h-56 w-[400px] overflow-auto rounded-md border bg-background py-1 text-sm font-medium ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <Input
+                      className="w-[400px focus-visible:ring-0 rounded-none border-t-0 border-x-0 mb-1"
+                      placeholder="Search for templates..."
+                      value={searchTitle}
+                      onChange={(event) => setSearchTitle(event?.target.value)}
+                      size={32}
+                    />
                     {templates.length ? (
                       templates.map((template) => (
                         <li
-                          className="relative cursor-pointer select-none rounded-md py-2 pr-9 hover:bg-accent"
+                          className="relative cursor-pointer select-none rounded-md py-2 mx-1 pr-9 hover:bg-accent"
                           key={template.id}
                           onClick={() => {
                             setTemplateId(template.id)
