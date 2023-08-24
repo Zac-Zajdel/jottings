@@ -35,7 +35,7 @@
     "@radix-ui/react-toggle-group": "^1.0.3",
     "@radix-ui/react-toolbar": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",
-    "@t3-oss/env-nextjs": "^0.2.2",
+    "@t3-oss/env-nextjs": "^0.6.1",
     "@typescript-eslint/parser": "^5.59.0",
     "@udecode/plate": "^23.3.1",
     "@udecode/plate-caption": "^23.3.1",
