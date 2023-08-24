@@ -17,6 +17,7 @@ import {
   DialogTrigger,
 } from "../plate-ui/dialog"
 import { JotTemplate } from "@prisma/client"
+import { useDebounce } from "@uidotdev/usehooks";
 
 interface JotCreateButtonProps extends ButtonProps {}
 
@@ -29,11 +30,16 @@ export function JotCreateButton({
   const [open, setOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const [searchTitle, setSearchTitle] = useState("")
+  // Form Data
   const [title, setTitle] = useState("Untitled...")
   const [templateId, setTemplateId] = useState("")
+
+  // <Input /> component title filtering
+  const [searchTitle, setSearchTitle] = useState("")
+  const debouncedSearchTerm = useDebounce(searchTitle, 500);
   const [templates, setTemplates] = useState<JotTemplate[]>([])
 
+  // When dropdown is opened or if search term is changed, query for templates
   useEffect(() => {
     const fetchTemplates = async () => {
       const response = await fetch("/api/jot_templates?" + new URLSearchParams({
@@ -43,10 +49,12 @@ export function JotCreateButton({
       setTemplates(data)
     }
 
-    fetchTemplates()
-  }, [searchTitle])
+    if (open) {
+      fetchTemplates();
+    }
+  }, [open, debouncedSearchTerm]);
 
-  async function onClick() {
+  async function createJot() {
     setIsLoading(true)
 
     const response = await fetch("/api/jots", {
@@ -178,7 +186,7 @@ export function JotCreateButton({
           </div>
 
           <DialogFooter>
-            <Button onClick={onClick}>Create</Button>
+            <Button onClick={createJot}>Create</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

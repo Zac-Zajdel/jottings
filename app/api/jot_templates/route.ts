@@ -3,10 +3,6 @@ import { db } from "@/lib/db"
 import * as z from "zod"
 import { getServerSession } from "next-auth"
 
-const getSchema = z.object({
-  search: z.string().optional(),
-})
-
 const jotTemplateCreateSchema = z.object({
   title: z.string().min(2).max(191),
   content: z.string().optional(),
@@ -19,13 +15,7 @@ export async function GET(req: Request) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    /**
-     * TODO:
-     * 1. Validation with getSchema
-     * 2. Verify new URL() is correct way
-     * 3. Add Debounce hook on query in useEffect()
-     */
-
+    // Grab query params on filter
     const url = new URL(req.url)
     const search = url.searchParams.get("search")
 
@@ -48,7 +38,6 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(jotTemplates))
   } catch (error) {
-    console.log(error)
     return new Response(null, { status: 500 })
   }
 }
@@ -80,7 +69,6 @@ export async function POST(req: Request) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
-
     return new Response(null, { status: 500 })
   }
 }

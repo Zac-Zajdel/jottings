@@ -37,7 +37,7 @@ export default function JotDetails({ jot }: JotProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: 'Jot Title',
+        title: jot.title,
         content: blocks,
       }),
     })

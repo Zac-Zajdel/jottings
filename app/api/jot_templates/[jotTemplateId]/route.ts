@@ -27,6 +27,7 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
@@ -37,6 +38,7 @@ export async function PATCH(
     await db.jotTemplate.update({
       where: {
         id: params.jotTemplateId,
+        authorId: session?.user.id,
       },
       data: {
         title: body.title,
@@ -58,11 +60,13 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
     const { params } = await routeContextSchema.parseAsync(context)
 
     await db.jotTemplate.delete({
       where: {
         id: params.jotTemplateId,
+        authorId: session?.user.id,
       },
     })
 

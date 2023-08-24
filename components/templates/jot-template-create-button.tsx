@@ -17,7 +17,7 @@ export function JotTemplateCreateButton({
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  async function onClick() {
+  async function createTemplate() {
     setIsLoading(true)
 
     const response = await fetch("/api/jot_templates", {
@@ -42,15 +42,13 @@ export function JotTemplateCreateButton({
 
     const template = await response.json()
 
-    // This forces a cache invalidation.
     router.refresh()
-
     router.push(`/templates/${template.id}`)
   }
 
   return (
     <Button
-      onClick={onClick}
+      onClick={createTemplate}
       className={cn(
         buttonVariants({ variant }),
         {
