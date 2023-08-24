@@ -37,7 +37,7 @@ export default function JotDetails({ jot }: JotProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: 'Jot Title',
+        title: jot.title,
         content: blocks,
       }),
     })
@@ -47,14 +47,14 @@ export default function JotDetails({ jot }: JotProps) {
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
-        description: "Your jot was not saved. Please try again.",
+        description: "Your Jot was not saved. Please try again.",
         variant: "destructive",
       })
     }
 
     router.refresh()
     return toast({
-      description: "Your jot has been saved.",
+      description: "Your Jot has been saved.",
     })
   }
 

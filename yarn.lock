@@ -2618,6 +2618,11 @@
     immer "^9.0.6"
     react-tracked "^1.7.9"
 
+"@uidotdev/usehooks@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@uidotdev/usehooks/-/usehooks-2.1.1.tgz#982edfb6d4719662572f5867e9224b30770ae2d4"
+  integrity sha512-sVJ1jXU62Edh22dREEa3mHcHnH2MUgokuzLw9guNS30ADCkdhYASNZxg2V8iB83iwY5H+jSeSxjqGaFvsRrNBQ==
+
 "@vercel/analytics@^1.0.0":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@vercel/analytics/-/analytics-1.0.1.tgz#38308a626c91866cb00a249c08bf65251e9b9d81"

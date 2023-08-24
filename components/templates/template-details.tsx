@@ -36,7 +36,7 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        title: 'Template Title',
+        title: jotTemplate.title,
         content: blocks,
       }),
     })
@@ -46,14 +46,14 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
-        description: "Your template was not saved. Please try again.",
+        description: "Your Template was not saved. Please try again.",
         variant: "destructive",
       })
     }
 
     router.refresh()
     return toast({
-      description: "Your template has been saved.",
+      description: "Your Template has been saved.",
     })
   }
 
