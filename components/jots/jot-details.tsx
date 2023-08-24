@@ -17,6 +17,8 @@ interface JotProps {
     id: string
     title: string
     content: MyValue
+    status: string
+    priority: string | null
     createdAt: Date
     published: boolean
   },
@@ -39,6 +41,8 @@ export default function JotDetails({ jot }: JotProps) {
       body: JSON.stringify({
         title: jot.title,
         content: blocks,
+        status: jot.status,
+        priority: jot.priority,
       }),
     })
 

@@ -33,7 +33,7 @@ export async function PATCH(
     const json = await req.json()
     const body = jotPatchSchema.parse(json)
 
-    // Update the jot.
+    // Update the Jot.
     await db.jot.update({
       where: {
         id: params.jotId,
@@ -41,6 +41,8 @@ export async function PATCH(
       data: {
         title: body.title,
         content: body.content,
+        status: body.status,
+        priority: body.priority,
       },
     })
 
