@@ -31,7 +31,7 @@ export function JotCreateButton({
   const [isLoading, setIsLoading] = useState(false)
 
   // Form Data
-  const [title, setTitle] = useState("Untitled...")
+  const [title, setTitle] = useState<string|undefined>(undefined)
   const [templateId, setTemplateId] = useState("")
 
   // <Input /> component title filtering
@@ -55,8 +55,12 @@ export function JotCreateButton({
   }, [open, debouncedSearchTerm]);
 
   async function createJot() {
-    setIsLoading(true)
+    if (title?.trim() === '' || title === undefined)
+      return toast({
+        title: "A Title Is Required",
+      })
 
+    setIsLoading(true)
     const response = await fetch("/api/jots", {
       method: "POST",
       headers: {
