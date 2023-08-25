@@ -31,7 +31,6 @@ export default function JotDetails({ jot }: JotProps) {
   const router = useRouter()
   const editorRef = useRef<PlateEditor>(null);
   const [isSaving, setIsSaving] = useState(false)
-
   const [title, setTitle] = useState(jot.title)
 
   async function save() {
@@ -81,7 +80,7 @@ export default function JotDetails({ jot }: JotProps) {
   
       {/* TODO - Make into components */}
       <div className="pl-2.5">
-        <div className="flex w-100 pb-3">
+        {/* <div className="flex w-100 pb-3">
           <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
             <Icons.status className="mr-2 h-4 w-4" />
             <div className="whitespace-nowrap overflow-hidden text-ellipsis">
@@ -99,7 +98,7 @@ export default function JotDetails({ jot }: JotProps) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="flex w-100 pb-3">
           <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
