@@ -55,7 +55,7 @@ export default async function TemplatesPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Templates yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotTemplateCreateButton variant="outline" />
+            <JotTemplateCreateButton />
           </EmptyPlaceholder>
         )}
       </div>

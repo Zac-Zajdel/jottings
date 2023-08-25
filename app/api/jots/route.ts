@@ -23,6 +23,8 @@ export async function GET() {
         id: true,
         title: true,
         published: true,
+        status: true,
+        priority: true,
         createdAt: true,
       },
       where: {

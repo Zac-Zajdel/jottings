@@ -2,7 +2,6 @@ import { getServerSession } from "next-auth"
 import * as z from "zod"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { jotPatchSchema } from "@/lib/validations/jot"
 
 async function validateTemplateId(jotTemplateId: string) {
   const session = await getServerSession(authOptions)
@@ -22,6 +21,11 @@ const routeContextSchema = z.object({
   }),
 })
 
+const templatePatchSchema = z.object({
+  title: z.string().min(2).max(191),
+  content: z.any().optional(),
+})
+
 export async function PATCH(
   req: Request,
   context: z.infer<typeof routeContextSchema>
@@ -32,7 +36,7 @@ export async function PATCH(
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = jotPatchSchema.parse(json)
+    const body = templatePatchSchema.parse(json)
 
     // Update the template
     await db.jotTemplate.update({

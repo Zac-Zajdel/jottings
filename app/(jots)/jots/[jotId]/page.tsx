@@ -12,6 +12,9 @@ async function getJotForUser(jotId: Jot["id"], userId: User["id"]) {
       id: jotId,
       authorId: userId,
     },
+    include: {
+      author: true,
+    },
   })
 }
 
@@ -37,8 +40,11 @@ export default async function EditorPage({ params }: EditorPageProps) {
           id: jot.id,
           title: jot.title,
           content: jot.content as MyValue,
+          status: jot.status,
+          priority: jot.priority,
           createdAt: jot.createdAt,
           published: jot.published,
+          author: jot.author,
         }}
       />
     </div>

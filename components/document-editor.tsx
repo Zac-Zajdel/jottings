@@ -30,7 +30,7 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
   const containerRef = useRef(null);
 
   return (
-    <div className="border border-gray-400 border-opacity-20">
+    <div className="border rounded-md border-gray-400 border-opacity-20">
       <div className="grid w-full gap-5">
         <PlateProvider
           plugins={plugins}
@@ -59,7 +59,7 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
                     autoFocus: true,
                     className: cn(
                       'relative max-w-full leading-[1.4] outline-none [&_strong]:font-bold overflow-y-hidden',
-                      '!min-h-[600px] px-[43px]'
+                      '!min-h-[600px] px-[15px]'
                     ),
                   }}
                 >

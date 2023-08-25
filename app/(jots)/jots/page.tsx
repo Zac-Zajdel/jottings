@@ -57,7 +57,7 @@ export default async function JotsPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Jots yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotCreateButton />
           </EmptyPlaceholder>
         )}
       </div>

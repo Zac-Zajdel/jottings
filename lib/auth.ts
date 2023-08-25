@@ -32,7 +32,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (token?.id) {
         return {
-          id: token.id,
+        id: token.id,
           name: token.name,
           email: token.email,
           picture: token.picture,

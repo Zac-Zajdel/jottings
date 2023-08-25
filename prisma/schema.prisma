@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -73,12 +70,14 @@ model VerificationToken {
 
 model Jot {
   id        String   @id @default(cuid())
+  authorId  String
   title     String
   content   Json?
+  status    String   @default("Draft")
+  priority  String?
   published Boolean  @default(false)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
-  authorId  String
 
   author User @relation(fields: [authorId], references: [id])
 
