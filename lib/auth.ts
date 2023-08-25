@@ -39,9 +39,16 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
-      const dbUser = await db.user.findFirst({
+      const dbUser = await db.user.upsert({
         where: {
+          email: token.email as string,
+        },
+        update: {},
+        create: {
+          id: token.id,
           email: token.email,
+          name: token.name,
+          image: token.picture,
         },
       })
 
