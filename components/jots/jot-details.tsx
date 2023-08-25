@@ -69,34 +69,32 @@ export default function JotDetails({ jot }: JotProps) {
 
   return (
     <div>
-      <h1
-        className="max-w-full w-full whitespace-pre-wrap break-words mb-4 text-4xl font-semibold outline-none"
-        contentEditable="true"
-        onInput={(e) => setTitle((e.target as HTMLDivElement).textContent ?? jot.title)}
-      >
-        { jot.title }
-      </h1>
+      <div className="pl-2.5">
+        <h1
+          className="max-w-full whitespace-pre-wrap break-words mb-4 text-4xl font-semibold outline-none"
+          contentEditable="true"
+          onInput={(e) => setTitle((e.target as HTMLDivElement).textContent ?? jot.title)}
+        >
+          { jot.title }
+        </h1>
+      </div>
   
       {/* TODO - Make into components */}
-      <div>
+      <div className="pl-2.5">
         <div className="flex w-100 pb-3">
           <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
-            <Icons.user className="mr-2 h-4 w-4" />
+            <Icons.status className="mr-2 h-4 w-4" />
             <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-              Created by
+              Status:
             </div>
           </div>
-          <div className="flex ml-4 h-100 flex-auto flex-col min-w-0">
+          <div className="flex h-100 flex-auto flex-col min-w-0">
             <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
               <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
                 <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
-                  {/* <UserAvatar
-                    user={{ name: jot.author.name || null, image: jot.author.image || null }}
-                    className="h-5 w-5 mr-2"
-                  />
                   <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    { jot.author.name }
-                  </div> */}
+                    Draft
+                  </div>
                 </div>
               </div>
             </div>
@@ -107,10 +105,34 @@ export default function JotDetails({ jot }: JotProps) {
           <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
             <Icons.user className="mr-2 h-4 w-4" />
             <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-              Last Updated
+              Created by:
             </div>
           </div>
-          <div className="flex ml-4 h-100 flex-auto flex-col min-w-0">
+          <div className="flex h-100 flex-auto flex-col min-w-0">
+            <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
+              <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
+                <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
+                  <UserAvatar
+                    user={{ name: jot.author.name || null, image: jot.author.image || null }}
+                    className="h-5 w-5 mr-2"
+                  />
+                  <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    { jot.author.name }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex w-100 pb-3">
+          <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
+            <Icons.calendar className="mr-2 h-4 w-4" />
+            <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+              Last Updated:
+            </div>
+          </div>
+          <div className="flex h-100 flex-auto flex-col min-w-0">
             <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
               <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
                 <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
@@ -124,7 +146,7 @@ export default function JotDetails({ jot }: JotProps) {
         </div>
       </div>
 
-      <div className="flex w-full items-center justify-between mb-2">
+      <div className="flex w-full items-center justify-between mb-2 pt-2">
         <span className="flex space-x-10">
           <Link
             href="/jots"

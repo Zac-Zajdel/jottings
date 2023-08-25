@@ -32,16 +32,23 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (token?.id) {
         return {
-          id: token.id,
+        id: token.id,
           name: token.name,
           email: token.email,
           picture: token.picture,
         }
       }
 
-      const dbUser = await db.user.findFirst({
+      const dbUser = await db.user.upsert({
         where: {
+          email: token.email as string,
+        },
+        update: {},
+        create: {
+          id: token.id,
           email: token.email,
+          name: token.name,
+          image: token.picture,
         },
       })
 
