@@ -11,6 +11,8 @@ import { toast } from "@/components/ui/use-toast"
 import { MyValue } from '@/types/plate-types';
 import { Icons } from '../icons';
 import DocumentEditor from '../document-editor';
+import { Icon } from '@radix-ui/react-select';
+import { UserAvatar } from '../user-avatar';
 
 interface JotProps {
   jot: {
@@ -64,11 +66,78 @@ export default function JotDetails({ jot }: JotProps) {
 
   return (
     <div>
-      <div className="flex w-full justify-center items-center mb-2">
+      <div className="flex w-full mb-4 text-4xl font-bold">
         { jot.title }
       </div>
-      <div className="flex w-full justify-center items-center text-sm text-muted-foreground">
-        {formatDate(jot.createdAt?.toDateString())}
+  
+      {/* Cleanup */}
+      <div className="m-0">
+        <div className="flex flex-col">
+          <div className="flex w-100 pb-3">
+            <div className="flex items-center h-[34px] w-[160px]">
+              <div className="flex h-full w-full">
+                <div className="flex items-center leading-5 min-w-0 text-sm">
+                  <Icons.user className="mr-2 h-4 w-4" />
+                  <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    Created by
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex ml-4 h-100 flex-auto flex-col min-w-0">
+              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
+                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
+                  <div className="flex flex-wrap gap-2">
+                    <div
+                      className="flex items-center flex-shrink-0 min-w-0 h-[20px]"
+                    >
+                      <div
+                        className="flex items-center min-w-0"
+                      >
+                        <div className="mr-2">
+                          <UserAvatar
+                            user={{ name:'Zajdel ' || null, image: "https://lh3.googleusercontent.com/a/AAcHTteNPJzFtVqq3NdvRk7Le2777-8wVcfVvAB5IFsnz9kZXrs=s96-c" || null }}
+                            className="h-5 w-5"
+                          />
+                        </div>
+                        <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                          Zac Zajdel
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-100 pb-3">
+            <div className="flex items-center h-[34px] w-[160px]">
+              <div className="flex h-full w-full">
+                <div className="flex items-center leading-5 min-w-0 text-sm">
+                  <Icons.user className="mr-2 h-4 w-4" />
+                  <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                    Last Updated
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex ml-4 h-100 flex-auto flex-col min-w-0">
+              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
+                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
+                  <div className="flex flex-wrap gap-2">
+                    <div className="flex items-center flex-shrink-0 min-w-0 h-[20px]">
+                      <div className="flex items-center min-w-0">
+                        <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                          {formatDate(jot.createdAt?.toDateString())}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex w-full items-center justify-between mb-2">
