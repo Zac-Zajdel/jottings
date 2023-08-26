@@ -20,7 +20,7 @@ export default async function JotsLayout({
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6">
       <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="flex h-16 items-center justify-between py-4 px-10">
+        <div className="flex h-16 items-center justify-between py-4 px-5">
           <MainNav items={dashboardConfig.mainNav} />
         </div>
       </header>

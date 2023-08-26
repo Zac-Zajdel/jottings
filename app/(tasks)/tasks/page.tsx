@@ -56,7 +56,7 @@ export default async function TasksPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Tasks yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotCreateButton />
           </EmptyPlaceholder>
         )}
       </div>

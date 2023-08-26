@@ -56,7 +56,7 @@ export default async function ProjectsPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Projects yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotCreateButton />
           </EmptyPlaceholder>
         )}
       </div>
