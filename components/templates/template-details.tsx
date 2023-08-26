@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { PlateEditor } from '@udecode/plate-common';
 import { formatDate } from "@/lib/utils"
 import { cn } from '@/lib/utils';
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
@@ -45,9 +45,8 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
       }),
     })
 
-    setIsSaving(false)
-
     if (!response?.ok) {
+      setIsSaving(false)
       return toast({
         title: "Something went wrong.",
         description: "Your Template was not saved. Please try again.",
@@ -56,6 +55,7 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
     }
 
     router.refresh()
+    setIsSaving(false)
     return toast({
       description: "Your Template has been saved.",
     })
@@ -123,7 +123,7 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
         <span className="flex space-x-10">
           <Link
             href="/templates"
-            className={cn(buttonVariants({ variant: "ghost" }))}
+            className={cn(buttonVariants({ variant: "secondary" }))}
           >
             <>
               <Icons.chevronLeft className="mr-2 h-4 w-4" />
@@ -131,15 +131,18 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
             </>
           </Link>
         </span>
-        <button
-          className={cn(buttonVariants({ variant: "ghost" }))}
+        <Button
+          className={cn(buttonVariants({ variant: "secondary" }))}
+          disabled={isSaving}
           onClick={save}
         >
-          {isSaving && (
+          {isSaving ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Icons.save className="mr-2 h-4 w-4" />
           )}
           <span>Save</span>
-        </button>
+        </Button>
       </div>
 
       <DocumentEditor

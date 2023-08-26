@@ -6,9 +6,16 @@ import { cn } from "@/lib/utils"
 import { Button, ButtonProps, buttonVariants } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../plate-ui/dialog"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../plate-ui/dialog"
 
 interface JotTemplateCreateButtonProps extends ButtonProps {}
 
@@ -38,9 +45,8 @@ export function JotTemplateCreateButton({
       }),
     })
 
-    setIsLoading(false)
-
     if (!response?.ok) {
+      setIsLoading(false)
       return toast({
         title: "Something went wrong.",
         description: "Your Template was not created. Please try again.",
@@ -49,7 +55,6 @@ export function JotTemplateCreateButton({
     }
 
     const template = await response.json()
-
     router.refresh()
     router.push(`/templates/${template.id}`)
   }
@@ -93,8 +98,19 @@ export function JotTemplateCreateButton({
               size={32}
             />
           </div>
+
           <DialogFooter>
-            <Button onClick={createTemplate}>Create</Button>
+            <Button
+              disabled={isLoading}
+              onClick={createTemplate}
+            >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.add className="mr-2 h-4 w-4" />
+              )}
+              Create
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
