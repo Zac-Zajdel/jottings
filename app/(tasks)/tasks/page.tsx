@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
@@ -16,7 +15,6 @@ export const metadata = {
 
 export default async function TasksPage() {
   const user = await getCurrentUser()
-
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
@@ -37,7 +35,7 @@ export default async function TasksPage() {
   })
 
   return (
-    <PageShell>
+    <PageShell className="gap-4">
       <PageHeader
         heading="Tasks"
         text="Create and manage Tasks."
@@ -46,7 +44,7 @@ export default async function TasksPage() {
       </PageHeader>
       <div>
         {jots?.length ? (
-          <div className="divide-y divide-border rounded-md border">
+          <div className="divide-y divide-border rounded-md border mb-12">
             {jots.map((jot) => (
               <JotItem key={jot.id} jot={jot} />
             ))}
@@ -58,7 +56,7 @@ export default async function TasksPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any Tasks yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotCreateButton />
           </EmptyPlaceholder>
         )}
       </div>

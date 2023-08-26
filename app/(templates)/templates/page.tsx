@@ -10,6 +10,7 @@ import { JotTemplateCreateButton } from "@/components/templates/jot-template-cre
 
 export const metadata = {
   title: "Templates",
+  description: "Create and manage Templates.",
 }
 
 export default async function TemplatesPage() {
@@ -34,7 +35,7 @@ export default async function TemplatesPage() {
   })
 
   return (
-    <PageShell>
+    <PageShell className="gap-4">
       <PageHeader
         heading="Templates"
         text="Create and manage Templates."
@@ -43,7 +44,7 @@ export default async function TemplatesPage() {
       </PageHeader>
       <div>
         {templates?.length ? (
-          <div className="divide-y divide-border rounded-md border">
+          <div className="divide-y divide-border rounded-md border mb-12">
             {templates.map((template) => (
               <TemplateItem key={template.id} template={template} />
             ))}

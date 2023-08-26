@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
@@ -11,11 +10,11 @@ import { PageShell } from "@/components/page-shell"
 
 export const metadata = {
   title: "Dashboard",
+  description: "Create and manage Dashboard.",
 }
 
 export default async function DashboardPage() {
   const user = await getCurrentUser()
-
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
@@ -36,7 +35,7 @@ export default async function DashboardPage() {
   })
 
   return (
-    <PageShell>
+    <PageShell className="gap-4">
       <PageHeader
         heading="Jots"
         text="Create and manage jots."
@@ -45,7 +44,7 @@ export default async function DashboardPage() {
       </PageHeader>
       <div>
         {jots?.length ? (
-          <div className="divide-y divide-border rounded-md border">
+          <div className="divide-y divide-border rounded-md border mb-12">
             {jots.map((jot) => (
               <JotItem key={jot.id} jot={jot} />
             ))}
@@ -57,7 +56,7 @@ export default async function DashboardPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any jots yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <JotCreateButton variant="outline" />
+            <JotCreateButton />
           </EmptyPlaceholder>
         )}
       </div>

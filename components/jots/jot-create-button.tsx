@@ -72,9 +72,8 @@ export function JotCreateButton({
       }),
     })
 
-    setIsLoading(false)
-
     if (!response?.ok) {
+      setIsLoading(false)
       return toast({
         title: "Something went wrong.",
         description: "Your jot was not created. Please try again.",
@@ -83,7 +82,6 @@ export function JotCreateButton({
     }
 
     const jot = await response.json()
-
     router.refresh()
     router.push(`/jots/${jot.id}`)
   }
@@ -108,7 +106,7 @@ export function JotCreateButton({
             ) : (
               <Icons.add className="mr-2 h-4 w-4" />
             )}
-            New jot
+            New Jot
           </Button>
         </DialogTrigger>
 
@@ -190,7 +188,17 @@ export function JotCreateButton({
           </div>
 
           <DialogFooter>
-            <Button onClick={createJot}>Create</Button>
+            <Button
+              disabled={isLoading}
+              onClick={createJot}
+            >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.add className="mr-2 h-4 w-4" />
+              )}
+              Create
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
