@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-
 import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 import { PageHeader } from "@/components/page-header"
@@ -13,13 +12,12 @@ export const metadata = {
 
 export default async function SettingsPage() {
   const user = await getCurrentUser()
-
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
   return (
-    <PageShell>
+    <PageShell className="gap-4">
       <PageHeader
         heading="Settings"
         text="Manage account and website settings."
