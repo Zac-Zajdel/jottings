@@ -36,7 +36,7 @@ export default async function JotsPage() {
   })
 
   return (
-    <PageShell>
+    <PageShell className="gap-4">
       <PageHeader
         heading="Jots"
         text="Create and manage Jots."
@@ -45,7 +45,7 @@ export default async function JotsPage() {
       </PageHeader>
       <div>
         {jots?.length ? (
-          <div className="divide-y divide-border rounded-md border">
+          <div className="divide-y divide-border rounded-md border mb-12">
             {jots.map((jot) => (
               <JotItem key={jot.id} jot={jot} />
             ))}
