@@ -5,6 +5,7 @@ interface Crumb {
   link: string
   title: string
   icon?: string
+  isDynamic?: boolean
   isCurrentPage?: boolean
 }
 
@@ -23,7 +24,7 @@ export function PageBreadcrumbs({ crumbs, children }: PageBreadcrumbsProps) {
               const Icon = Icons[crumb.icon || "arrowRight"]
 
               return (
-                <BreadcrumbItem {...crumb}>
+                <BreadcrumbItem {...crumb} className={crumb.isDynamic ? 'truncate' : ''}>
                   <BreadcrumbLink
                     className={crumb.icon ? '' : 'mt-[1px]'}
                     href={crumb.link}
@@ -31,7 +32,7 @@ export function PageBreadcrumbs({ crumbs, children }: PageBreadcrumbsProps) {
                     {crumb.icon ? (
                       <Icon className="mr-1 h-4 w-4" />
                     ) : (
-                      crumb.title
+                      <span>{crumb.title}</span>
                     )}
                   </BreadcrumbLink>
                 </BreadcrumbItem>

@@ -77,12 +77,13 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
           {
             link: '/templates/' + jotTemplate.id,
             title: title,
+            isDynamic: true,
             isCurrentPage: true,
           },
         ]}
       >
         <Button
-          className={cn(buttonVariants({ variant: "secondary" }))}
+          className={cn('pl-10', buttonVariants({ variant: "secondary" }))}
           disabled={isSaving}
           onClick={save}
         >

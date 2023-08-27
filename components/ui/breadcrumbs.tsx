@@ -34,7 +34,7 @@ export const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
 
     return (
       <nav
-        className={cn("relative break-words", className)}
+        className={cn("relative break-words w-[92%]", className)}
         aria-label="breadcrumb"
         {...props}
         ref={forwardedRef}
@@ -117,7 +117,7 @@ export const BreadcrumbLink = React.forwardRef<
   return (
     <Comp
       className={cn(
-        "text-sm font-medium underline-offset-4 aria-[current]:opacity-60 [&:not([aria-current])]:hover:underline",
+        "text-sm font-medium truncate underline-offset-4 aria-[current]:opacity-60 [&:not([aria-current])]:hover:underline",
         className
       )}
       aria-current={isCurrentPage ? "page" : undefined}

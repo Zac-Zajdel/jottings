@@ -81,12 +81,13 @@ export default function JotDetails({ jot }: JotProps) {
           {
             link: '/jots/' + jot.id,
             title: title,
+            isDynamic: true,
             isCurrentPage: true,
           },
         ]}
       >
         <Button
-          className={cn(buttonVariants({ variant: "secondary" }))}
+          className={cn('ml-10', buttonVariants({ variant: "secondary" }))}
           disabled={isSaving}
           onClick={save}
         >
