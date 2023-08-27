@@ -41,6 +41,7 @@ export default async function JotsPage() {
           {
             link: '/jots',
             title: 'Home',
+            icon: 'home',
           },
           {
             link: '/jots',
@@ -64,7 +65,7 @@ export default async function JotsPage() {
             ))}
           </div>
         ) : (
-          <EmptyPlaceholder>
+          <EmptyPlaceholder className="mx-8">
             <EmptyPlaceholder.Icon name="file" />
             <EmptyPlaceholder.Title>No Jots created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>

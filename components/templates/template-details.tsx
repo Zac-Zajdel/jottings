@@ -68,6 +68,7 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
           {
             link: '/templates',
             title: 'Home',
+            icon: 'home',
           },
           {
             link: '/templates',

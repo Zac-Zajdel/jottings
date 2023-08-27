@@ -72,6 +72,7 @@ export default function JotDetails({ jot }: JotProps) {
           {
             link: '/jots',
             title: 'Home',
+            icon: 'home',
           },
           {
             link: '/jots',

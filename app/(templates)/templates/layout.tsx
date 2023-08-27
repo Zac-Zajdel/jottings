@@ -19,8 +19,8 @@ export default async function TemplateLayout({
 
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6">
-      <div className="grid flex-1 md:grid-cols-[200px_1fr] h-[1vh]">
-        <aside className="hidden w-[200px] flex-col px-2 md:flex">
+      <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
+        <aside className="hidden w-[215px] flex-col px-2 md:flex">
           <header className="sticky top-0 z-40 bg-background">
             <div className="flex h-14 items-center justify-between py-4 px-3">
               <MainNav items={dashboardConfig.mainNav} />

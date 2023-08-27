@@ -1,15 +1,30 @@
 import { CardSkeleton } from "@/components/card-skeleton"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
 
 export default function SettingsLoading() {
   return (
-    <PageShell>
+    <PageShell className="gap-1">
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/settings',
+            title: 'Home',
+            icon: 'home',
+          },
+          {
+            link: '/settings',
+            title: 'Settings',
+          },
+        ]}
+      />
+
       <PageHeader
         heading="Settings"
         text="Manage account and website settings."
       />
-      <div className="grid gap-10">
+
+      <div className="grid gap-10 mx-8">
         <CardSkeleton />
       </div>
     </PageShell>

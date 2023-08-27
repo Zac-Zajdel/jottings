@@ -100,7 +100,7 @@ export default async function PostPage({ params }: PostPageProps) {
         href="/blog"
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "absolute left-[-200px] top-14 hidden xl:inline-flex"
+          "absolute left-[-215px] top-14 hidden xl:inline-flex"
         )}
       >
         <Icons.chevronLeft className="mr-2 h-4 w-4" />

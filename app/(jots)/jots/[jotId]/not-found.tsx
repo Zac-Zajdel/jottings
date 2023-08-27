@@ -14,7 +14,7 @@ export default function NotFound() {
         href="/jots"
         className={buttonVariants({ variant: "ghost" })}
       >
-        Go to Dashboard
+        Go to List View
       </Link>
     </EmptyPlaceholder>
   )

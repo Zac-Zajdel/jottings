@@ -41,6 +41,7 @@ export default async function TemplatesPage() {
           {
             link: '/templates',
             title: 'Home',
+            icon: 'home',
           },
           {
             link: '/templates',
@@ -64,7 +65,7 @@ export default async function TemplatesPage() {
             ))}
           </div>
         ) : (
-          <EmptyPlaceholder>
+          <EmptyPlaceholder className="mx-8">
             <EmptyPlaceholder.Icon name="template" />
             <EmptyPlaceholder.Title>No Templates created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
