@@ -5,7 +5,6 @@ import { PlateEditor } from '@udecode/plate-common';
 import { formatDate } from "@/lib/utils"
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from "@/components/ui/button"
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from "@/components/ui/use-toast"
 import { MyValue } from '@/types/plate-types';
@@ -13,7 +12,7 @@ import { Icons } from '../icons';
 import DocumentEditor from '../document-editor';
 import { UserAvatar } from '../user-avatar';
 import { User } from '@prisma/client';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '../ui/breadcrumbs';
+import { PageBreadcrumbs } from '../page-breadcrumbs';
 
 interface JotProps {
   jot: {
@@ -69,21 +68,35 @@ export default function JotDetails({ jot }: JotProps) {
 
   return (
     <div>
-      <header className="sticky top-0 z-40 bg-background border-b">
-        <div className="flex h-14 items-center justify-between mx-4">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/dashboard">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/jots">Jots</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink>{title}</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </div>
-      </header>
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/jots',
+            title: 'Home',
+          },
+          {
+            link: '/jots',
+            title: 'Jots',
+          },
+          {
+            link: '/jots/' + jot.id,
+            title: title,
+            isCurrentPage: true,
+          },
+        ]}
+      >
+        <Button
+          className={cn(buttonVariants({ variant: "secondary" }))}
+          disabled={isSaving}
+          onClick={save}
+        >
+          {isSaving ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <Icons.save className="mr-2 h-4 w-4" />
+          )}
+          <span>Save</span>
+        </Button>
+      </PageBreadcrumbs>
 
       <div className="pt-6 mx-8">
         <div>
@@ -96,7 +109,6 @@ export default function JotDetails({ jot }: JotProps) {
           </h1>
         </div>
     
-        {/* TODO - Make into components */}
         <div>
           <div className="flex w-100 pb-3">
             <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
@@ -143,32 +155,6 @@ export default function JotDetails({ jot }: JotProps) {
           </div>
         </div>
       </div>
-
-      {/* <div className="flex w-full items-center justify-between mb-2 pt-2">
-        <span className="flex space-x-10">
-          <Link
-            href="/jots"
-            className={cn(buttonVariants({ variant: "secondary" }))}
-          >
-            <>
-              <Icons.chevronLeft className="mr-2 h-4 w-4" />
-              Back
-            </>
-          </Link>
-        </span>
-        <Button
-          className={cn(buttonVariants({ variant: "secondary" }))}
-          disabled={isSaving}
-          onClick={save}
-        >
-          {isSaving ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Icons.save className="mr-2 h-4 w-4" />
-          )}
-          <span>Save</span>
-        </Button>
-      </div> */}
 
       <DocumentEditor
         editorRef={editorRef}

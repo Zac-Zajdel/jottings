@@ -10,7 +10,7 @@ export function PageNav({
 }: PageNavProps) {
   return (
     <div className={cn("sticky top-0 z-auto bg-background", className)} {...props}>
-      <div className="flex h-16 items-center justify-between py-4 px-3">
+      <div className="flex h-14 items-center justify-between py-4 px-3">
         {children}
       </div>
     </div>
