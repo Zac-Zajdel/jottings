@@ -1,13 +1,10 @@
 import { notFound } from "next/navigation"
 import { allAuthors, allPosts } from "contentlayer/generated"
-
 import { Mdx } from "@/components/mdx-components"
-
 import "@/styles/mdx.css"
 import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-
 import { env } from "@/env.mjs"
 import { absoluteUrl, cn, formatDate } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -97,14 +94,14 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <article className="container relative max-w-3xl py-6 lg:py-10">
       <Link
-        href="/blog"
+        href="/changelog"
         className={cn(
           buttonVariants({ variant: "ghost" }),
           "absolute left-[-215px] top-14 hidden xl:inline-flex"
         )}
       >
         <Icons.chevronLeft className="mr-2 h-4 w-4" />
-        See all posts
+        See all releases
       </Link>
       <div>
         {post.date && (
@@ -159,9 +156,9 @@ export default async function PostPage({ params }: PostPageProps) {
       <Mdx code={post.body.code} />
       <hr className="mt-12" />
       <div className="flex justify-center py-6 lg:py-10">
-        <Link href="/blog" className={cn(buttonVariants({ variant: "ghost" }))}>
+        <Link href="/changelog" className={cn(buttonVariants({ variant: "ghost" }))}>
           <Icons.chevronLeft className="mr-2 h-4 w-4" />
-          See all posts
+          See all releases
         </Link>
       </div>
     </article>

@@ -66,7 +66,7 @@ export const Guide = defineDocumentType(() => ({
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `blog/**/*.mdx`,
+  filePathPattern: `changelog/**/*.mdx`,
   contentType: "mdx",
   fields: {
     title: {

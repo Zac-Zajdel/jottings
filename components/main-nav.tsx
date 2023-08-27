@@ -12,16 +12,17 @@ import { MobileNav } from "@/components/mobile-nav"
 interface MainNavProps {
   items?: MainNavItem[]
   children?: React.ReactNode
+  isLogin?: boolean
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ items, children, isLogin }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
   const [showMobileMenu, setShowMobileMenu] = useState(false)
 
   return (
     <div className="flex gap-6 md:gap-10">
       <Link
-        href="/jots"
+        href={isLogin ? '/' : '/jots'}
         className="hidden items-center space-x-2 md:flex"
       >
         <span className="hidden font-bold sm:inline-block text-2xl">
