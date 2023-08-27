@@ -30,7 +30,7 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
   const containerRef = useRef(null);
 
   return (
-    <div className="border rounded-md border-gray-400 border-opacity-20">
+    <div className="border rounded-md border-gray-400 border-opacity-20 mx-8">
       <div className="grid w-full gap-5">
         <PlateProvider
           plugins={plugins}

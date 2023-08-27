@@ -1,3 +1,4 @@
+import * as React from "react"
 import { ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { env } from "@/env.mjs"
@@ -13,6 +14,12 @@ export function formatDate(input: string | number): string {
     day: "numeric",
     year: "numeric",
   })
+}
+
+export function getValidChildren(children: React.ReactNode) {
+  return React.Children.toArray(children).filter((child) =>
+    React.isValidElement(child)
+  ) as React.ReactElement[]
 }
 
 export function absoluteUrl(path: string) {
