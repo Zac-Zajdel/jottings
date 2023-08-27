@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
 import { TemplateItem } from "@/components/templates/template-item"
 import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 
 export const metadata = {
   title: "Templates",
@@ -35,22 +36,36 @@ export default async function TemplatesPage() {
   })
 
   return (
-    <PageShell className="gap-4">
+    <PageShell className="gap-1">
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/templates',
+            title: 'Home',
+            icon: 'home',
+          },
+          {
+            link: '/templates',
+            title: 'Templates',
+          },
+        ]}
+      />
+
       <PageHeader
         heading="Templates"
         text="Create and manage Templates."
       >
         <JotTemplateCreateButton />
       </PageHeader>
+
       <div>
         {templates?.length ? (
-          <div className="divide-y divide-border rounded-md border mb-12">
+          <div className="divide-y divide-border rounded-md border mx-8 mb-12">
             {templates.map((template) => (
               <TemplateItem key={template.id} template={template} />
             ))}
           </div>
         ) : (
-          <EmptyPlaceholder>
+          <EmptyPlaceholder className="mx-8">
             <EmptyPlaceholder.Icon name="template" />
             <EmptyPlaceholder.Title>No Templates created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>

@@ -7,6 +7,7 @@ import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 
 export const metadata = {
   title: "Jots",
@@ -35,22 +36,36 @@ export default async function JotsPage() {
   })
 
   return (
-    <PageShell className="gap-4">
+    <PageShell className="gap-1">
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/jots',
+            title: 'Home',
+            icon: 'home',
+          },
+          {
+            link: '/jots',
+            title: 'Jots',
+          },
+        ]}
+      />
+
       <PageHeader
         heading="Jots"
         text="Create and manage Jots."
       >
         <JotCreateButton />
       </PageHeader>
+
       <div>
         {jots?.length ? (
-          <div className="divide-y divide-border rounded-md border mb-12">
+          <div className="divide-y divide-border rounded-md border mx-8 mb-12">
             {jots.map((jot) => (
               <JotItem key={jot.id} jot={jot} />
             ))}
           </div>
         ) : (
-          <EmptyPlaceholder>
+          <EmptyPlaceholder className="mx-8">
             <EmptyPlaceholder.Icon name="file" />
             <EmptyPlaceholder.Title>No Jots created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>

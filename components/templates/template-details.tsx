@@ -13,6 +13,7 @@ import { Icons } from '../icons';
 import DocumentEditor from '../document-editor';
 import { UserAvatar } from '../user-avatar';
 import { User } from '@prisma/client';
+import { PageBreadcrumbs } from '../page-breadcrumbs';
 
 interface TemplateProps {
   jotTemplate: {
@@ -63,76 +64,26 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
 
   return (
     <div>
-      <div className="pl-2.5">
-        <h1
-          className="max-w-full whitespace-pre-wrap break-words mb-4 text-4xl font-semibold outline-none"
-          contentEditable="true"
-          onInput={(e) => setTitle((e.target as HTMLDivElement).textContent ?? jotTemplate.title)}
-        >
-          { jotTemplate.title }
-        </h1>
-      </div>
-
-      <div className="pl-2.5">
-        <div className="flex w-100 pb-3">
-          <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
-            <Icons.user className="mr-2 h-4 w-4" />
-            <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-              Created by:
-            </div>
-          </div>
-          <div className="flex h-100 flex-auto flex-col min-w-0">
-            <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
-              <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
-                <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
-                  <UserAvatar
-                    user={{ name: jotTemplate.author.name || null, image: jotTemplate.author.image || null }}
-                    className="h-5 w-5 mr-2"
-                  />
-                  <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    { jotTemplate.author.name }
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex w-100 pb-3">
-          <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
-            <Icons.calendar className="mr-2 h-4 w-4" />
-            <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-              Last Updated:
-            </div>
-          </div>
-          <div className="flex h-100 flex-auto flex-col min-w-0">
-            <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
-              <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
-                <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
-                  <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                    {formatDate(jotTemplate.createdAt?.toDateString())}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex w-full items-center justify-between mb-2 pt-2">
-        <span className="flex space-x-10">
-          <Link
-            href="/templates"
-            className={cn(buttonVariants({ variant: "secondary" }))}
-          >
-            <>
-              <Icons.chevronLeft className="mr-2 h-4 w-4" />
-              Back
-            </>
-          </Link>
-        </span>
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/templates',
+            title: 'Home',
+            icon: 'home',
+          },
+          {
+            link: '/templates',
+            title: 'Templates',
+          },
+          {
+            link: '/templates/' + jotTemplate.id,
+            title: title,
+            isDynamic: true,
+            isCurrentPage: true,
+          },
+        ]}
+      >
         <Button
-          className={cn(buttonVariants({ variant: "secondary" }))}
+          className={cn('pl-10', buttonVariants({ variant: "secondary" }))}
           disabled={isSaving}
           onClick={save}
         >
@@ -143,6 +94,64 @@ export default function TemplateDetails({ jotTemplate }: TemplateProps) {
           )}
           <span>Save</span>
         </Button>
+      </PageBreadcrumbs>
+
+      <div className="pt-6 mx-8">
+        <div>
+          <h1
+            className="max-w-full whitespace-pre-wrap break-words mb-4 text-4xl font-semibold outline-none"
+            contentEditable="true"
+            onInput={(e) => setTitle((e.target as HTMLDivElement).textContent ?? jotTemplate.title)}
+          >
+            { jotTemplate.title }
+          </h1>
+        </div>
+
+        <div>
+          <div className="flex w-100 pb-3">
+            <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
+              <Icons.user className="mr-2 h-4 w-4" />
+              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                Created by:
+              </div>
+            </div>
+            <div className="flex h-100 flex-auto flex-col min-w-0">
+              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
+                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
+                  <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
+                    <UserAvatar
+                      user={{ name: jotTemplate.author.name || null, image: jotTemplate.author.image || null }}
+                      className="h-5 w-5 mr-2"
+                    />
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      { jotTemplate.author.name }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex w-100 pb-3">
+            <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
+              <Icons.calendar className="mr-2 h-4 w-4" />
+              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                Last Updated:
+              </div>
+            </div>
+            <div className="flex h-100 flex-auto flex-col min-w-0">
+              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
+                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
+                  <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+                      {formatDate(jotTemplate.createdAt?.toDateString())}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <DocumentEditor

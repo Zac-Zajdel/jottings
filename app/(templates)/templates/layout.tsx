@@ -5,13 +5,13 @@ import { MainNav } from "@/components/main-nav"
 import { DashboardNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 
-interface DashboardLayoutProps {
+interface TemplateLayoutProps {
   children?: React.ReactNode
 }
 
-export default async function TemplatesLayout({
+export default async function TemplateLayout({
   children,
-}: DashboardLayoutProps) {
+}: TemplateLayoutProps) {
   const user = await getCurrentUser()
   if (!user) {
     return notFound()
@@ -19,17 +19,17 @@ export default async function TemplatesLayout({
 
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6">
-      <header className="sticky top-0 z-40 border-b bg-background">
-        <div className="flex h-16 items-center justify-between py-4 px-5">
-          <MainNav items={dashboardConfig.mainNav} />
-        </div>
-      </header>
+      <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
+        <aside className="hidden w-[215px] flex-col px-2 md:flex">
+          <header className="sticky top-0 z-40 bg-background">
+            <div className="flex h-14 items-center justify-between py-4 px-3">
+              <MainNav items={dashboardConfig.mainNav} />
+            </div>
+          </header>
 
-      <div className="grid flex-1 gap-4 md:grid-cols-[200px_1fr] px-5 h-[1vh]">
-        <aside className="hidden w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardConfig.sidebarNav} />
           <div className="flex-1"></div>
-          <div className="flex items-center py-3">
+          <div className="flex items-center py-3 mx-3">
             <UserAccountNav
               user={{
                 name: user.name,
@@ -42,7 +42,7 @@ export default async function TemplatesLayout({
             </span>
           </div>
         </aside>
-        <main className="flex w-full flex-1 flex-col overflow-scroll no-scrollbar">
+        <main className="flex w-full flex-1 border-l flex-col overflow-scroll no-scrollbar">
           {children}
         </main>
       </div>

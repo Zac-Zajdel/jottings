@@ -2,17 +2,32 @@ import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 
 export default function JotsLanding() {
   return (
-    <PageShell>
+    <PageShell className="gap-1">
+      <PageBreadcrumbs crumbs={[
+          {
+            link: '/jots',
+            title: 'Home',
+            icon: 'home',
+          },
+          {
+            link: '/jots',
+            title: 'Jots',
+          },
+        ]}
+      />
+
       <PageHeader
         heading="Jots"
         text="Create and manage jots."
       >
         <JotCreateButton />
       </PageHeader>
-      <div className="divide-border-200 divide-y rounded-md border">
+
+      <div className="divide-border-200 divide-y rounded-md border mx-8">
         <JotItem.Skeleton />
         <JotItem.Skeleton />
         <JotItem.Skeleton />
