@@ -2,7 +2,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { allPosts } from "contentlayer/generated"
 import { compareDesc } from "date-fns"
-
 import { formatDate } from "@/lib/utils"
 
 export const metadata = {
@@ -24,7 +23,7 @@ export default async function ChangelogPage() {
             Changelog
           </h1>
           <p className="text-xl text-muted-foreground">
-            Read up on the latest features and fixes
+            Read up on the latest features and improvements
           </p>
         </div>
       </div>
