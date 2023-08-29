@@ -10,6 +10,7 @@ import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { DataTable } from "@/components/table/data-table"
 import { columns } from "@/components/table/columns"
+import { useDataTable } from "@/hooks/use-data-table"
 
 export const metadata = {
   title: "Jots",
@@ -46,6 +47,16 @@ export default async function JotsPage() {
       priority: 'Medium',
     }
   ]
+
+  // Need to make specific tables for each section table
+  // Make that a client component and then have useEffect
+  // watch for those changes and then re-query backend API
+  // with the required parameters
+  // API
+  // search
+  // columnFilters
+  // sorting
+  // const { table, sorting } = useDataTable(tasks, columns)
 
   return (
     <PageShell className="gap-1">
