@@ -73,7 +73,7 @@ export function TemplateHeader({ jotTemplate, editorRef }: TemplateProps) {
             title: 'Templates',
           },
           {
-            link: '/templates/' + jotTemplate.id,
+            link: `/templates/${jotTemplate.id}`,
             title: title,
             isDynamic: true,
             isCurrentPage: true,
