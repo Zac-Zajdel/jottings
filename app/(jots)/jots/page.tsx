@@ -8,6 +8,8 @@ import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { DataTable } from "@/components/table/data-table"
+import { columns } from "@/components/table/columns"
 
 export const metadata = {
   title: "Jots",
@@ -35,6 +37,16 @@ export default async function JotsPage() {
     },
   })
 
+  const tasks = [
+    {
+      id: 'TASK 213198',
+      title: 'HI ALL',
+      status: 'Backlog',
+      label: 'DRAFT',
+      priority: 'Medium',
+    }
+  ]
+
   return (
     <PageShell className="gap-1">
       <PageBreadcrumbs crumbs={[
@@ -56,6 +68,14 @@ export default async function JotsPage() {
       >
         <JotCreateButton />
       </PageHeader>
+
+      {/* TESTING THIS OVERALL */}
+      <div className="divide-y divide-border rounded-md mx-8 mb-12">
+        <DataTable
+          data={tasks}
+          columns={columns}
+        />
+      </div>
 
       <div>
         {jots?.length ? (
