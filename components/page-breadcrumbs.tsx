@@ -20,11 +20,15 @@ export function PageBreadcrumbs({ crumbs, children }: PageBreadcrumbsProps) {
       <div className="mx-4 flex h-14 items-center justify-between">
         {crumbs.length ? (
           <Breadcrumb>
-            {crumbs.map((crumb) => {
+            {crumbs.map((crumb, index) => {
               const Icon = Icons[crumb.icon || "arrowRight"]
 
               return (
-                <BreadcrumbItem {...crumb} className={crumb.isDynamic ? 'truncate' : ''}>
+                <BreadcrumbItem
+                  key={index}
+                  className={crumb?.isDynamic ? 'truncate' : ''}
+                  isCurrentPage={crumb.isCurrentPage}
+                >
                   <BreadcrumbLink
                     className={crumb.icon ? '' : 'mt-[1px]'}
                     href={crumb.link}
