@@ -15,6 +15,9 @@ import {
 import { DataTablePagination } from "./data-table-pagination"
 import { DataTableToolbar } from "./data-table-toolbar"
 import { useDataTable } from "@/hooks/use-data-table"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Input } from "../ui/input"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -28,9 +31,22 @@ export function DataTable<TData, TValue>({
   const { table, sorting } = useDataTable(data, columns)
   console.log(sorting)
 
+  const router = useRouter()
+
+  const [searchterm, setSearchterm] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
+    // if(!searchterm) return
+    router.push(`/jots?search=${e.target.value}`)
+  }
+
   return (
-    <div className="space-y-4">
+    <div>
       <DataTableToolbar table={table} />
+      <Input
+        type="text"
+        onChange={(e) => handleSearch(e)}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

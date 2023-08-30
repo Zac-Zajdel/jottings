@@ -17,15 +17,26 @@ export const metadata = {
   description: "Create and manage Jots.",
 }
 
-export default async function JotsPage() {
+export default async function JotsPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   const user = await getCurrentUser()
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
+  console.log('searchParams', searchParams)
+
   const jots = await db.jot.findMany({
     where: {
       authorId: user.id,
+      ...(
+        searchParams?.search
+          ? { title: { contains: searchParams.search as string } }
+          : {}
+      ),
     },
     select: {
       id: true,
@@ -82,10 +93,12 @@ export default async function JotsPage() {
 
       {/* TESTING THIS OVERALL */}
       <div className="divide-y divide-border rounded-md mx-8 mb-12">
-        <DataTable
-          data={tasks}
-          columns={columns}
-        />
+        <div className="space-y-4">
+          <DataTable
+            data={jots}
+            columns={columns}
+          />
+        </div>
       </div>
 
       <div>

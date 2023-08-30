@@ -26,7 +26,7 @@ export const labels = [
 
 export const statuses = [
   {
-    value: "backlog",
+    value: "Backlog",
     label: "Backlog",
     icon: QuestionMarkCircledIcon,
   },
