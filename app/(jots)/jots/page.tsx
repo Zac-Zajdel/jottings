@@ -8,18 +8,14 @@ import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { DataTable } from "@/components/table/data-table"
-import { columns } from "@/components/table/columns"
-import { useDataTable } from "@/hooks/use-data-table"
+import { JotTable } from "@/components/table/jot-table"
 
 export const metadata = {
   title: "Jots",
   description: "Create and manage Jots.",
 }
 
-export default async function JotsPage({
-  searchParams,
-}: {
+export default async function JotsPage({searchParams}: {
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   const user = await getCurrentUser()
@@ -28,7 +24,6 @@ export default async function JotsPage({
   }
 
   console.log('searchParams', searchParams)
-
   const jots = await db.jot.findMany({
     where: {
       authorId: user.id,
@@ -48,26 +43,6 @@ export default async function JotsPage({
       updatedAt: "desc",
     },
   })
-
-  const tasks = [
-    {
-      id: 'TASK 213198',
-      title: 'HI ALL',
-      status: 'Backlog',
-      label: 'DRAFT',
-      priority: 'Medium',
-    }
-  ]
-
-  // Need to make specific tables for each section table
-  // Make that a client component and then have useEffect
-  // watch for those changes and then re-query backend API
-  // with the required parameters
-  // API
-  // search
-  // columnFilters
-  // sorting
-  // const { table, sorting } = useDataTable(tasks, columns)
 
   return (
     <PageShell className="gap-1">
@@ -91,12 +66,10 @@ export default async function JotsPage({
         <JotCreateButton />
       </PageHeader>
 
-      {/* TESTING THIS OVERALL */}
       <div className="divide-y divide-border rounded-md mx-8 mb-12">
         <div className="space-y-4">
-          <DataTable
+          <JotTable
             data={jots}
-            columns={columns}
           />
         </div>
       </div>

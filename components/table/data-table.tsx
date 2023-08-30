@@ -13,11 +13,8 @@ import {
   TableRow,
 } from "./table"
 import { DataTablePagination } from "./data-table-pagination"
-import { DataTableToolbar } from "./data-table-toolbar"
 import { useDataTable } from "@/hooks/use-data-table"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Input } from "../ui/input"
+import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -29,24 +26,14 @@ export function DataTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const { table, sorting } = useDataTable(data, columns)
-  console.log(sorting)
 
-  const router = useRouter()
-
-  const [searchterm, setSearchterm] = useState("");
-  const handleSearch = (e) => {
-    e.preventDefault();
-    // if(!searchterm) return
-    router.push(`/jots?search=${e.target.value}`)
-  }
+  // TODO - Happening here but needs to go up the chain
+  useEffect(() => {
+    console.log('sorting', sorting)
+  }, [sorting])
 
   return (
     <div>
-      <DataTableToolbar table={table} />
-      <Input
-        type="text"
-        onChange={(e) => handleSearch(e)}
-      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

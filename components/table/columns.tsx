@@ -3,6 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { JotOperations } from "../jots/jot-operations"
+import { formatDate } from "@/lib/utils"
+import Link from "next/link"
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -12,13 +14,24 @@ export const columns: ColumnDef<any>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
-          </span>
+        <div className="flex items-center justify-between p-4">
+          <div className="grid gap-1">
+            <Link
+              href={`/jots/${row.original.id}`}
+              className="font-semibold hover:underline"
+            >
+              {row.getValue("title")}
+            </Link>
+            <div>
+              <p className="text-sm text-muted-foreground">
+                {formatDate(row.original.createdAt?.toDateString())}
+              </p>
+            </div>
+          </div>
         </div>
       )
     },
+    enableSorting: true,
   },
   {
     id: "actions",
