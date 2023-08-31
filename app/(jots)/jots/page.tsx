@@ -23,7 +23,6 @@ export default async function JotsPage({searchParams}: {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  console.log('searchParams', searchParams)
   const jots = await db.jot.findMany({
     where: {
       authorId: user.id,
@@ -39,9 +38,12 @@ export default async function JotsPage({searchParams}: {
       published: true,
       createdAt: true,
     },
-    orderBy: {
-      updatedAt: "desc",
-    },
+    take: 1,
+    ...(
+      searchParams?.column && searchParams?.order
+        ? { orderBy: { [searchParams.column as string]: searchParams.order } }
+        : {}
+    ),
   })
 
   return (

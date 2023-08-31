@@ -35,6 +35,14 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <JotOperations jot={{ id: row.original.id, title: row.original.title }} />,
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center justify-end p-4 pr-8">
+          <JotOperations
+            jot={{ id: row.original.id, title: row.original.title }}
+          />
+        </div>
+      )
+    },
   },
 ]

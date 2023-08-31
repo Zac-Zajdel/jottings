@@ -2,6 +2,7 @@
 
 import {
   ColumnDef,
+  Table as TableType,
   flexRender,
 } from "@tanstack/react-table"
 import {
@@ -13,25 +14,18 @@ import {
   TableRow,
 } from "./table"
 import { DataTablePagination } from "./data-table-pagination"
-import { useDataTable } from "@/hooks/use-data-table"
-import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
+  table: TableType<TData>
   data: TData[]
+  columns: ColumnDef<TData, TValue>[]
 }
 
 export function DataTable<TData, TValue>({
-  columns,
   data,
+  table,
+  columns,
 }: DataTableProps<TData, TValue>) {
-  const { table, sorting } = useDataTable(data, columns)
-
-  // TODO - Happening here but needs to go up the chain
-  useEffect(() => {
-    console.log('sorting', sorting)
-  }, [sorting])
-
   return (
     <div>
       <div className="rounded-md border">
@@ -64,7 +58,9 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
