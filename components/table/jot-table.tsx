@@ -26,8 +26,6 @@ export function JotTable<TData, TValue>({
   useEffect(() => {
     let url = new URL(window.location.origin);
 
-    console.log('INSIDE HERE')
-
     // Sorting based on options
     if (sorting.length) {
       url.searchParams.append(
@@ -47,21 +45,20 @@ export function JotTable<TData, TValue>({
         columnFilters[0].value as string,
       );
 
-    router.push(`${url.origin}/jots${url.search}`)
-  }, [sorting, columnFilters])
-
-  // TODO - Cannot get this to work
-  useEffect(() => {
-    let url = new URL(window.location.origin);
-
     // Pagination Grab Options
     url.searchParams.append(
       'take',
       pageSize.toString(),
     );
 
+    // Pagination Grab Options
+    url.searchParams.append(
+      'skip',
+      (pageIndex * pageSize).toString(),
+    );
+
     router.push(`${url.origin}/jots${url.search}`)
-  }, [pageSize])
+  }, [sorting, columnFilters, pageSize, pageIndex])
 
   return (
     <div>

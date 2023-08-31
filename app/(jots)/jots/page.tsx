@@ -2,10 +2,8 @@ import { redirect } from "next/navigation"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jots/jot-create-button"
-import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/table/jot-table"
@@ -23,7 +21,7 @@ export default async function JotsPage({searchParams}: {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  console.log('QUERY AGAIN')
+  console.log('QUERY AGAIN', searchParams)
 
   const jots = await db.jot.findMany({
     where: {
@@ -48,6 +46,8 @@ export default async function JotsPage({searchParams}: {
     skip: Number(searchParams?.skip ?? 0),
     take: Number(searchParams?.take ?? 10),
   })
+
+  console.log('JOTS', jots)
 
   return (
     <PageShell className="gap-1">
@@ -79,7 +79,7 @@ export default async function JotsPage({searchParams}: {
         </div>
       </div>
 
-      <div>
+      {/* <div>
         {jots?.length ? (
           <div className="divide-y divide-border rounded-md border mx-8 mb-12">
             {jots.map((jot) => (
@@ -96,7 +96,7 @@ export default async function JotsPage({searchParams}: {
             <JotCreateButton />
           </EmptyPlaceholder>
         )}
-      </div>
+      </div> */}
     </PageShell>
   )
 }
