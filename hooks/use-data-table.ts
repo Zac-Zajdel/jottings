@@ -46,5 +46,7 @@ export function useDataTable(data, columns) {
     columnVisibility,
     columnFilters,
     sorting,
+    pageSize: table.getState().pagination.pageSize,
+    pageIndex: table.getState().pagination.pageIndex,
   }
 }

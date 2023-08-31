@@ -3,7 +3,6 @@
 import { DataTableToolbar } from "./data-table-toolbar"
 import { useDataTable } from "@/hooks/use-data-table"
 import { useRouter } from "next/navigation"
-import { Input } from "../ui/input"
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { useEffect } from "react"
@@ -16,11 +15,20 @@ export function JotTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
-  const { table, sorting, columnFilters } = useDataTable(data, columns)
+  const {
+    table,
+    sorting,
+    pageSize,
+    pageIndex,
+    columnFilters,
+  } = useDataTable(data, columns)
 
   useEffect(() => {
     let url = new URL(window.location.origin);
 
+    console.log('INSIDE HERE')
+
+    // Sorting based on options
     if (sorting.length) {
       url.searchParams.append(
         'column',
@@ -32,6 +40,7 @@ export function JotTable<TData, TValue>({
       );
     }
 
+    // Column Filters
     if (columnFilters.length)
       url.searchParams.append(
         'search',
@@ -40,6 +49,19 @@ export function JotTable<TData, TValue>({
 
     router.push(`${url.origin}/jots${url.search}`)
   }, [sorting, columnFilters])
+
+  // TODO - Cannot get this to work
+  useEffect(() => {
+    let url = new URL(window.location.origin);
+
+    // Pagination Grab Options
+    url.searchParams.append(
+      'take',
+      pageSize.toString(),
+    );
+
+    router.push(`${url.origin}/jots${url.search}`)
+  }, [pageSize])
 
   return (
     <div>
