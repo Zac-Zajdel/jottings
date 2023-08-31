@@ -5,16 +5,18 @@ import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
-import { TemplateItem } from "@/components/templates/template-item"
 import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { TemplateTable } from "@/components/templates/table/template-table"
 
 export const metadata = {
   title: "Templates",
   description: "Create and manage Templates.",
 }
 
-export default async function TemplatesPage() {
+export default async function TemplatesPage({searchParams}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   const user = await getCurrentUser()
   if (!user) {
     redirect(authOptions?.pages?.signIn || "/login")
@@ -23,6 +25,11 @@ export default async function TemplatesPage() {
   const templates = await db.jotTemplate.findMany({
     where: {
       authorId: user.id,
+      ...(
+        searchParams?.search
+          ? { title: { contains: searchParams.search as string } }
+          : {}
+      ),
     },
     select: {
       id: true,
@@ -30,9 +37,13 @@ export default async function TemplatesPage() {
       isPublished: true,
       createdAt: true,
     },
-    orderBy: {
-      updatedAt: 'desc',
-    },
+    ...(
+      searchParams?.column && searchParams?.order
+        ? { orderBy: { [searchParams.column as string]: searchParams.order } }
+        : {}
+    ),
+    skip: Number(searchParams?.skip ?? 0),
+    take: Number(searchParams?.take ?? 10),
   })
 
   return (
@@ -57,13 +68,12 @@ export default async function TemplatesPage() {
         <JotTemplateCreateButton />
       </PageHeader>
 
-      <div>
+      <div className="divide-y divide-border rounded-md mx-8 mb-12">
+        <div className="space-y-4">
         {templates?.length ? (
-          <div className="divide-y divide-border rounded-md border mx-8 mb-12">
-            {templates.map((template) => (
-              <TemplateItem key={template.id} template={template} />
-            ))}
-          </div>
+          <TemplateTable
+            data={templates}
+          />
         ) : (
           <EmptyPlaceholder className="mx-8">
             <EmptyPlaceholder.Icon name="template" />
@@ -74,6 +84,7 @@ export default async function TemplatesPage() {
             <JotTemplateCreateButton />
           </EmptyPlaceholder>
         )}
+        </div>
       </div>
     </PageShell>
   )
