@@ -6,7 +6,8 @@ import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { JotTable } from "@/components/table/jot-table"
+import { JotTable } from "@/components/jots/table/jot-table"
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
 
 export const metadata = {
   title: "Jots",
@@ -69,30 +70,22 @@ export default async function JotsPage({searchParams}: {
 
       <div className="divide-y divide-border rounded-md mx-8 mb-12">
         <div className="space-y-4">
-          <JotTable
-            data={jots}
-          />
+          {jots?.length ? (
+            <JotTable
+              data={jots}
+            />
+          ) : (
+            <EmptyPlaceholder className="mx-8">
+              <EmptyPlaceholder.Icon name="file" />
+              <EmptyPlaceholder.Title>No Jots created</EmptyPlaceholder.Title>
+              <EmptyPlaceholder.Description>
+                You don&apos;t have any Jots yet. Start creating content.
+              </EmptyPlaceholder.Description>
+              <JotCreateButton />
+            </EmptyPlaceholder>
+          )}
         </div>
       </div>
-
-      {/* <div>
-        {jots?.length ? (
-          <div className="divide-y divide-border rounded-md border mx-8 mb-12">
-            {jots.map((jot) => (
-              <JotItem key={jot.id} jot={jot} />
-            ))}
-          </div>
-        ) : (
-          <EmptyPlaceholder className="mx-8">
-            <EmptyPlaceholder.Icon name="file" />
-            <EmptyPlaceholder.Title>No Jots created</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
-              You don&apos;t have any Jots yet. Start creating content.
-            </EmptyPlaceholder.Description>
-            <JotCreateButton />
-          </EmptyPlaceholder>
-        )}
-      </div> */}
     </PageShell>
   )
 }

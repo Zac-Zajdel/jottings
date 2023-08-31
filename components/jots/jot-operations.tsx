@@ -32,7 +32,7 @@ async function deleteJot(jotId: string) {
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your jot was not deleted. Please try again.",
+      description: "Your Jot was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -82,7 +82,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this jot?
+              Are you sure you want to delete this Jot?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -100,6 +100,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
+
                   router.refresh()
                   toast({
                     description: "Your Jot has been deleted.",

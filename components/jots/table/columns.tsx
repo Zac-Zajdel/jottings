@@ -1,8 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { DataTableColumnHeader } from "./data-table-column-header"
-import { JotOperations } from "../jots/jot-operations"
+import { DataTableColumnHeader } from "../../table/data-table-column-header"
+import { JotOperations } from "../jot-operations"
 import { formatDate } from "@/lib/utils"
 import Link from "next/link"
 
@@ -10,7 +10,10 @@ export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "title",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader
+        column={column}
+        title="Title"
+      />
     ),
     cell: ({ row }) => {
       return (
@@ -39,7 +42,10 @@ export const columns: ColumnDef<any>[] = [
       return (
         <div className="flex items-center justify-end p-4 pr-8">
           <JotOperations
-            jot={{ id: row.original.id, title: row.original.title }}
+            jot={{
+              id: row.original.id,
+              title: row.original.title,
+            }}
           />
         </div>
       )

@@ -1,10 +1,10 @@
 "use client"
 
-import { DataTableToolbar } from "./data-table-toolbar"
+import { DataTableToolbar } from "../../table/data-table-toolbar"
 import { useDataTable } from "@/hooks/use-data-table"
 import { useRouter } from "next/navigation"
 import { columns } from "./columns"
-import { DataTable } from "./data-table"
+import { DataTable } from "../../table/data-table"
 import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
