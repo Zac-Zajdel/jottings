@@ -21,8 +21,6 @@ export default async function JotsPage({searchParams}: {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  console.log('QUERY AGAIN', searchParams)
-
   const jots = await db.jot.findMany({
     where: {
       authorId: user.id,
@@ -46,8 +44,6 @@ export default async function JotsPage({searchParams}: {
     skip: Number(searchParams?.skip ?? 0),
     take: Number(searchParams?.take ?? 10),
   })
-
-  console.log('JOTS', jots)
 
   return (
     <PageShell className="gap-1">

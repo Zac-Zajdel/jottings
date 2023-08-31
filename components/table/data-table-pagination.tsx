@@ -14,10 +14,12 @@ import {
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
+  data: TData[]
 }
 
 export function DataTablePagination<TData>({
   table,
+  data,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between p-3">
@@ -50,36 +52,21 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={() => table.previousPage()}
+            disabled={table.getState().pagination.pageIndex === 0}
           >
             <span className="sr-only">Go to previous page</span>
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
+          {/* MANUALLY FIX FOR EDGE CASE */}
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={() => table.nextPage()}
+            disabled={!data.length}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
-          {/* <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            className="h-8 w-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="h-4 w-4" />
-          </Button> */}
         </div>
       </div>
     </div>
