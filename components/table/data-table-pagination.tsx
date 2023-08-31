@@ -57,12 +57,11 @@ export function DataTablePagination<TData>({
             <span className="sr-only">Go to previous page</span>
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
-          {/* MANUALLY FIX FOR EDGE CASE */}
           <Button
             variant="outline"
             className="h-8 w-8 p-0"
-            onClick={() => table.nextPage()}
-            disabled={!data.length}
+            onClick={() => table.nextPage() }
+            disabled={!data.length || table.getState().pagination.pageSize > data.length}
           >
             <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="h-4 w-4" />
