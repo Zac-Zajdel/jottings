@@ -1,9 +1,6 @@
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@radix-ui/react-icons"
 import { Table } from "@tanstack/react-table"
 import { Button } from "../ui/button"
+import { Icons } from "../icons"
 import {
   Select,
   SelectContent,
@@ -22,7 +19,7 @@ export function DataTablePagination<TData>({
   data,
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex items-center justify-between p-3">
+    <div className="flex items-center justify-between pt-3">
       <div className="flex-1 text-sm text-muted-foreground">
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
@@ -54,7 +51,7 @@ export function DataTablePagination<TData>({
             disabled={table.getState().pagination.pageIndex === 0}
           >
             <span className="sr-only">Go to previous page</span>
-            <ChevronLeftIcon className="h-4 w-4" />
+            <Icons.chevronLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
@@ -63,7 +60,7 @@ export function DataTablePagination<TData>({
             disabled={!data.length || table.getState().pagination.pageSize > data.length}
           >
             <span className="sr-only">Go to next page</span>
-            <ChevronRightIcon className="h-4 w-4" />
+            <Icons.chevronRight className="h-4 w-4" />
           </Button>
         </div>
       </div>
