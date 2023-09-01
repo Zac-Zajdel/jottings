@@ -26,10 +26,10 @@ export function JotTemplateCreateButton({
 }: JotTemplateCreateButtonProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
-  const [title, setTitle] = useState<string|undefined>(undefined)
+  const [title, setTitle] = useState('')
 
   async function createTemplate() {
-    if (title?.trim() === '' || title === undefined)
+    if (title?.trim() === '')
       return toast({
         title: "A Title Is Required",
       })

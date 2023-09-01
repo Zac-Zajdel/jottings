@@ -31,11 +31,11 @@ export function JotCreateButton({
   const [isLoading, setIsLoading] = useState(false)
 
   // Form Data
-  const [title, setTitle] = useState<string|undefined>(undefined)
-  const [templateId, setTemplateId] = useState("")
+  const [title, setTitle] = useState('')
+  const [templateId, setTemplateId] = useState('')
 
   // <Input /> component title filtering
-  const [searchTitle, setSearchTitle] = useState("")
+  const [searchTitle, setSearchTitle] = useState('')
   const debouncedSearchTerm = useDebounce(searchTitle, 500);
   const [templates, setTemplates] = useState<JotTemplate[]>([])
 
@@ -55,7 +55,7 @@ export function JotCreateButton({
   }, [open, debouncedSearchTerm]);
 
   async function createJot() {
-    if (title?.trim() === '' || title === undefined)
+    if (title?.trim() === '')
       return toast({
         title: "A Title Is Required",
       })
