@@ -36,7 +36,17 @@ export function PageBreadcrumbs({ crumbs, children }: PageBreadcrumbsProps) {
                     {crumb.icon ? (
                       <Icon className="mr-1 h-4 w-4" />
                     ) : (
-                      <span>{crumb.title}</span>
+                      <div>
+                        {crumb.title === '...' ? (
+                          <div className="flex justify-center items-center space-x-2">
+                            <div className="delay-100 w-1 h-1 mt-0.5 rounded-full animate-bounce bg-gray-200"/>
+                            <div className="delay-200 w-1 h-1 mt-0.5 rounded-full animate-bounce bg-gray-200"/>
+                            <div className="delay-300 w-1 h-1 mt-0.5 rounded-full animate-bounce bg-gray-200"/>
+                          </div>
+                        ) : (
+                          <span>{crumb.title}</span>
+                        )}
+                      </div>
                     )}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
