@@ -55,6 +55,7 @@ model User {
   sessions    Session[]
   Jot         Jot[]
   JotTemplate JotTemplate[]
+  Label       Label[]
 
   @@map(name: "users")
 }
@@ -98,4 +99,18 @@ model JotTemplate {
 
   @@index([authorId])
   @@map(name: "jot_templates")
+}
+
+model Label {
+  id        String   @id @default(cuid())
+  authorId  String
+  name      String
+  color     String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@map(name: "labels")
 }
