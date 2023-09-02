@@ -56,6 +56,7 @@ model User {
   Jot         Jot[]
   JotTemplate JotTemplate[]
   Label       Label[]
+  Labelables  Labelables[]
 
   @@map(name: "users")
 }
@@ -113,4 +114,25 @@ model Label {
 
   @@index([authorId])
   @@map(name: "labels")
+}
+
+enum LabelType {
+  Jot
+  JotTemplate
+}
+
+model Labelables {
+  id            String    @id @default(cuid())
+  authorId      String
+  labelableType LabelType
+  labelableId   String
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@index([labelableType])
+  @@index([labelableId])
+  @@map(name: "labelables")
 }
