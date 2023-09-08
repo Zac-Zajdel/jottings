@@ -14,7 +14,8 @@ async function getJotForUser(jotId: Jot["id"], userId: User["id"]) {
     },
     include: {
       author: true,
-    },
+      labels: true,
+    }
   })
 }
 
@@ -29,6 +30,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   const jot = await getJotForUser(params.jotId, user.id)
+  console.log(jot)
   if (!jot) {
     notFound()
   }

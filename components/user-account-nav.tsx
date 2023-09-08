@@ -26,7 +26,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full ring-0">
+      <DropdownMenuTrigger className="w-full focus-visible:outline-none">
         <div className="flex justify-between items-center py-3 px-3">
           <div className="flex items-center">
             <UserAvatar
