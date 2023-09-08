@@ -20,16 +20,16 @@ export default async function SettingsLayout({
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6">
       <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
-        <aside className="hidden w-[215px] flex-col px-2 md:flex">
-          <header className="sticky top-0 z-40 bg-background">
+        <aside className="hidden w-[215px] flex-col md:flex">
+          <header className="sticky top-0 z-40 bg-background px-2">
             <div className="flex h-14 items-center justify-between py-4 px-3">
               <MainNav items={dashboardConfig.mainNav} />
             </div>
           </header>
 
           <DashboardNav items={dashboardConfig.sidebarNav} />
-          <div className="flex-1"></div>
-          <div className="flex items-center py-3 mx-3">
+          <div className="flex-1 px-2"></div>
+          <div className="border-t-[0.5px] w-full">
             <UserAccountNav
               user={{
                 name: user.name,
@@ -37,9 +37,6 @@ export default async function SettingsLayout({
                 email: user.email,
               }}
             />
-            <span className="pl-3 text-sm text-muted-foreground">
-              { user.name }
-            </span>
           </div>
         </aside>
         <main className="flex w-full flex-1 border-l flex-col overflow-scroll no-scrollbar">

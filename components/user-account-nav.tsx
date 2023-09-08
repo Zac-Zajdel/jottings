@@ -15,6 +15,7 @@ import packageJson from '../package.json'
 import { Tabs, TabsList } from "./ui/tabs"
 import { TabsTrigger } from "@radix-ui/react-tabs"
 import { useTheme } from "next-themes"
+import { Icons } from "./icons"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
@@ -25,14 +26,29 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <UserAvatar
-          user={{ name: user.name || null, image: user.image || null }}
-          className="h-6 w-6"
-        />
+      <DropdownMenuTrigger className="w-full ring-0">
+        <div className="flex justify-between items-center py-3 px-3">
+          <div className="flex items-center">
+            <UserAvatar
+              user={{ name: user.name || null, image: user.image || null }}
+              className="h-8 w-8 rounded-sm"
+            />
+            <div className="pl-4 text-xs">
+              <div className="font-medium">
+                { user.name }
+              </div>
+              <div className="text-muted-foreground mr-6">
+                Admin
+              </div>
+            </div>
+          </div>
+          <div className="pl-3 text-muted-foreground">
+            <Icons.chevronsUpDown className="items-end h-4 w-4" />
+          </div>
+        </div>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="ml-[5px] w-[12.8rem]" align="end">
+      <DropdownMenuContent className="mr-1 w-[12.8rem]" align="end">
         <div className="flex items-center justify-start gap-2 p-2 mb-2">
           <div className="flex flex-col space-y-1 leading-none w-44">
             <p className="text-sm font-bold leading-none">{user.name}</p>
