@@ -2237,12 +2237,12 @@
     "@udecode/plate-common" "23.3.1"
     downshift "^6.1.12"
 
-"@udecode/plate-combobox@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-combobox/-/plate-combobox-23.6.0.tgz#df47ad3d3d7cc79a536bda89e28aaf5911f6add3"
-  integrity sha512-6joSy+qdqlH3wDb8hb9kJDYeraf6b0goVCn4WYr0mJ5syKn8wrRWCQ/TntJPUdIk7DlulbFShZ89cik/h+MtWg==
+"@udecode/plate-combobox@23.7.0":
+  version "23.7.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-combobox/-/plate-combobox-23.7.0.tgz#1cb9e31e52cac4d71acff899da664a9ce94d113f"
+  integrity sha512-esN0GUjFCpXS/N5aNyH28rku2kKX1ymXbZQiiKY/zXleMLsQ0cXBuuz5s+5BuSZqC7nfVVJQC+iTztafTIGTGA==
   dependencies:
-    "@udecode/plate-common" "23.6.0"
+    "@udecode/plate-common" "23.7.0"
     downshift "^6.1.12"
 
 "@udecode/plate-comments@23.3.1":
@@ -2264,13 +2264,13 @@
     "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/plate-common@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-common/-/plate-common-23.6.0.tgz#a4213bcde654a73ab20d265a9726ea4f47d0a030"
-  integrity sha512-HnbRzVUDnQBjMIivguMk7RKZGIHMBuXjbYv7dPyENiOhcvXr2ddIsn2cyRzTP82Qws5OcvvA1sXtMat2sKE/9w==
+"@udecode/plate-common@23.7.0":
+  version "23.7.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-common/-/plate-common-23.7.0.tgz#86b0b6e2a3a1a5de9fec06a6f322aef7369df8da"
+  integrity sha512-AgEdfRsFXrYsUWKEY1TcrZt/hy3VeFCKgYWA1ua59/B6dinpiNYev+oPxT3E5OI0Ulu8WqVw/RF/kd090GHaUg==
   dependencies:
     "@udecode/plate-core" "23.6.0"
-    "@udecode/plate-utils" "23.6.0"
+    "@udecode/plate-utils" "23.7.0"
     "@udecode/slate" "22.0.2"
     "@udecode/slate-react" "22.0.2"
     "@udecode/slate-utils" "22.0.2"
@@ -2325,14 +2325,14 @@
     "@udecode/plate-common" "23.3.1"
     raf "^3.4.1"
 
-"@udecode/plate-emoji@^23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-emoji/-/plate-emoji-23.6.0.tgz#0646b24b20d0d732dc1e6311e496c94a3005a2f1"
-  integrity sha512-mfbvXSZdXWTUmuYVz7T/xhiKdwb+/6tMXrll8rPK2dM8547uZiv8yjZCr9dbBYhsVMAwObkrfdAhVRDen9cBkQ==
+"@udecode/plate-emoji@^23.7.0":
+  version "23.7.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-emoji/-/plate-emoji-23.7.0.tgz#d3ba61bd290de7b0fae3f1eb3b1babd913ee214a"
+  integrity sha512-pvv23b0sN1P+uo616i4And/JnzJbng705E+LohZiDDDdmfJWmZyq4p7oiSa3Yy2mQuY+I/vyVTFZ+57eQV0ODg==
   dependencies:
     "@emoji-mart/data" "^1.1.2"
-    "@udecode/plate-combobox" "23.6.0"
-    "@udecode/plate-common" "23.6.0"
+    "@udecode/plate-combobox" "23.7.0"
+    "@udecode/plate-common" "23.7.0"
 
 "@udecode/plate-find-replace@23.3.1":
   version "23.3.1"
@@ -2587,10 +2587,10 @@
     "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/plate-utils@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-utils/-/plate-utils-23.6.0.tgz#2820f9af7a2ced7b52fd722fc423e6ce634d7615"
-  integrity sha512-7IJmXf+WssNYTrG2e/X92P4hmTeDr0iNa8+3eg1gJDTiYgWfmGjYtRxZE3trcwIXob56wEpf2tgKtHDIdciCpw==
+"@udecode/plate-utils@23.7.0":
+  version "23.7.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-utils/-/plate-utils-23.7.0.tgz#d3776381073666034108321559c6f524e3f11036"
+  integrity sha512-mYma1TnMCbzZI5e9Zn66j4azEkkSHksn8399eyFzneXypSG4CSAglIjYjaR+OKnC67w+da4fZP8UYulQIRHhlA==
   dependencies:
     "@radix-ui/react-slot" "^1.0.2"
     "@udecode/plate-core" "23.6.0"
