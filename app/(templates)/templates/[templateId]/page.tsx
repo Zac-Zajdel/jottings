@@ -14,6 +14,7 @@ async function getJotTemplate(templateId: JotTemplate["id"], userId: User["id"])
     },
     include: {
       author: true,
+      labels: true,
     }
   })
 }
@@ -41,6 +42,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
         content: template.content as MyValue,
         createdAt: template.createdAt,
         author: template.author,
+        labels: template.labels,
       }}
     />
   )

@@ -1,6 +1,6 @@
 "use client"
 
-import { User } from "@prisma/client"
+import { Label, User } from "@prisma/client"
 import { cn, formatDate } from "@/lib/utils"
 import { PageBreadcrumbs } from "../page-breadcrumbs"
 import { buttonVariants } from "../plate-ui/button"
@@ -9,9 +9,10 @@ import { UserAvatar } from "../user-avatar"
 import { MyValue } from "@/types/plate-types"
 import { RefObject, useState } from "react"
 import { Button } from "../ui/button"
-import { PlateEditor } from '@udecode/plate-common';
+import { PlateEditor } from "@udecode/plate-common"
 import { toast } from "../ui/use-toast"
 import { useRouter } from "next/navigation"
+import { Badge } from "../ui/badge"
 
 interface JotProps {
   jot: {
@@ -23,7 +24,8 @@ interface JotProps {
     createdAt: Date
     published: boolean
     author: User
-  },
+    labels: Label[]
+  }
   editorRef: RefObject<PlateEditor>
 }
 
@@ -67,15 +69,16 @@ export function JotHeader({ jot, editorRef }: JotProps) {
 
   return (
     <div>
-      <PageBreadcrumbs crumbs={[
+      <PageBreadcrumbs
+        crumbs={[
           {
-            link: '/jots',
-            title: 'Home',
-            icon: 'home',
+            link: "/jots",
+            title: "Home",
+            icon: "home",
           },
           {
-            link: '/jots',
-            title: 'Jots',
+            link: "/jots",
+            title: "Jots",
           },
           {
             link: `/jots/${jot.id}`,
@@ -86,7 +89,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         ]}
       >
         <Button
-          className={cn('ml-10', buttonVariants({ variant: "secondary" }))}
+          className={cn("ml-10", buttonVariants({ variant: "secondary" }))}
           disabled={isSaving}
           onClick={save}
         >
@@ -99,36 +102,41 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         </Button>
       </PageBreadcrumbs>
 
-      <div className="pt-6 mx-8">
+      <div className="mx-8 pt-6">
         <div>
           <h1
-            className="max-w-full whitespace-pre-wrap break-words mb-4 text-4xl font-semibold outline-none"
+            className="mb-4 max-w-full whitespace-pre-wrap break-words text-4xl font-semibold outline-none"
             contentEditable="true"
             suppressContentEditableWarning={true}
-            onInput={(e) => setTitle((e.target as HTMLDivElement).textContent ?? jot.title)}
+            onInput={(e) =>
+              setTitle((e.target as HTMLDivElement).textContent ?? jot.title)
+            }
           >
-            { jot.title }
+            {jot.title}
           </h1>
         </div>
-    
+
         <div>
-          <div className="flex w-100 pb-3">
-            <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
+          <div className="w-100 flex pb-3">
+            <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.user className="mr-2 h-4 w-4" />
-              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                 Created by:
               </div>
             </div>
-            <div className="flex h-100 flex-auto flex-col min-w-0">
-              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
-                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
-                  <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
+            <div className="h-100 flex min-w-0 flex-auto flex-col">
+              <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
+                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
+                  <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
                     <UserAvatar
-                      user={{ name: jot.author.name || null, image: jot.author.image || null }}
-                      className="h-5 w-5 mr-2"
+                      user={{
+                        name: jot.author.name || null,
+                        image: jot.author.image || null,
+                      }}
+                      className="mr-2 h-5 w-5"
                     />
-                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                      { jot.author.name }
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+                      {jot.author.name}
                     </div>
                   </div>
                 </div>
@@ -136,18 +144,18 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             </div>
           </div>
 
-          <div className="flex w-100 pb-3">
-            <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
+          <div className="w-100 flex pb-3">
+            <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.calendar className="mr-2 h-4 w-4" />
-              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                 Last Updated:
               </div>
             </div>
-            <div className="flex h-100 flex-auto flex-col min-w-0">
-              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
-                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
-                  <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
-                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="h-100 flex min-w-0 flex-auto flex-col">
+              <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
+                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
+                  <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                       {formatDate(jot.createdAt?.toDateString())}
                     </div>
                   </div>
@@ -156,19 +164,27 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             </div>
           </div>
 
-          <div className="flex w-100 pb-3">
-            <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
-              <Icons.calendar className="mr-2 h-4 w-4" />
-              <div className="whitespace-nowrap overflow-hidden text-ellipsis">
+          <div className="w-100 flex pb-3">
+            <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
+              <Icons.tag className="mr-2 h-4 w-4" />
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                 Labels:
               </div>
             </div>
-            <div className="flex h-100 flex-auto flex-col min-w-0">
-              <div className="flex items-center ml-4 h-100 flex-auto min-w-0">
-                <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
-                  <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
-                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                      INSERT LABELS HERE
+            <div className="h-100 flex min-w-0 flex-auto flex-col">
+              <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
+                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
+                  <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+                      {jot.labels.length ? (
+                        jot.labels.map((label) => (
+                          <span className="pr-2">
+                            <Badge>{label.name}</Badge>
+                          </span>
+                        ))
+                      ) : (
+                        <span>Add Label</span>
+                      )}
                     </div>
                   </div>
                 </div>

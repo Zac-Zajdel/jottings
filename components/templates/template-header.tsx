@@ -1,6 +1,6 @@
 "use client"
 
-import { User } from "@prisma/client"
+import { Label, User } from "@prisma/client"
 import { cn, formatDate } from "@/lib/utils"
 import { PageBreadcrumbs } from "../page-breadcrumbs"
 import { buttonVariants } from "../plate-ui/button"
@@ -12,6 +12,7 @@ import { Button } from "../ui/button"
 import { PlateEditor } from '@udecode/plate-common';
 import { toast } from "../ui/use-toast"
 import { useRouter } from "next/navigation"
+import { Badge } from "lucide-react"
 
 interface TemplateProps {
   jotTemplate: {
@@ -20,6 +21,7 @@ interface TemplateProps {
     content: MyValue
     createdAt: Date
     author: User
+    labels: Label[]
   },
   editorRef: RefObject<PlateEditor>
 }
@@ -144,6 +146,34 @@ export function TemplateHeader({ jotTemplate, editorRef }: TemplateProps) {
                   <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
                     <div className="whitespace-nowrap overflow-hidden text-ellipsis">
                       {formatDate(jotTemplate.createdAt?.toDateString())}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-100 flex pb-3">
+            <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
+              <Icons.tag className="mr-2 h-4 w-4" />
+              <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+                Labels:
+              </div>
+            </div>
+            <div className="h-100 flex min-w-0 flex-auto flex-col">
+              <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
+                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
+                  <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+                      {jotTemplate.labels.length ? (
+                        jotTemplate.labels.map((label) => (
+                          <span className="pr-2">
+                            <Badge>{label.name}</Badge>
+                          </span>
+                        ))
+                      ) : (
+                        <span>Add Label</span>
+                      )}
                     </div>
                   </div>
                 </div>
