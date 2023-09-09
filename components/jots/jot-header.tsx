@@ -117,7 +117,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         </div>
 
         <div>
-          <div className="w-100 flex pb-3">
+          <div className="w-100 flex pb-2.5">
             <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.user className="mr-2 h-4 w-4" />
               <div className="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -144,7 +144,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             </div>
           </div>
 
-          <div className="w-100 flex pb-3">
+          <div className="w-100 flex pb-2.5">
             <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.calendar className="mr-2 h-4 w-4" />
               <div className="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -173,7 +173,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             </div>
             <div className="h-100 flex min-w-0 flex-auto flex-col">
               <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
-                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
+                <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-1 text-sm">
                   <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
                     <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                       {jot.labels.length ? (
