@@ -177,11 +177,19 @@ export function JotHeader({ jot, editorRef }: JotProps) {
                   <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
                     <div className="overflow-hidden text-ellipsis whitespace-nowrap">
                       {jot.labels.length ? (
-                        jot.labels.map((label) => (
-                          <span className="pr-2">
-                            <Badge>{label.name}</Badge>
-                          </span>
-                        ))
+                        <div className="flex items-center">
+                          {jot.labels.map((label) => (
+                            <span className="pr-2">
+                              <Badge
+                                color={label.color}
+                                removable
+                              >
+                                {label.name}
+                              </Badge>
+                            </span>
+                          ))}
+                          <Icons.add className="w-4 h-4" />
+                        </div>
                       ) : (
                         <span>Add Label</span>
                       )}
