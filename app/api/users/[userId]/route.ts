@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth/next"
 import { z } from "zod"
-
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { authOptions } from "@/lib/auth"
+import { getServerSession } from "next-auth/next"
 import { userNameSchema } from "@/lib/validations/user"
 
 const routeContextSchema = z.object({

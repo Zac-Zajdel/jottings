@@ -34,7 +34,6 @@ export default async function EditorPage({ params }: EditorPageProps) {
   }
 
   const jot = await getJotForUser(params.jotId, user.id)
-  console.log(jot?.labels)
   if (!jot) {
     notFound()
   }
@@ -51,7 +50,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
           createdAt: jot.createdAt,
           published: jot.published,
           author: jot.author,
-          labels: jot.labels,
+          labels: jot.labels?.map(label => label.label),
         }}
       />
     </div>

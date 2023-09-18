@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth"
 import * as z from "zod"
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { authOptions } from "@/lib/auth"
+import { getServerSession } from "next-auth"
 import { jotPatchSchema } from "@/lib/validations/jot"
 
 async function validateJotId(jotId: string) {
