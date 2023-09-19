@@ -8,6 +8,33 @@ const labelCreateSchema = z.object({
   color: z.string().max(191),
 })
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
+    // todo - grab query params.
+    // todo - validation
+
+    const labels = await db.label.findMany({
+      select: {
+        id: true,
+        name: true,
+        color: true,
+      },
+      where: {
+        authorId: session.user.id,
+      },
+    })
+
+    return new Response(JSON.stringify(labels))
+  } catch (error) {
+    return new Response(null, { status: 500 })
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions)

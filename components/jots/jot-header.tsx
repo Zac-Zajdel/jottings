@@ -13,6 +13,7 @@ import { PlateEditor } from "@udecode/plate-common"
 import { toast } from "../ui/use-toast"
 import { useRouter } from "next/navigation"
 import { Badge } from "../ui/badge"
+import { LabelSelection } from "../label-selection"
 
 interface JotProps {
   jot: {
@@ -164,7 +165,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             </div>
           </div>
 
-          <div className="w-100 flex pb-3">
+          <div className="w-100 flex mb-5">
             <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.tag className="mr-2 h-4 w-4" />
               <div className="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -188,10 +189,18 @@ export function JotHeader({ jot, editorRef }: JotProps) {
                               </Badge>
                             </span>
                           ))}
-                          <Icons.add className="w-4 h-4" />
+                          <LabelSelection
+                            model="jot"
+                            modelId={jot.id}
+                          />
                         </div>
                       ) : (
-                        <span>Add Label</span>
+                        <div>
+                          <LabelSelection
+                            model="jot"
+                            modelId={jot.id}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
