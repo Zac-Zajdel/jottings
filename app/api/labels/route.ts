@@ -4,19 +4,23 @@ import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
 
 const labelCreateSchema = z.object({
-  name: z.string().min(2).max(191),
+  name: z.string().min(2).max(191), // todo - unique
   color: z.string().max(191),
+  // todo - validate on
+  model: z.string(),
+  modelId: z.string(),
 })
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    // todo - grab query params.
-    // todo - validation
+    // Grab query params on filter
+    const url = new URL(req.url)
+    const search = url.searchParams.get("search")
 
     const labels = await db.label.findMany({
       select: {
@@ -26,7 +30,13 @@ export async function GET() {
       },
       where: {
         authorId: session.user.id,
+        ...(
+          search?.length
+            ? { name: { contains: search } }
+            : {}
+        ),
       },
+      take: 15,
     })
 
     return new Response(JSON.stringify(labels))
@@ -45,6 +55,7 @@ export async function POST(req: Request) {
     const json = await req.json()
     const body = labelCreateSchema.parse(json)
 
+    // Create Label
     const label = await db.label.create({
       data: {
         name: body.name,
@@ -56,7 +67,20 @@ export async function POST(req: Request) {
       },
     })
 
-    // todo - Logic to create association
+    // Associate new label to model
+    if (body.model) {
+      const dynamicColumn = body.model === 'jot'
+        ? 'jotId'
+        : 'jotTemplateId'
+
+        await db.labelAssociation.create({
+          data: {
+            authorId: session.user.id,
+            labelId: label.id,
+            [dynamicColumn]: body.modelId
+          }
+        })
+    }
 
     return new Response(JSON.stringify(label))
   } catch (error) {

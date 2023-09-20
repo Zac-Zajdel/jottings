@@ -36,6 +36,11 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+    
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
@@ -56,6 +61,7 @@ export async function PATCH(
     await db.label.update({
       where: {
         id: params.labelId,
+        authorId: session.user.id,
       },
       data: {
         name: body.name,
@@ -77,11 +83,17 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
     const { params } = await routeContextSchema.parseAsync(context)
 
     await db.label.delete({
       where: {
         id: params.labelId,
+        authorId: session.user.id,
       },
     })
 

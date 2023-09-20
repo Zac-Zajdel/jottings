@@ -68,6 +68,12 @@ export function JotHeader({ jot, editorRef }: JotProps) {
     })
   }
 
+  // todo - call API route that will remove and add.
+  // todo - need to create labelAssociations route.ts file for update/delete
+  function removeLabel(label: Label) {
+    console.log('label: ', label)
+  }
+
   return (
     <div>
       <PageBreadcrumbs
@@ -184,6 +190,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
                               <Badge
                                 color={label.color}
                                 removable
+                                onRemoved={() => removeLabel(label)}
                               >
                                 {label.name}
                               </Badge>
