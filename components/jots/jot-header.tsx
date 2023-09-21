@@ -1,6 +1,6 @@
 "use client"
 
-import { Label, User } from "@prisma/client"
+import { Label, LabelAssociation, User } from "@prisma/client"
 import { cn, formatDate } from "@/lib/utils"
 import { PageBreadcrumbs } from "../page-breadcrumbs"
 import { buttonVariants } from "../plate-ui/button"
@@ -15,6 +15,10 @@ import { useRouter } from "next/navigation"
 import { Badge } from "../ui/badge"
 import { LabelSelection } from "../label-selection"
 
+interface LabelAssociations extends LabelAssociation {
+  label: Label;
+}
+
 interface JotProps {
   jot: {
     id: string
@@ -25,7 +29,7 @@ interface JotProps {
     createdAt: Date
     published: boolean
     author: User
-    labels: Label[]
+    labelAssociations: LabelAssociations[]
   }
   editorRef: RefObject<PlateEditor>
 }
@@ -68,10 +72,27 @@ export function JotHeader({ jot, editorRef }: JotProps) {
     })
   }
 
-  // todo - call API route that will remove and add.
-  // todo - need to create labelAssociations route.ts file for update/delete
-  function removeLabel(label: Label) {
-    console.log('label: ', label)
+  async function removeLabel(labelAssociation: LabelAssociation) {
+    jot.labelAssociations = jot.labelAssociations.filter(assoc => assoc.id = labelAssociation.id)
+
+    const response = await fetch(`/api/label_associations/${labelAssociation.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    if (!response?.ok)
+      return toast({
+        title: "Something went wrong.",
+        description: "Your Jot was not updated. Please try again.",
+        variant: "destructive",
+      })
+
+    router.refresh()
+    return toast({
+      description: "Label was removed successfully.",
+    })
   }
 
   return (
@@ -181,34 +202,30 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             <div className="h-100 flex min-w-0 flex-auto flex-col">
               <div className="h-100 ml-4 flex min-w-0 flex-auto items-center">
                 <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-1 text-sm">
-                  <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
+                  <div className="flex min-w-0 flex-shrink-0 flex-wrap items-center">
                     <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                      {jot.labels.length ? (
-                        <div className="flex items-center">
-                          {jot.labels.map((label) => (
-                            <span className="pr-2">
-                              <Badge
-                                color={label.color}
-                                removable
-                                onRemoved={() => removeLabel(label)}
+                        <div className="flex flex-wrap items-center">
+                          {jot.labelAssociations.length ?
+                            jot.labelAssociations.map((assoc) => (
+                              <span
+                                className="p-1"
+                                key={assoc.id}
                               >
-                                {label.name}
-                              </Badge>
-                            </span>
-                          ))}
+                                <Badge
+                                  color={assoc.label.color}
+                                  removable
+                                  onRemoved={() => removeLabel(assoc)}
+                                >
+                                  {assoc.label.name}
+                                </Badge>
+                              </span>
+                            )) : null
+                          }
                           <LabelSelection
                             model="jot"
                             modelId={jot.id}
                           />
                         </div>
-                      ) : (
-                        <div>
-                          <LabelSelection
-                            model="jot"
-                            modelId={jot.id}
-                          />
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>

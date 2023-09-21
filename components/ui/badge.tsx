@@ -33,7 +33,7 @@ function Badge({
       { removable ?
         <button
           type="button"
-          className="flex-shrink-0 h-3 w-3 ml-1 rounded-full inline-flex items-center justify-center focus:outline-none focus:text-white"
+          className="flex-shrink-0 h-3 w-3 ml-1 rounded-full inline-flex items-center justify-center"
           onClick={onRemoved}
         >
           <Icons.clear

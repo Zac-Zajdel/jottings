@@ -3,21 +3,11 @@ import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 
-async function validateJotId(jotId: string) {
+async function validateLabelId(labelId: string) {
   const session = await getServerSession(authOptions)
-  return !!await db.jot.findFirst({
+  return !!await db.label.findFirst({
     where: {
-      id: jotId,
-      authorId: session?.user.id,
-    },
-  })
-}
-
-async function validateJotTemplateId(templateId: string) {
-  const session = await getServerSession(authOptions)
-  return !!await db.jotTemplate.findFirst({
-    where: {
-      id: templateId,
+      id: labelId,
       authorId: session?.user.id,
     },
   })
@@ -25,7 +15,7 @@ async function validateJotTemplateId(templateId: string) {
 
 const routeContextSchema = z.object({
   params: z.object({
-    labelId: z.string().optional().refine(validateJotId, val => ({
+    labelId: z.string().optional().refine(validateLabelId, val => ({
       message: `${val} does not belong to the current user.`,
     })),
   }),
@@ -40,7 +30,7 @@ export async function PATCH(
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
-    
+
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
@@ -48,12 +38,6 @@ export async function PATCH(
     const body = z.object({
       name: z.string().min(2).max(191),
       color: z.string().max(191),
-      jotId: z.string().optional().refine(validateJotId, val => ({
-        message: `${val} does not belong to the current user.`,
-      })),
-      jotTemplateId: z.string().optional().refine(validateJotTemplateId, val => ({
-        message: `${val} does not belong to the current user.`,
-      })),
     })
     .parse(json)
 

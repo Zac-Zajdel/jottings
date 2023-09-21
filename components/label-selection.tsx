@@ -23,6 +23,8 @@ interface labelProps {
 export function LabelSelection ({ model, modelId}: labelProps) {
   const router = useRouter()
 
+  console.log('UPDATE')
+
   const [newLabelColor, setNewLabelColor] = useState(Math.floor(Math.random() * 16777215).toString(16))
   const [labels, setLabels] = useState<Label[]>([])
   const [searchLabel, setSearchLabel] = useState('')
@@ -124,6 +126,7 @@ export function LabelSelection ({ model, modelId}: labelProps) {
               {labels.map((label) => (
                 <DropdownMenuLabel
                   className="cursor-pointer bg-transparent hover:bg-accent hover:text-accent-foreground"
+                  key={label.id}
                 >
                   <span
                     className="text-sm text-primary font-medium p-1 rounded-md"

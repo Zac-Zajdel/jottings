@@ -50,7 +50,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
           createdAt: jot.createdAt,
           published: jot.published,
           author: jot.author,
-          labels: jot.labels?.map(label => label.label),
+          labelAssociations: jot.labels,
         }}
       />
     </div>
