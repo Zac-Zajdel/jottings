@@ -23,8 +23,6 @@ interface labelProps {
 export function LabelSelection ({ model, modelId}: labelProps) {
   const router = useRouter()
 
-  console.log('UPDATE')
-
   const [newLabelColor, setNewLabelColor] = useState(Math.floor(Math.random() * 16777215).toString(16))
   const [labels, setLabels] = useState<Label[]>([])
   const [searchLabel, setSearchLabel] = useState('')
@@ -34,6 +32,8 @@ export function LabelSelection ({ model, modelId}: labelProps) {
     const fetchLabels = async () => {
       const response = await fetch("/api/labels?" + new URLSearchParams({
         search: searchLabel,
+        model: model,
+        modelId: modelId,
       }))
       const data = await response.json()
       setLabels(data)
@@ -56,6 +56,7 @@ export function LabelSelection ({ model, modelId}: labelProps) {
       }),
     })
 
+    // todo - grab error response for unique
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
@@ -67,12 +68,32 @@ export function LabelSelection ({ model, modelId}: labelProps) {
     router.refresh()
     router.push(`/jots/${modelId}`)
 
+    setSearchLabel('')
     setNewLabelColor(Math.floor(Math.random() * 16777215).toString(16));
   }
 
   function getColorByBgColor(bgColor) {
     if (!bgColor) { return ''; }
     return (parseInt(bgColor.replace('#', ''), 16) > 0xffffff / 2) ? '#000' : '#fff';
+  }
+
+  async function linkLabel(label: Label) {
+    console.log('LABEL', label)
+
+    // todo - we gotta create this route.ts
+    const response = await fetch("/api/label_associations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: model,
+        modelId: modelId,
+      }),
+    })
+
+    // label_associations POST
+
   }
 
   return (
@@ -127,6 +148,7 @@ export function LabelSelection ({ model, modelId}: labelProps) {
                 <DropdownMenuLabel
                   className="cursor-pointer bg-transparent hover:bg-accent hover:text-accent-foreground"
                   key={label.id}
+                  onClick={() => linkLabel(label)}
                 >
                   <span
                     className="text-sm text-primary font-medium p-1 rounded-md"

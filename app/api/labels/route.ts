@@ -3,8 +3,20 @@ import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
 
+async function uniqueLabel(name: string) {
+  const session = await getServerSession(authOptions)
+  return !!await db.label.findFirst({
+    where: {
+      name: name,
+      authorId: session?.user.id,
+    },
+  })
+}
+
 const labelCreateSchema = z.object({
-  name: z.string().min(2).max(191), // todo - unique
+  name: z.string().refine(uniqueLabel, val => ({
+    message: `${val} cannot be a duplicate.`,
+  })),
   color: z.string().max(191),
   // todo - validate on
   model: z.string(),
@@ -21,6 +33,12 @@ export async function GET(req: Request) {
     // Grab query params on filter
     const url = new URL(req.url)
     const search = url.searchParams.get("search")
+    const model = url.searchParams.get("model")
+    const modelId = url.searchParams.get("modelId")
+
+    const dynamicColumn = model == 'jot'
+      ? 'jotId'
+      : 'jotTemplateId'
 
     const labels = await db.label.findMany({
       select: {
@@ -35,6 +53,11 @@ export async function GET(req: Request) {
             ? { name: { contains: search } }
             : {}
         ),
+        associations: {
+          none: {
+            [dynamicColumn]: modelId as string,
+          },
+        },
       },
       take: 15,
     })
@@ -53,7 +76,7 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json()
-    const body = labelCreateSchema.parse(json)
+    const body = await labelCreateSchema.parseAsync(json)
 
     // Create Label
     const label = await db.label.create({
