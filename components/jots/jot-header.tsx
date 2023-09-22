@@ -222,7 +222,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
                             )) : null
                           }
                           <LabelSelection
-                            model="jot"
+                            model="jots"
                             modelId={jot.id}
                           />
                         </div>

@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 
 interface labelProps {
-  model: 'jot' | 'jotTemplate'
+  model: 'jots' | 'templates'
   modelId: string
 }
 
@@ -30,7 +30,6 @@ export function LabelSelection ({ model, modelId }: labelProps) {
   const debouncedSearchTerm = useDebounce(searchLabel, 250);
 
   useEffect(() => {
-    // todo - need to have this be triggered on open with a loading state...
     if (hasOpened)
       fetchLabels();
   }, [debouncedSearchTerm])
@@ -68,7 +67,7 @@ export function LabelSelection ({ model, modelId }: labelProps) {
     }
 
     router.refresh()
-    router.push(`/jots/${modelId}`)
+    router.push(`/${model}/${modelId}`)
 
     setSearchLabel('')
     setNewLabelColor(Math.floor(Math.random() * 16777215).toString(16));
@@ -101,7 +100,7 @@ export function LabelSelection ({ model, modelId }: labelProps) {
     }
 
     router.refresh()
-    router.push(`/jots/${modelId}`)
+    router.push(`/${model}/${modelId}`)
 
     if (searchLabel.length) {
       setSearchLabel('')

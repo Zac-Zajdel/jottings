@@ -7,8 +7,8 @@ import { type NextRequest } from 'next/server'
 const associationRequest = z.object({
   labelId: z.string(),
   model: z.union([
-    z.literal('jot'),
-    z.literal('jotTemplate'),
+    z.literal('jots'),
+    z.literal('templates'),
   ]),
   modelId: z.string(),
 })
@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
     const json = await req.json()
     const body = await associationRequest.parseAsync(json)
 
-    const dynamicColumn = body.model === 'jot' 
+    const dynamicColumn = body.model === 'jots' 
       ? 'jotId'
       : 'jotTemplateId';
 
