@@ -2237,12 +2237,12 @@
     "@udecode/plate-common" "23.3.1"
     downshift "^6.1.12"
 
-"@udecode/plate-combobox@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-combobox/-/plate-combobox-23.7.4.tgz#1092961336bc2cfc3660507856cddd0a83a281d4"
-  integrity sha512-ejUR2Y4Bj4aZsXazeNBTk+s4dHzt1/RVcbE5b2uLdtClpBqnYrmW3KnrBEHKJpmMk37eUFgYXGwmsDcMqrmmpg==
+"@udecode/plate-combobox@23.6.0":
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-combobox/-/plate-combobox-23.6.0.tgz#df47ad3d3d7cc79a536bda89e28aaf5911f6add3"
+  integrity sha512-6joSy+qdqlH3wDb8hb9kJDYeraf6b0goVCn4WYr0mJ5syKn8wrRWCQ/TntJPUdIk7DlulbFShZ89cik/h+MtWg==
   dependencies:
-    "@udecode/plate-common" "23.7.4"
+    "@udecode/plate-common" "23.6.0"
     downshift "^6.1.12"
 
 "@udecode/plate-comments@23.3.1":
@@ -2264,16 +2264,16 @@
     "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/plate-common@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-common/-/plate-common-23.7.4.tgz#8e81ac8db36ac65aa3baa9826b530d354642b065"
-  integrity sha512-/pNpnfrVTKxTv1hJwlxgyNfhCDJuHtil7sVYADdIJsd53iq9XY26X4xa5cbC+dmFyyqNBC3r7YWFDMiww0U2Kg==
+"@udecode/plate-common@23.6.0":
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-common/-/plate-common-23.6.0.tgz#a4213bcde654a73ab20d265a9726ea4f47d0a030"
+  integrity sha512-HnbRzVUDnQBjMIivguMk7RKZGIHMBuXjbYv7dPyENiOhcvXr2ddIsn2cyRzTP82Qws5OcvvA1sXtMat2sKE/9w==
   dependencies:
-    "@udecode/plate-core" "23.7.4"
-    "@udecode/plate-utils" "23.7.4"
-    "@udecode/slate" "23.7.4"
-    "@udecode/slate-react" "23.7.4"
-    "@udecode/slate-utils" "23.7.4"
+    "@udecode/plate-core" "23.6.0"
+    "@udecode/plate-utils" "23.6.0"
+    "@udecode/slate" "22.0.2"
+    "@udecode/slate-react" "22.0.2"
+    "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
 "@udecode/plate-core@23.3.1":
@@ -2293,13 +2293,13 @@
     use-deep-compare "^1.1.0"
     zustand "^3.7.2"
 
-"@udecode/plate-core@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-core/-/plate-core-23.7.4.tgz#eb353644dee76a2ce6dcf29cb62e06d772abf5ba"
-  integrity sha512-W3/z6d5XkuFfRx3ckPNIfKlYkr5KDLnH8gRJD8TJJM6QMs70jauR8R4m28OAy0LplMARnTdtWjvSv+rqZxJpFg==
+"@udecode/plate-core@23.6.0":
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-core/-/plate-core-23.6.0.tgz#6331a3435861372793299ef790344ef7d3db6b03"
+  integrity sha512-5nw86q3Om2TLtwo0rmMSzE5phbuoQoE9GlXxBL/oo7BYQwLWFSwqMqSxAO1doysqQ+Z8Yw5ctRtOq3kz587A0w==
   dependencies:
-    "@udecode/slate" "23.7.4"
-    "@udecode/slate-react" "23.7.4"
+    "@udecode/slate" "22.0.2"
+    "@udecode/slate-react" "22.0.2"
     "@udecode/utils" "19.7.1"
     "@udecode/zustood" "^1.1.3"
     clsx "^1.2.1"
@@ -2326,13 +2326,13 @@
     raf "^3.4.1"
 
 "@udecode/plate-emoji@^23.6.0":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-emoji/-/plate-emoji-23.7.4.tgz#6f6664b643c2a8f0aeee741b62e644b82ddcf8ae"
-  integrity sha512-mUvuvEnrJ1Vy9KpLSGoKZIeamBuxUVx3WB/K3MzmSUN3YzpCxItybUNyW/lqQH+5Jc42RhqJEnHD1ulCPIPOPQ==
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-emoji/-/plate-emoji-23.6.0.tgz#0646b24b20d0d732dc1e6311e496c94a3005a2f1"
+  integrity sha512-mfbvXSZdXWTUmuYVz7T/xhiKdwb+/6tMXrll8rPK2dM8547uZiv8yjZCr9dbBYhsVMAwObkrfdAhVRDen9cBkQ==
   dependencies:
     "@emoji-mart/data" "^1.1.2"
-    "@udecode/plate-combobox" "23.7.4"
-    "@udecode/plate-common" "23.7.4"
+    "@udecode/plate-combobox" "23.6.0"
+    "@udecode/plate-common" "23.6.0"
 
 "@udecode/plate-find-replace@23.3.1":
   version "23.3.1"
@@ -2587,16 +2587,16 @@
     "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/plate-utils@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-utils/-/plate-utils-23.7.4.tgz#9fb784c43f9510312891df2f88e8a1d472ce71a7"
-  integrity sha512-FGZ1QjMkR6Tr57b66u1C8mu/JCVwh1e0W5OkjRIhE2Drkm5I39TlrfM86ouZroWuOP228B/hXFn6a2pjqIQKIw==
+"@udecode/plate-utils@23.6.0":
+  version "23.6.0"
+  resolved "https://registry.yarnpkg.com/@udecode/plate-utils/-/plate-utils-23.6.0.tgz#2820f9af7a2ced7b52fd722fc423e6ce634d7615"
+  integrity sha512-7IJmXf+WssNYTrG2e/X92P4hmTeDr0iNa8+3eg1gJDTiYgWfmGjYtRxZE3trcwIXob56wEpf2tgKtHDIdciCpw==
   dependencies:
     "@radix-ui/react-slot" "^1.0.2"
-    "@udecode/plate-core" "23.7.4"
-    "@udecode/slate" "23.7.4"
-    "@udecode/slate-react" "23.7.4"
-    "@udecode/slate-utils" "23.7.4"
+    "@udecode/plate-core" "23.6.0"
+    "@udecode/slate" "22.0.2"
+    "@udecode/slate-react" "22.0.2"
+    "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
 "@udecode/plate@^23.3.1":
@@ -2651,14 +2651,6 @@
     "@udecode/slate" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/slate-react@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/slate-react/-/slate-react-23.7.4.tgz#2d39ed1c93640d39717eae7b62331c23748fa5fa"
-  integrity sha512-eVMh6MRvMIUYKPltSGvIivGvs+pzdyXWc0lVToRLkrMPriTW1HsA0zRTBScVDq0HPXjHyzlxJPFTk0TBIV+YVg==
-  dependencies:
-    "@udecode/slate" "23.7.4"
-    "@udecode/utils" "19.7.1"
-
 "@udecode/slate-utils@22.0.2":
   version "22.0.2"
   resolved "https://registry.yarnpkg.com/@udecode/slate-utils/-/slate-utils-22.0.2.tgz#70ab110cda27b2731187db80946fd7ddfd1e0df1"
@@ -2668,26 +2660,10 @@
     "@udecode/utils" "19.7.1"
     lodash "^4.17.21"
 
-"@udecode/slate-utils@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/slate-utils/-/slate-utils-23.7.4.tgz#9282ec815dc539f180fe57b92defbd7f71622b16"
-  integrity sha512-UeZ9yv/VJuzstkzIZpkZYn+P7VrZVRL7cpf+aO/1GwUNYYhNduXw0S7TrTi1WGiODxb47rVjOzmiVrkPLGSfcg==
-  dependencies:
-    "@udecode/slate" "23.7.4"
-    "@udecode/utils" "19.7.1"
-    lodash "^4.17.21"
-
 "@udecode/slate@22.0.2":
   version "22.0.2"
   resolved "https://registry.yarnpkg.com/@udecode/slate/-/slate-22.0.2.tgz#163a462353281e065ad10d16c0647a3c5de45213"
   integrity sha512-oe4Pi1QMLXwBPuVk64RU0cxmBeXmahg2GWX1iZ3fcshTM8mQyJdTyjIgMu+wmQqe2nk/2mRruGb5INh3Pt8gYQ==
-  dependencies:
-    "@udecode/utils" "19.7.1"
-
-"@udecode/slate@23.7.4":
-  version "23.7.4"
-  resolved "https://registry.yarnpkg.com/@udecode/slate/-/slate-23.7.4.tgz#3373c9b154e9b4536e01b0e917d52834b57722df"
-  integrity sha512-7+u/ntgaZenVhYPuOSs1hPevQz3b8AsxJbXFba/UbTS+4X4m4K+xbZlXVpG+L1l+qEoYYMTJe1Phet+4SY96mw==
   dependencies:
     "@udecode/utils" "19.7.1"
 
