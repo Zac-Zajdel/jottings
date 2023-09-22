@@ -46,7 +46,7 @@
     "@udecode/plate-juice": "^23.3.1",
     "@udecode/plate-selection": "^23.3.1",
     "@uidotdev/usehooks": "^2.1.1",
-    "@vercel/analytics": "^1.0.0",
+    "@vercel/analytics": "^1.0.2",
     "@vercel/og": "^0.0.21",
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
