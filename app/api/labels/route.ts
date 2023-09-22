@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth/next"
 
 async function uniqueLabel(name: string) {
   const session = await getServerSession(authOptions)
-  return !!await db.label.findFirst({
+  return !await db.label.findFirst({
     where: {
       name: name,
       authorId: session?.user.id,
@@ -15,10 +15,9 @@ async function uniqueLabel(name: string) {
 
 const labelCreateSchema = z.object({
   name: z.string().refine(uniqueLabel, val => ({
-    message: `${val} cannot be a duplicate.`,
+    message: `Label ${val} already exists.`,
   })),
   color: z.string().max(191),
-  // todo - validate on
   model: z.string(),
   modelId: z.string(),
 })

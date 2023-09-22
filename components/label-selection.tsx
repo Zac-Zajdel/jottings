@@ -20,27 +20,30 @@ interface labelProps {
   modelId: string
 }
 
-export function LabelSelection ({ model, modelId}: labelProps) {
+export function LabelSelection ({ model, modelId }: labelProps) {
   const router = useRouter()
 
   const [newLabelColor, setNewLabelColor] = useState(Math.floor(Math.random() * 16777215).toString(16))
+  const [hasOpened, setHasOpened] = useState(false)
   const [labels, setLabels] = useState<Label[]>([])
   const [searchLabel, setSearchLabel] = useState('')
   const debouncedSearchTerm = useDebounce(searchLabel, 250);
 
   useEffect(() => {
-    const fetchLabels = async () => {
-      const response = await fetch("/api/labels?" + new URLSearchParams({
-        search: searchLabel,
-        model: model,
-        modelId: modelId,
-      }))
-      const data = await response.json()
-      setLabels(data)
-    }
-
-    fetchLabels();
+    // todo - need to have this be triggered on open with a loading state...
+    if (hasOpened)
+      fetchLabels();
   }, [debouncedSearchTerm])
+
+  const fetchLabels = async () => {
+    const response = await fetch("/api/labels?" + new URLSearchParams({
+      search: searchLabel,
+      model: model,
+      modelId: modelId,
+    }))
+    const data = await response.json()
+    setLabels(data)
+  }
 
   async function createLabel() {
     const response = await fetch("/api/labels", {
@@ -55,12 +58,11 @@ export function LabelSelection ({ model, modelId}: labelProps) {
         modelId: modelId,
       }),
     })
-
-    // todo - grab error response for unique
+    
     if (!response?.ok) {
+      const data = await response.json();
       return toast({
-        title: "Something went wrong.",
-        description: "Your label was not created. Please try again.",
+        title: data[0]?.message,
         variant: "destructive",
       })
     }
@@ -78,9 +80,6 @@ export function LabelSelection ({ model, modelId}: labelProps) {
   }
 
   async function linkLabel(label: Label) {
-    console.log('LABEL', label)
-
-    // todo - we gotta create this route.ts
     const response = await fetch("/api/label_associations", {
       method: "POST",
       headers: {
@@ -89,16 +88,34 @@ export function LabelSelection ({ model, modelId}: labelProps) {
       body: JSON.stringify({
         model: model,
         modelId: modelId,
+        labelId: label.id,
       }),
     })
 
-    // label_associations POST
+    if (!response?.ok) {
+      const data = await response.json()
+      return toast({
+        title: data[0]?.message,
+        variant: "destructive",
+      })
+    }
 
+    router.refresh()
+    router.push(`/jots/${modelId}`)
+
+    if (searchLabel.length) {
+      setSearchLabel('')
+    } else {
+      fetchLabels()
+    }
   }
 
   return (
     <div>
-      <DropdownMenu>
+      <DropdownMenu onOpenChange={(opened) => {
+        setHasOpened(true)
+        if (opened) fetchLabels()
+      }}>
         <DropdownMenuTrigger asChild>
           <span className="flex items-center">
             <button className="bg-transparent border hover:bg-accent hover:text-accent-foreground rounded-full p-1">
@@ -142,27 +159,26 @@ export function LabelSelection ({ model, modelId}: labelProps) {
             </span>
           }
 
-          {labels.length > 0 && 
-            <div>
-              {labels.map((label) => (
-                <DropdownMenuLabel
-                  className="cursor-pointer bg-transparent hover:bg-accent hover:text-accent-foreground"
-                  key={label.id}
-                  onClick={() => linkLabel(label)}
+          <div>
+            {labels.map((label) => (
+              <DropdownMenuLabel
+                className="cursor-pointer bg-transparent hover:bg-accent hover:text-accent-foreground"
+                key={label.id}
+                onClick={() => linkLabel(label)}
+              >
+                <span
+                  className="text-sm text-primary font-medium py-1 px-1.5 rounded-md"
+                  style={{
+                    backgroundColor: `#${label.color}`,
+                    color: getColorByBgColor(label.color)
+                  }}
                 >
-                  <span
-                    className="text-sm text-primary font-medium p-1 rounded-md"
-                    style={{
-                      backgroundColor: `#${label.color}`,
-                      color: getColorByBgColor(label.color)
-                    }}
-                  >
-                    {label.name}
-                  </span>
-                </DropdownMenuLabel>
-              ))}
-            </div>
-          }
+                  {label.name}
+                </span>
+              </DropdownMenuLabel>
+            ))}
+            {}
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

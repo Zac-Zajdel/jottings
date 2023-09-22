@@ -2,14 +2,18 @@ import * as z from "zod"
 import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
+import { type NextRequest } from 'next/server'
 
 const associationRequest = z.object({
   labelId: z.string(),
-  model: z.string(),
+  model: z.union([
+    z.literal('jot'),
+    z.literal('jotTemplate'),
+  ]),
   modelId: z.string(),
 })
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) {
@@ -19,12 +23,30 @@ export async function POST(req: Request) {
     const json = await req.json()
     const body = await associationRequest.parseAsync(json)
 
-    // Create Label
+    const dynamicColumn = body.model === 'jot' 
+      ? 'jotId'
+      : 'jotTemplateId';
+
+    const alreadyAssociated = await db.labelAssociation.findFirst({
+      where: {
+        authorId: session.user.id,
+        labelId: body.labelId,
+        [dynamicColumn]: body.modelId,
+      },
+      select: {
+        id: true,
+      },
+    })
+    if (alreadyAssociated) {
+      return new Response(JSON.stringify([{message: "Label is already associated"}]), { status: 403 })
+    }
+
+    // Create Label Association
     const label = await db.labelAssociation.create({
       data: {
         authorId: session.user.id,
         labelId: body.labelId,
-        [body.model === 'jots' ? 'jotId' : 'jotTemplateId']: body.modelId,
+        [dynamicColumn]: body.modelId,
       },
       select: {
         id: true,

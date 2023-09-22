@@ -50,8 +50,6 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
                 ref={containerRef}
                 className={cn(
                   'relative flex w-full overflow-x-auto',
-                  '[&_.slate-start-area-top]:!h-4',
-                  '[&_.slate-start-area-left]:!w-[64px] [&_.slate-start-area-right]:!w-[64px]'
                 )}
               >
                 <Plate
