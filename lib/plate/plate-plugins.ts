@@ -125,7 +125,6 @@ import { CodeLineElement } from '@/components/plate-ui/code-line-element';
 import { CodeSyntaxLeaf } from '@/components/plate-ui/code-syntax-leaf';
 import { CommentLeaf } from '@/components/plate-ui/comment-leaf';
 import { EmojiCombobox } from '@/components/plate-ui/emoji-combobox';
-// import { ExcalidrawElement } from '@/components/plate-ui/excalidraw-element';
 import { HeadingElement } from '@/components/plate-ui/heading-element';
 import { HighlightLeaf } from '@/components/plate-ui/highlight-leaf';
 import { HrElement } from '@/components/plate-ui/hr-element';
@@ -176,7 +175,6 @@ export const plugins = createPlugins(
     createMentionPlugin(),
     createTablePlugin(),
     createTodoListPlugin(),
-    // createExcalidrawPlugin(),
 
     // Marks
     createBoldPlugin(),
@@ -379,7 +377,6 @@ export const plugins = createPlugins(
         [ELEMENT_TH]: TableCellHeaderElement,
         [ELEMENT_TODO_LI]: TodoListElement,
         [ELEMENT_TR]: TableRowElement,
-        // [ELEMENT_EXCALIDRAW]: ExcalidrawElement,
         [MARK_BOLD]: withProps(PlateLeaf, { as: 'strong' }),
         [MARK_CODE]: CodeLeaf,
         [MARK_HIGHLIGHT]: HighlightLeaf,

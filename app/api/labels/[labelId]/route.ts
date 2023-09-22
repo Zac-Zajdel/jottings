@@ -3,11 +3,11 @@ import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 
-async function validateTemplateId(jotTemplateId: string) {
+async function validateLabelId(labelId: string) {
   const session = await getServerSession(authOptions)
-  return !!await db.jotTemplate.findFirst({
+  return !!await db.label.findFirst({
     where: {
-      id: jotTemplateId,
+      id: labelId,
       authorId: session?.user.id,
     },
   })
@@ -15,15 +15,10 @@ async function validateTemplateId(jotTemplateId: string) {
 
 const routeContextSchema = z.object({
   params: z.object({
-    jotTemplateId: z.string().refine(validateTemplateId, val => ({
+    labelId: z.string().optional().refine(validateLabelId, val => ({
       message: `${val} does not belong to the current user.`,
     })),
   }),
-})
-
-const templatePatchSchema = z.object({
-  title: z.string().min(2).max(191),
-  content: z.any().optional(),
 })
 
 export async function PATCH(
@@ -32,21 +27,29 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = templatePatchSchema.parse(json)
+    const body = z.object({
+      name: z.string().min(2).max(191),
+      color: z.string().max(191),
+    })
+    .parse(json)
 
-    // Update the template
-    await db.jotTemplate.update({
+    // Update the Label.
+    await db.label.update({
       where: {
-        id: params.jotTemplateId,
-        authorId: session?.user.id,
+        id: params.labelId,
+        authorId: session.user.id,
       },
       data: {
-        title: body.title,
-        content: body.content,
+        name: body.name,
+        color: body.color,
       },
     })
 
@@ -65,12 +68,16 @@ export async function DELETE(
 ) {
   try {
     const session = await getServerSession(authOptions)
+    if (!session) {
+      return new Response("Unauthorized", { status: 403 })
+    }
+
     const { params } = await routeContextSchema.parseAsync(context)
 
-    await db.jotTemplate.delete({
+    await db.label.delete({
       where: {
-        id: params.jotTemplateId,
-        authorId: session?.user.id,
+        id: params.labelId,
+        authorId: session.user.id,
       },
     })
 

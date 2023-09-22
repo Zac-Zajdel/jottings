@@ -14,7 +14,12 @@ async function getJotForUser(jotId: Jot["id"], userId: User["id"]) {
     },
     include: {
       author: true,
-    },
+      labels: {
+        include: {
+          label: true,
+        }
+      }
+    }
   })
 }
 
@@ -45,6 +50,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
           createdAt: jot.createdAt,
           published: jot.published,
           author: jot.author,
+          labelAssociations: jot.labels,
         }}
       />
     </div>

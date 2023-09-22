@@ -4,8 +4,12 @@ import React, { useRef } from 'react';
 import { PlateEditor } from '@udecode/plate-common';
 import { MyValue } from '@/types/plate-types';
 import DocumentEditor from '../document-editor';
-import { User } from '@prisma/client';
+import { Label, LabelAssociation, User } from '@prisma/client';
 import { TemplateHeader } from './template-header';
+
+interface LabelAssociations extends LabelAssociation {
+  label: Label;
+}
 
 interface TemplateProps {
   jotTemplate: {
@@ -14,6 +18,7 @@ interface TemplateProps {
     content: MyValue
     createdAt: Date
     author: User
+    labelAssociations: LabelAssociations[]
   },
 }
 

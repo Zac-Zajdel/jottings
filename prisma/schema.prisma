@@ -55,6 +55,7 @@ model User {
   sessions    Session[]
   Jot         Jot[]
   JotTemplate JotTemplate[]
+  Label       Label[]
 
   @@map(name: "users")
 }
@@ -79,7 +80,8 @@ model Jot {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  author User @relation(fields: [authorId], references: [id])
+  author User               @relation(fields: [authorId], references: [id])
+  labels LabelAssociation[]
 
   @@index([authorId])
   @@map(name: "jots")
@@ -94,8 +96,44 @@ model JotTemplate {
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
-  author User @relation(fields: [authorId], references: [id])
+  author User               @relation(fields: [authorId], references: [id])
+  labels LabelAssociation[]
 
   @@index([authorId])
   @@map(name: "jot_templates")
+}
+
+model Label {
+  id        String   @id @default(cuid())
+  authorId  String
+  name      String
+  color     String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  author       User               @relation(fields: [authorId], references: [id])
+  associations LabelAssociation[]
+
+  @@index([authorId])
+  @@map(name: "labels")
+}
+
+model LabelAssociation {
+  id            String   @id @default(cuid())
+  authorId      String
+  labelId       String
+  jotId         String?
+  jotTemplateId String?
+  createdAt     DateTime @default(now()) @map(name: "created_at")
+  updatedAt     DateTime @default(now()) @map(name: "updated_at")
+
+  label       Label        @relation(fields: [labelId], references: [id])
+  jot         Jot?         @relation(fields: [jotId], references: [id])
+  jotTemplate JotTemplate? @relation(fields: [jotTemplateId], references: [id])
+
+  @@index([authorId])
+  @@index([labelId])
+  @@index([jotId])
+  @@index([jotTemplateId])
+  @@map(name: "label_associations")
 }
