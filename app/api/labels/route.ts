@@ -18,7 +18,10 @@ const labelCreateSchema = z.object({
     message: `Label ${val} already exists.`,
   })),
   color: z.string().max(191),
-  model: z.string(),
+  model: z.union([
+    z.literal('jots'),
+    z.literal('templates'),
+  ]),
   modelId: z.string(),
 })
 
@@ -35,7 +38,7 @@ export async function GET(req: Request) {
     const model = url.searchParams.get("model")
     const modelId = url.searchParams.get("modelId")
 
-    const dynamicColumn = model == 'jot'
+    const dynamicColumn = model == 'jots'
       ? 'jotId'
       : 'jotTemplateId'
 
@@ -91,7 +94,7 @@ export async function POST(req: Request) {
 
     // Associate new label to model
     if (body.model) {
-      const dynamicColumn = body.model === 'jot'
+      const dynamicColumn = body.model === 'jots'
         ? 'jotId'
         : 'jotTemplateId'
 
