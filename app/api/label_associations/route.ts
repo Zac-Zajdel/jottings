@@ -1,7 +1,5 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth/next"
 import { type NextRequest } from 'next/server'
 
 const associationRequest = z.object({
@@ -15,11 +13,8 @@ const associationRequest = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    if (!session) {
-      return new Response("Unauthorized", { status: 403 })
-    }
-
+    // TODO - Need this
+    const userId = req.cookies.get('userId')
     const json = await req.json()
     const body = await associationRequest.parseAsync(json)
 
@@ -29,7 +24,7 @@ export async function POST(req: NextRequest) {
 
     const alreadyAssociated = await db.labelAssociation.findFirst({
       where: {
-        authorId: session.user.id,
+        authorId: userId?.value,
         labelId: body.labelId,
         [dynamicColumn]: body.modelId,
       },
@@ -44,7 +39,7 @@ export async function POST(req: NextRequest) {
     // Create Label Association
     const label = await db.labelAssociation.create({
       data: {
-        authorId: session.user.id,
+        authorId: userId?.value ?? '', // todo - nope override the RequestCookie value for userId
         labelId: body.labelId,
         [dynamicColumn]: body.modelId,
       },

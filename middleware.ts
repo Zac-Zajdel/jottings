@@ -28,6 +28,11 @@ export default withAuth(
         new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
       );
     }
+
+    // Set authenticated userId for API Route Handlers.
+    const response = NextResponse.next();
+    response.cookies.set('userId', token.id ?? 1);
+    return response
   },
   {
     callbacks: {
@@ -42,5 +47,10 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/editor/:path*", "/login", "/register"],
+  matcher: [
+    "/templates/:path*",
+    "/jots/:path*",
+    "/login",
+    "/register",
+  ],
 }
