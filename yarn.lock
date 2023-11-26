@@ -501,11 +501,6 @@
   resolved "https://registry.yarnpkg.com/@effect-ts/system/-/system-0.57.5.tgz#921e9b39dcea2d1728e0f49a0af233472efdc6cb"
   integrity sha512-/crHGujo0xnuHIYNc1VgP0HGJGFSoSqq88JFXe6FmFyXPpWt8Xu39LyLg7rchsxfXFeEdA9CrIZvLV5eswXV5g==
 
-"@emoji-mart/data@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@emoji-mart/data/-/data-1.1.2.tgz#777c976f8f143df47cbb23a7077c9ca9fe5fc513"
-  integrity sha512-1HP8BxD2azjqWJvxIaWAMyTySeZY0Osr83ukYjltPVkNXeJvTz7yDrPLBtnrD5uqJ3tg4CcLuuBW09wahqL/fg==
-
 "@esbuild-plugins/node-resolve@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@esbuild-plugins/node-resolve/-/node-resolve-0.1.4.tgz#2257ef3b233c9cb3acd2ebde7d5a3d6874046d38"
@@ -2293,14 +2288,6 @@
     "@udecode/plate-common" "23.3.1"
     downshift "^6.1.12"
 
-"@udecode/plate-combobox@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-combobox/-/plate-combobox-23.6.0.tgz#df47ad3d3d7cc79a536bda89e28aaf5911f6add3"
-  integrity sha512-6joSy+qdqlH3wDb8hb9kJDYeraf6b0goVCn4WYr0mJ5syKn8wrRWCQ/TntJPUdIk7DlulbFShZ89cik/h+MtWg==
-  dependencies:
-    "@udecode/plate-common" "23.6.0"
-    downshift "^6.1.12"
-
 "@udecode/plate-comments@23.3.1":
   version "23.3.1"
   resolved "https://registry.yarnpkg.com/@udecode/plate-comments/-/plate-comments-23.3.1.tgz#046cb212e53a08909c97449f9226d3fea08916c6"
@@ -2320,39 +2307,10 @@
     "@udecode/slate-utils" "22.0.2"
     "@udecode/utils" "19.7.1"
 
-"@udecode/plate-common@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-common/-/plate-common-23.6.0.tgz#a4213bcde654a73ab20d265a9726ea4f47d0a030"
-  integrity sha512-HnbRzVUDnQBjMIivguMk7RKZGIHMBuXjbYv7dPyENiOhcvXr2ddIsn2cyRzTP82Qws5OcvvA1sXtMat2sKE/9w==
-  dependencies:
-    "@udecode/plate-core" "23.6.0"
-    "@udecode/plate-utils" "23.6.0"
-    "@udecode/slate" "22.0.2"
-    "@udecode/slate-react" "22.0.2"
-    "@udecode/slate-utils" "22.0.2"
-    "@udecode/utils" "19.7.1"
-
 "@udecode/plate-core@23.3.1":
   version "23.3.1"
   resolved "https://registry.yarnpkg.com/@udecode/plate-core/-/plate-core-23.3.1.tgz#f2acc75540b02e387f7041874c276c29da33b7e8"
   integrity sha512-zEmJMxQqCqGqyrWzFjz2MT19hmLk2P5M9JcVhJ/j7b5dsk7ZUMzcYvdQ8RNgfq01Wk5fDi/CTuuYNC3CFt9Zdw==
-  dependencies:
-    "@udecode/slate" "22.0.2"
-    "@udecode/slate-react" "22.0.2"
-    "@udecode/utils" "19.7.1"
-    "@udecode/zustood" "^1.1.3"
-    clsx "^1.2.1"
-    jotai "1.7.2"
-    lodash "^4.17.21"
-    nanoid "^3.3.6"
-    react-hotkeys-hook "^4.4.1"
-    use-deep-compare "^1.1.0"
-    zustand "^3.7.2"
-
-"@udecode/plate-core@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-core/-/plate-core-23.6.0.tgz#6331a3435861372793299ef790344ef7d3db6b03"
-  integrity sha512-5nw86q3Om2TLtwo0rmMSzE5phbuoQoE9GlXxBL/oo7BYQwLWFSwqMqSxAO1doysqQ+Z8Yw5ctRtOq3kz587A0w==
   dependencies:
     "@udecode/slate" "22.0.2"
     "@udecode/slate-react" "22.0.2"
@@ -2380,15 +2338,6 @@
   dependencies:
     "@udecode/plate-common" "23.3.1"
     raf "^3.4.1"
-
-"@udecode/plate-emoji@^23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-emoji/-/plate-emoji-23.6.0.tgz#0646b24b20d0d732dc1e6311e496c94a3005a2f1"
-  integrity sha512-mfbvXSZdXWTUmuYVz7T/xhiKdwb+/6tMXrll8rPK2dM8547uZiv8yjZCr9dbBYhsVMAwObkrfdAhVRDen9cBkQ==
-  dependencies:
-    "@emoji-mart/data" "^1.1.2"
-    "@udecode/plate-combobox" "23.6.0"
-    "@udecode/plate-common" "23.6.0"
 
 "@udecode/plate-find-replace@23.3.1":
   version "23.3.1"
@@ -2638,18 +2587,6 @@
   dependencies:
     "@radix-ui/react-slot" "^1.0.2"
     "@udecode/plate-core" "23.3.1"
-    "@udecode/slate" "22.0.2"
-    "@udecode/slate-react" "22.0.2"
-    "@udecode/slate-utils" "22.0.2"
-    "@udecode/utils" "19.7.1"
-
-"@udecode/plate-utils@23.6.0":
-  version "23.6.0"
-  resolved "https://registry.yarnpkg.com/@udecode/plate-utils/-/plate-utils-23.6.0.tgz#2820f9af7a2ced7b52fd722fc423e6ce634d7615"
-  integrity sha512-7IJmXf+WssNYTrG2e/X92P4hmTeDr0iNa8+3eg1gJDTiYgWfmGjYtRxZE3trcwIXob56wEpf2tgKtHDIdciCpw==
-  dependencies:
-    "@radix-ui/react-slot" "^1.0.2"
-    "@udecode/plate-core" "23.6.0"
     "@udecode/slate" "22.0.2"
     "@udecode/slate-react" "22.0.2"
     "@udecode/slate-utils" "22.0.2"
