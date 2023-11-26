@@ -130,7 +130,10 @@ export function InsertDropdownMenu(props: DropdownMenuProps) {
 
   return (
     <DropdownMenu modal={false} {...openState} {...props}>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger
+        asChild
+        className="hover:bg-accent hover:text-accent-foreground"
+      >
         <ToolbarButton pressed={openState.open} tooltip="Insert" isDropdown>
           <Icons.add />
         </ToolbarButton>

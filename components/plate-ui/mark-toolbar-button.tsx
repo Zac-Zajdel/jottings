@@ -24,5 +24,11 @@ export function MarkToolbarButton({
   const state = useMarkToolbarButtonState({ clear, nodeType });
   const { props: buttonProps } = useMarkToolbarButton(state);
 
-  return <ToolbarButton {...buttonProps} {...props} />;
+  return (
+    <ToolbarButton
+      className="hover:bg-accent hover:text-accent-foreground"
+      {...buttonProps}
+      {...props}
+    />
+  );
 }

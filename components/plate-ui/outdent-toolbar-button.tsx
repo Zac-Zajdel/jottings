@@ -7,7 +7,11 @@ export function OutdentToolbarButton() {
   const { props } = useOutdentButton();
 
   return (
-    <ToolbarButton tooltip="Outdent" {...props}>
+    <ToolbarButton
+      className="hover:bg-accent hover:text-accent-foreground"
+      tooltip="Outdent"
+      {...props}
+    >
       <Icons.outdent />
     </ToolbarButton>
   );

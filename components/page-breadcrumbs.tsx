@@ -16,7 +16,7 @@ interface PageBreadcrumbsProps {
 
 export function PageBreadcrumbs({ crumbs, children }: PageBreadcrumbsProps) {
   return (
-    <header className="sticky top-0 z-40 border-b bg-background">
+    <header className="sticky top-0 z-40 bg-background">
       <div className="mx-4 flex h-14 items-center justify-between">
         {crumbs.length ? (
           <Breadcrumb>

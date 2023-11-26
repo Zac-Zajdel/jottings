@@ -111,7 +111,7 @@ export function TemplateHeader({ jotTemplate, editorRef }: TemplateProps) {
         ]}
       >
         <Button
-          className={cn('pl-10', buttonVariants({ variant: "secondary" }))}
+          className={cn('pl-10', buttonVariants({ variant: "default" }))}
           disabled={isSaving}
           onClick={save}
         >
