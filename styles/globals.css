@@ -6,6 +6,8 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
+  
+    --core: 60, 0%, 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -37,11 +39,13 @@
   }
 
   .dark {
-    --background: 224 71% 4%;
+    --background: 240 4.3% 9%;
     --foreground: 213 31% 91%;
 
+    --core: 240 4.3% 9%;
+
     --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted-foreground: 280 3.7% 56.9%;
 
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
@@ -49,7 +53,7 @@
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
 
-    --border: 216 34% 17%;
+    --border: 240 2.6% 14.9%;
     --input: 216 34% 17%;
 
     --card: 224 71% 4%;

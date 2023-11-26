@@ -18,10 +18,10 @@ export default async function JotsLayout({
   }
 
   return (
-    <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6">
+    <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6 bg-core">
       <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
         <aside className="hidden w-[215px] flex-col md:flex">
-          <header className="sticky top-0 z-40 bg-background px-2">
+          <header className="sticky top-0 z-40 bg-core px-2">
             <div className="flex h-14 items-center justify-between py-4 px-3">
               <MainNav items={dashboardConfig.mainNav} />
             </div>
@@ -29,7 +29,7 @@ export default async function JotsLayout({
 
           <DashboardNav items={dashboardConfig.sidebarNav} />
           <div className="flex-1 px-2"></div>
-          <div className="border-t-[0.5px] w-full">
+          <div className="w-full">
             <UserAccountNav
               user={{
                 name: user.name,
@@ -39,7 +39,7 @@ export default async function JotsLayout({
             />
           </div>
         </aside>
-        <main className="flex w-full flex-1 border-l flex-col overflow-scroll no-scrollbar">
+        <main className="flex flex-1 border bg-background rounded-2xl m-3 flex-col overflow-scroll no-scrollbar">
           {children}
         </main>
       </div>

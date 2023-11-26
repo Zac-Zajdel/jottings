@@ -29,7 +29,7 @@ export default async function TemplatesLayout({
 
           <DashboardNav items={dashboardConfig.sidebarNav} />
           <div className="flex-1 px-2"></div>
-          <div className="border-t-[0.5px] w-full">
+          <div className="w-full">
             <UserAccountNav
               user={{
                 name: user.name,
@@ -39,7 +39,7 @@ export default async function TemplatesLayout({
             />
           </div>
         </aside>
-        <main className="flex w-full flex-1 border-l flex-col overflow-scroll no-scrollbar">
+        <main className="flex flex-1 border rounded-2xl m-3 flex-col overflow-scroll no-scrollbar">
           {children}
         </main>
       </div>
