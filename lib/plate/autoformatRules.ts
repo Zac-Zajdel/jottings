@@ -9,7 +9,7 @@ import {
 import { autoformatBlocks } from '@/lib/plate/autoformatBlocks';
 import { autoformatIndentLists } from '@/lib/plate/autoformatIndentLists';
 import { autoformatMarks } from '@/lib/plate/autoformatMarks';
-import { MyAutoformatRule } from '@/lib/plate/plate-types';
+import { MyAutoformatRule } from '@/types/plate-types';
 
 export const autoformatRules = [
   ...autoformatBlocks,
