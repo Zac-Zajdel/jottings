@@ -24,8 +24,7 @@ export const linkVariants = cva('font-medium underline underline-offset-4');
 
 const ToolbarToggleGroup = ToolbarPrimitive.ToggleGroup;
 
-export interface ToolbarProps
-  extends React.ComponentPropsWithoutRef<typeof Toolbar> {}
+export interface ToolbarProps extends React.ComponentPropsWithoutRef<typeof Toolbar> {}
 
 const Toolbar = React.forwardRef<
   React.ElementRef<typeof ToolbarPrimitive.Root>,

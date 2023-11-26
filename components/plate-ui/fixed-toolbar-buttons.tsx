@@ -10,12 +10,9 @@ import { usePlateReadOnly } from '@udecode/plate-common';
 import { MARK_BG_COLOR, MARK_COLOR } from '@udecode/plate-font';
 import { ListStyleType } from '@udecode/plate-indent-list';
 import { ELEMENT_IMAGE } from '@udecode/plate-media';
-
 import { Icons, iconVariants } from '@/components/icons';
 import { AlignDropdownMenu } from '@/components/plate-ui/align-dropdown-menu';
 import { ColorDropdownMenu } from '@/components/plate-ui/color-dropdown-menu';
-import { CommentToolbarButton } from '@/components/plate-ui/comment-toolbar-button';
-import { EmojiDropdownMenu } from '@/components/plate-ui/emoji-dropdown-menu';
 import { IndentListToolbarButton } from '@/components/plate-ui/indent-list-toolbar-button';
 import { IndentToolbarButton } from '@/components/plate-ui/indent-toolbar-button';
 import { LineHeightDropdownMenu } from '@/components/plate-ui/line-height-dropdown-menu';
@@ -24,10 +21,8 @@ import { MediaToolbarButton } from '@/components/plate-ui/media-toolbar-button';
 import { MoreDropdownMenu } from '@/components/plate-ui/more-dropdown-menu';
 import { OutdentToolbarButton } from '@/components/plate-ui/outdent-toolbar-button';
 import { TableDropdownMenu } from '@/components/plate-ui/table-dropdown-menu';
-
 import { InsertDropdownMenu } from './insert-dropdown-menu';
 import { MarkToolbarButton } from './mark-toolbar-button';
-import { ModeDropdownMenu } from './mode-dropdown-menu';
 import { ToolbarGroup } from './toolbar';
 import { TurnIntoDropdownMenu } from './turn-into-dropdown-menu';
 
@@ -50,10 +45,16 @@ export function FixedToolbarButtons() {
             </ToolbarGroup>
 
             <ToolbarGroup>
-              <MarkToolbarButton tooltip="Bold (⌘+B)" nodeType={MARK_BOLD}>
+              <MarkToolbarButton
+                tooltip="Bold (⌘+B)"
+                nodeType={MARK_BOLD}
+              >
                 <Icons.bold />
               </MarkToolbarButton>
-              <MarkToolbarButton tooltip="Italic (⌘+I)" nodeType={MARK_ITALIC}>
+              <MarkToolbarButton
+                tooltip="Italic (⌘+I)"
+                nodeType={MARK_ITALIC}
+              >
                 <Icons.italic />
               </MarkToolbarButton>
               <MarkToolbarButton
@@ -62,7 +63,6 @@ export function FixedToolbarButtons() {
               >
                 <Icons.underline />
               </MarkToolbarButton>
-
               <MarkToolbarButton
                 tooltip="Strikethrough (⌘+⇧+M)"
                 nodeType={MARK_STRIKETHROUGH}
@@ -88,36 +88,23 @@ export function FixedToolbarButtons() {
 
             <ToolbarGroup>
               <AlignDropdownMenu />
-
               <LineHeightDropdownMenu />
-
               <IndentListToolbarButton nodeType={ListStyleType.Disc} />
               <IndentListToolbarButton nodeType={ListStyleType.Decimal} />
-
               <OutdentToolbarButton />
               <IndentToolbarButton />
             </ToolbarGroup>
 
             <ToolbarGroup>
               <LinkToolbarButton />
-
               <MediaToolbarButton nodeType={ELEMENT_IMAGE} />
-
               <TableDropdownMenu />
-
-              <EmojiDropdownMenu />
-
               <MoreDropdownMenu />
             </ToolbarGroup>
           </>
         )}
 
         <div className="grow" />
-
-        <ToolbarGroup noSeparator>
-          <CommentToolbarButton />
-          <ModeDropdownMenu />
-        </ToolbarGroup>
       </div>
     </div>
   );
