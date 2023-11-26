@@ -11,7 +11,11 @@ export function LinkToolbarButton() {
   const { props } = useLinkToolbarButton(state);
 
   return (
-    <ToolbarButton tooltip="Link" {...props}>
+    <ToolbarButton
+      className="hover:bg-accent hover:text-accent-foreground"
+      tooltip="Link"
+      {...props}
+    >
       <Icons.link />
     </ToolbarButton>
   );

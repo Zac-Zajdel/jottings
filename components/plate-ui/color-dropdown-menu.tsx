@@ -42,7 +42,10 @@ export function ColorDropdownMenu({
 
   return (
     <DropdownMenu modal={false} {...menuProps}>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger
+        asChild
+        className="hover:bg-accent hover:text-accent-foreground"
+      >
         <ToolbarButton tooltip={tooltip} {...buttonProps}>
           {children}
         </ToolbarButton>

@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
 import {
@@ -27,17 +26,17 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="w-full focus-visible:outline-none">
-        <div className="flex justify-between items-center py-3 px-3">
-          <div className="flex items-center">
+        <div className="flex justify-between items-center p-2.5">
+          <div className="flex items-center text-xs">
             <UserAvatar
               user={{ name: user.name || null, image: user.image || null }}
-              className="h-8 w-8 rounded-sm"
+              className="h-8 w-8 mr-3 rounded-sm"
             />
-            <div className="pl-4 text-xs">
-              <div className="font-medium">
+            <div className="text-xs">
+              <div className="font-medium truncate text-ellipsis w-24">
                 { user.name }
               </div>
-              <div className="text-muted-foreground mr-6">
+              <div className="text-muted-foreground">
                 Admin
               </div>
             </div>
@@ -48,7 +47,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </div>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="mr-1 w-[12.8rem]" align="end">
+      <DropdownMenuContent className="-ml-1 w-[12.8rem]" align="end">
         <div className="flex items-center justify-start gap-2 p-2 mb-2">
           <div className="flex flex-col space-y-1 leading-none w-44">
             <p className="text-sm font-bold leading-none">{user.name}</p>
@@ -86,18 +85,6 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           <p className="text-xs font-medium leading-none">Version v{ packageJson.version }</p>
           </div>
         </div>
-
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem asChild>
-          <Link href="/jots">Jots</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/templates">Templates</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
-          <Link href="/settings">Settings</Link>
-        </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 

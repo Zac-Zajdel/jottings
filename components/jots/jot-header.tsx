@@ -117,7 +117,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         ]}
       >
         <Button
-          className={cn("ml-10", buttonVariants({ variant: "secondary" }))}
+          className={cn("ml-10", buttonVariants({ variant: "default" }))}
           disabled={isSaving}
           onClick={save}
         >

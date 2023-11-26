@@ -15,6 +15,7 @@ export function IndentListToolbarButton({
 
   return (
     <ToolbarButton
+      className="hover:bg-accent hover:text-accent-foreground"
       tooltip={
         nodeType === ListStyleType.Disc ? 'Bulleted List' : 'Numbered List'
       }

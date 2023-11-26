@@ -49,7 +49,10 @@ export function AlignDropdownMenu({
 
   return (
     <DropdownMenu modal={false} {...openState} {...props}>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger
+        asChild
+        className="hover:bg-accent hover:text-accent-foreground"
+      >
         <ToolbarButton pressed={openState.open} tooltip="Align" isDropdown>
           <IconValue />
         </ToolbarButton>
