@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Jot } from "@prisma/client"
 import { copyJot } from "@/actions/jots"

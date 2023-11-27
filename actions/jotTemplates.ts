@@ -4,35 +4,33 @@ import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
 
-export async function copyJot(jotId: string) {
+export async function copyJotTemplates(jotTemplateId: string) {
   const session = await getServerSession(authOptions)
   if (!session) {
     throw new Error('Unauthorized Action.');
   }
 
   // Find Jot user has requested to be copied.
-  const jot = await db.jot.findUnique({
+  const jot = await db.jotTemplate.findUnique({
     where: {
-      id: jotId,
+      id: jotTemplateId,
       authorId: session?.user.id,
     },
   })
   if (!jot) {
-    throw new Error('Jot was not found. Please refresh and try again.');
+    throw new Error('Template was not found. Please refresh and try again.');
   }
 
-  const clone = await db.jot.create({
+  const clone = await db.jotTemplate.create({
     data: {
       authorId: session?.user.id,
       title: `Copy of ${jot?.title}`,
       content: jot?.content ?? undefined,
-      status: jot?.status,
-      priority: jot?.priority
     }
   })
 
   return {
-    message: "Your Jot has been copied.",
+    message: "Your template has been copied.",
     data: { ...clone }
   }
 }
