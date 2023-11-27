@@ -70,7 +70,7 @@ export default async function JotsPage({searchParams}: {
 
       <div className="divide-y divide-border rounded-md mx-8 mb-12">
         <div className="space-y-4">
-          {jots?.length ? (
+          {jots?.length || searchParams?.search ? (
             <JotTable
               data={jots}
             />

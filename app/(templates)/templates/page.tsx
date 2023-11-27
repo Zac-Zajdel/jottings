@@ -70,7 +70,7 @@ export default async function TemplatesPage({searchParams}: {
 
       <div className="divide-y divide-border rounded-md mx-8 mb-12">
         <div className="space-y-4">
-        {templates?.length ? (
+        {templates?.length || searchParams?.search ? (
           <TemplateTable
             data={templates}
           />
