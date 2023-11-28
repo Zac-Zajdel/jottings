@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { motion } from "framer-motion"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 
@@ -10,15 +11,53 @@ export default function IndexPage() {
     <>
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
         <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
+          <motion.div
+            className="box font-heading text-3xl sm:text-5xl md:text-6xl lg:text-8xl"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.1,
+              ease: [0, 0.71, 0.2, 1.01]
+            }}
+          >
             Jottings
-          </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            Organize your projects in a streamlined workflow with all your data in one location.
-          </p>
-          <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-            Get Started
-          </Link>
+          </motion.div>
+
+          <motion.p
+            className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8 mt-3"
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2,
+              ease: [0, 0.71, 0.2, 1.01]
+            }}
+          >
+            Elevate Your Daily Project Management.
+            <br />
+            Streamline Tasks with a Unified Workflow and Centralized Data Hub.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              delay: 0.2,
+              ease: [0, 0.71, 0.2, 1.01]
+            }}
+          >
+            <Link
+              href="/login"
+              className={cn(
+                "mt-3",
+                buttonVariants({ size: "lg" })
+              )}
+            >
+              Get Started
+            </Link>
+          </motion.p>
         </div>
       </section>
       <section
