@@ -81,7 +81,7 @@ export default function IndexPage() {
             }}
           >
             <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-8 lg:grid-cols-2 items-center">
-              <div className="lg:pr-8 lg:pt-4">
+              <div className="lg:pr-8">
                 <div className="lg:max-w-lg">
                   <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">Features</h2>
                   <p className="mt-6 text-xl sm:text-2xl text-muted-foreground">Opt-in capabilities to facilitate the most complex multi-team projects.</p>
@@ -172,7 +172,7 @@ export default function IndexPage() {
                               { 'text-muted-foreground dark:text-muted': activeTab === 'teams' }
                             )}
                           >
-                            &nbsp;Foster collaboration seamlessly, enabling you to share and collaborate on content.
+                            &nbsp;Foster collaboration efficiently, enabling you to share and collaborate on content.
                           </dd>
                         </div>
                       </div>
@@ -180,7 +180,7 @@ export default function IndexPage() {
                   </div>
                 </div>
               </div>
-              <div className="tab-content bg-secondary w-[48rem] overflow-hidden max-w-none rounded-lg shadow-2xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0">
+              <div className="bg-secondary w-[48rem] overflow-hidden max-w-none rounded-lg shadow-2xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0">
                 { activeTab == 'jots' &&
                   <>
                     <Image
@@ -202,19 +202,45 @@ export default function IndexPage() {
                   </>
                 }
                 { activeTab == 'templates' &&
-                  <Image
-                    src={`/images/landing/templates-${theme === 'dark' ? 'dark' : 'light'}.png`}
-                    alt="Jot Template"
-                    width={1200}
-                    height={600}
-                  /> }
+                  <>
+                    <Image
+                      className="block dark:hidden"
+                      src="/images/landing/templates-light.png"
+                      alt="Jot Template"
+                      width={1200}
+                      height={600}
+                      priority={true}
+                    />
+                    <Image
+                      className="hidden dark:block"
+                      src="/images/landing/templates-dark.png"
+                      alt="Jot Template"
+                      width={1200}
+                      height={600}
+                      priority={true}
+                    />
+                  </>
+                }
                 { activeTab == 'teams' &&
-                  <Image
-                    src={`/images/landing/teams-${theme === 'dark' ? 'dark' : 'light'}.png`}
-                    alt="Jot Template"
-                    width={1200}
-                    height={600}
-                  /> }
+                  <>
+                    <Image
+                      className="block dark:hidden"
+                      src="/images/landing/teams-light.png"
+                      alt="Jot Template"
+                      width={1200}
+                      height={600}
+                      priority={true}
+                    />
+                    <Image
+                      className="hidden dark:block"
+                      src="/images/landing/teams-dark.png"
+                      alt="Jot Template"
+                      width={1200}
+                      height={600}
+                      priority={true}
+                    />
+                  </>
+                }
               </div>
             </div>
           </motion.div>
