@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { CommentsProvider } from '@udecode/plate-comments';
 import { Plate, PlateProvider } from '@udecode/plate-common';
@@ -15,6 +15,7 @@ import { FloatingToolbar } from '@/components/plate-ui/floating-toolbar';
 import { FloatingToolbarButtons } from '@/components/plate-ui/floating-toolbar-buttons';
 import { MentionCombobox } from '@/components/plate-ui/mention-combobox';
 import { MyValue } from '@/types/plate-types';
+import { atom, useRecoilState } from 'recoil';
 
 interface EditorProps {
   editorRef: any
@@ -26,8 +27,29 @@ interface EditorProps {
   }
 }
 
+export const isEditorAltered = atom({
+  key: 'isEditorAltered',
+  default: false,
+});
+
 export default function DocumentEditor({ editorRef, content }: EditorProps) {
   const containerRef = useRef(null);
+  const [initialValue, setInitialValue] = useState({})
+  const [_, setEditor] = useRecoilState(isEditorAltered);
+
+  // todo - also need to account for title
+  // Store the initial value of the Jots content to compare on changes
+  useEffect(() => {
+    setInitialValue(JSON.stringify(content.content))
+  }, [])
+
+  function seeChange(event) {
+    if (JSON.stringify(event) === initialValue) {
+      setEditor(false)
+    } else {
+      setEditor(true)
+    }
+  }
 
   return (
     <div className="border rounded-md border-gray-400 border-opacity-20 mx-8">
@@ -36,6 +58,7 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
           plugins={plugins}
           editorRef={editorRef}
           initialValue={content.content}
+          onChange={seeChange}
         >
           <FixedToolbar>
             <FixedToolbarButtons />
