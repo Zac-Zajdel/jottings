@@ -6,6 +6,7 @@ import { MyValue } from '@/types/plate-types';
 import DocumentEditor from '../document-editor';
 import { Label, LabelAssociation, User } from '@prisma/client';
 import { JotHeader } from './jot-header';
+import { RecoilRoot } from 'recoil';
 
 interface LabelAssociations extends LabelAssociation {
   label: Label;
@@ -30,20 +31,22 @@ export default function JotDetails({ jot }: JotProps) {
 
   return (
     <div>
-      <JotHeader
-        jot={jot}
-        editorRef={editorRef}
-      />
+      <RecoilRoot>
+        <JotHeader
+          jot={jot}
+          editorRef={editorRef}
+        />
 
-      <DocumentEditor
-        editorRef={editorRef}
-        content={{
-          id: jot.id,
-          title: jot.title,
-          content: jot.content as MyValue,
-          createdAt: jot.createdAt,
-        }}
-      />
+        <DocumentEditor
+          editorRef={editorRef}
+          content={{
+            id: jot.id,
+            title: jot.title,
+            content: jot.content as MyValue,
+            createdAt: jot.createdAt,
+          }}
+        />
+      </RecoilRoot>
     </div>
   );
 }

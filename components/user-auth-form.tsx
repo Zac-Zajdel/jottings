@@ -100,7 +100,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       </div> */}
       <button
         type="button"
-        className={cn(buttonVariants({ variant: "outline" }))}
+        className={cn(buttonVariants({ variant: "default" }))}
         onClick={() => {
           setIsGitHubLoading(true)
           signIn("google")

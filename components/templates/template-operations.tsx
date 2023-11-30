@@ -1,9 +1,5 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Jot, JotTemplate } from "@prisma/client"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +17,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { toast } from "@/components/ui/use-toast"
+import Link from "next/link"
+import { useState } from "react"
 import { Icons } from "@/components/icons"
+import { useRouter } from "next/navigation"
+import { JotTemplate } from "@prisma/client"
+import { toast } from "@/components/ui/use-toast"
+import { copyJotTemplates } from "@/actions/jotTemplates"
+
+interface PostOperationsProps {
+  template: Pick<JotTemplate, "id" | "title">
+}
 
 async function deleteTemplate(templateId: string) {
   const response = await fetch(`/api/jot_templates/${templateId}`, {
@@ -40,14 +45,33 @@ async function deleteTemplate(templateId: string) {
   return true
 }
 
-interface PostOperationsProps {
-  template: Pick<JotTemplate, "id" | "title">
-}
-
 export function TemplateOperations({ template }: PostOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const [isCloneLoading, setIsCloneLoading] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+
+  async function handleCopyTemplate() {
+    try {
+      setIsCloneLoading(true)
+
+      const response = await copyJotTemplates(template.id)
+      if (response) {
+        toast({
+          description: response.message
+        })
+        router.push(`/templates/${response.data.id}`)
+      }
+    } catch(e) {
+      toast({
+        title: 'Error',
+        variant: 'destructive',
+        description: e?.message ?? 'An issue occurred while copying your Template.',
+      });
+    }
+
+    setIsCloneLoading(false)
+  }
 
   return (
     <>
@@ -64,6 +88,21 @@ export function TemplateOperations({ template }: PostOperationsProps) {
             >
               Edit
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={isCloneLoading}
+            className="flex items-center cursor-pointer"
+            onSelect={(event) => {
+              event.preventDefault()
+              handleCopyTemplate()
+            }}
+          >
+            {isCloneLoading
+              ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              : null
+            }
+            Copy
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -106,7 +145,7 @@ export function TemplateOperations({ template }: PostOperationsProps) {
                   })
                 }
               }}
-              className="bg-red-600 focus:ring-red-600"
+              className="bg-red-600 focus:ring-red-600 hover:bg-red-700"
             >
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

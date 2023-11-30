@@ -45,7 +45,6 @@ import {
   withProps,
 } from '@udecode/plate-common';
 // import { createDndPlugin } from '@udecode/plate-dnd';
-import { createEmojiPlugin } from '@udecode/plate-emoji';
 import {
   createFontBackgroundColorPlugin,
   createFontColorPlugin,
@@ -124,7 +123,6 @@ import { CodeLeaf } from '@/components/plate-ui/code-leaf';
 import { CodeLineElement } from '@/components/plate-ui/code-line-element';
 import { CodeSyntaxLeaf } from '@/components/plate-ui/code-syntax-leaf';
 import { CommentLeaf } from '@/components/plate-ui/comment-leaf';
-import { EmojiCombobox } from '@/components/plate-ui/emoji-combobox';
 import { HeadingElement } from '@/components/plate-ui/heading-element';
 import { HighlightLeaf } from '@/components/plate-ui/highlight-leaf';
 import { HrElement } from '@/components/plate-ui/hr-element';
@@ -237,9 +235,6 @@ export const plugins = createPlugins(
     // createDndPlugin({
     //   options: { enableScroller: true },
     // }),
-    createEmojiPlugin({
-      renderAfterEditable: EmojiCombobox,
-    }),
     createExitBreakPlugin({
       options: {
         rules: [

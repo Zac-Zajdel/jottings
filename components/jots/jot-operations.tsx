@@ -1,9 +1,5 @@
 "use client"
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Jot } from "@prisma/client"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +17,17 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { toast } from "@/components/ui/use-toast"
+import Link from "next/link"
+import { useState } from "react"
+import { Jot } from "@prisma/client"
+import { copyJot } from "@/actions/jots"
 import { Icons } from "@/components/icons"
+import { useRouter } from "next/navigation"
+import { toast } from "@/components/ui/use-toast"
+
+interface PostOperationsProps {
+  jot: Pick<Jot, "id" | "title">
+}
 
 async function deleteJot(jotId: string) {
   const response = await fetch(`/api/jots/${jotId}`, {
@@ -40,14 +45,33 @@ async function deleteJot(jotId: string) {
   return true
 }
 
-interface PostOperationsProps {
-  jot: Pick<Jot, "id" | "title">
-}
-
 export function JotOperations({ jot }: PostOperationsProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
+  const [isCloneLoading, setIsCloneLoading] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+
+  async function handleCopyJot() {
+    try {
+      setIsCloneLoading(true)
+
+      const response = await copyJot(jot.id)
+      if (response) {
+        toast({
+          description: response.message
+        })
+        router.push(`/jots/${response.data.id}`)
+      }
+    } catch(e) {
+      toast({
+        title: 'Error',
+        variant: 'destructive',
+        description: e?.message ?? 'An issue occurred while copying your Jot.',
+      });
+    }
+
+    setIsCloneLoading(false)
+  }
 
   return (
     <>
@@ -67,7 +91,23 @@ export function JotOperations({ jot }: PostOperationsProps) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className="flex cursor-pointer items-center text-destructive focus:text-destructive"
+            disabled={isCloneLoading}
+            className="flex items-center cursor-pointer"
+            onSelect={(event) => {
+              event.preventDefault()
+              handleCopyJot()
+            }}
+          >
+            {isCloneLoading
+              ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              : null
+            }
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={isCloneLoading}
+            className="flex items-center cursor-pointer text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
             Delete
@@ -107,7 +147,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
                   })
                 }
               }}
-              className="bg-red-600 focus:ring-red-600"
+              className="bg-red-600 focus:ring-red-600 hover:bg-red-700"
             >
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

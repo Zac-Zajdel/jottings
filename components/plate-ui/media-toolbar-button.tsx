@@ -15,7 +15,10 @@ export function MediaToolbarButton({
   const { props } = useMediaToolbarButton({ nodeType });
 
   return (
-    <ToolbarButton {...props}>
+    <ToolbarButton
+      className="hover:bg-accent hover:text-accent-foreground"
+      {...props}
+    >
       <Icons.image />
     </ToolbarButton>
   );
