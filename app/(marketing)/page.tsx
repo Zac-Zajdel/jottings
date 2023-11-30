@@ -5,12 +5,11 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { useTheme } from "next-themes"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
+import VerticalCarouselCard from "@/components/landing/vertical-carousel-card"
 
 export default function IndexPage() {
-  const { theme } = useTheme()
   const [activeTab, setActiveTab] = useState('jots')
 
   return (
@@ -87,160 +86,116 @@ export default function IndexPage() {
                   <p className="mt-6 text-xl sm:text-2xl text-muted-foreground">Opt-in capabilities to facilitate the most complex multi-team projects.</p>
                   <div className="mt-8 relative max-w-xl lg:max-w-none">
                     <dl className="grid grid-cols-1 auto-rows-fr text-lg leading-normal">
-                      <div
-                        className={cn(
-                          "p-2 rounded-lg",
-                          { 'bg-secondary': activeTab === 'jots' }
-                        )}
-                      >
-                        <div
-                          className="relative pl-9 pr-3 rounded-lg py-4"
-                          onMouseOver={() => setActiveTab('jots')}
-                        >
-                          <dt
-                            className={cn(
-                              "inline font-semibold",
-                              { 'bg-secondary dark:text-muted': activeTab === 'jots' }
-                            )}
-                          >
-                            <Icons.file className="h-6 w-6 icon-xl absolute left-0 top-4 text-accent-400" />
-                            Jots
-                          </dt>
-                          <dd
-                            className={cn(
-                              "inline text-muted-foreground",
-                              { 'text-muted-foreground dark:text-muted': activeTab === 'jots' }
-                            )}
-                          >
-                            &nbsp;- Empower your work with a modern editor, enhancing your ability to craft and refine Jots seamlessly.
-                          </dd>
-                        </div>
-                      </div>
-
-                      <div
-                        className={cn(
-                          "p-2 rounded-lg",
-                          { 'bg-secondary': activeTab === 'templates' }
-                        )}
-                      >
-                        <div
-                          className="relative pl-9 pr-3 py-4"
-                          onMouseOver={() => setActiveTab('templates')}
-                        >
-                          <dt
-                            className={cn(
-                              "inline font-semibold",
-                              { 'bg-secondary dark:text-muted': activeTab === 'templates' }
-                            )}
-                          >
-                            <Icons.template className="h-6 w-6 icon-xl absolute left-0 top-4 text-accent-400" />
-                            Templates
-                          </dt>
-                          <dd
-                            className={cn(
-                              "inline text-muted-foreground",
-                              { 'text-muted-foreground dark:text-muted': activeTab === 'templates' }
-                            )}
-                          >
-                            &nbsp;- Elevate your Jots with curated templates, providing a foundation for building impactful content effortlessly.
-                          </dd>
-                        </div>
-                      </div>
-
-                      <div
-                        className={cn(
-                          "p-2 rounded-lg",
-                          { 'bg-secondary': activeTab === 'teams' }
-                        )}
-                      >
-                        <div
-                          className="relative pl-9 pr-3 rounded-lg py-4"
-                          onMouseOver={() => setActiveTab('teams')}
-                        >
-                          <dt
-                            className={cn(
-                              "inline font-semibold",
-                              { 'bg-secondary dark:text-muted': activeTab === 'teams' }
-                            )}
-                          >
-                            <Icons.group className="h-6 w-6 icon-xl absolute left-0 top-4 text-accent-400" />
-                            Coming Soon...
-                          </dt>
-                          <dd
-                            className={cn(
-                              "inline text-muted-foreground",
-                              { 'text-muted-foreground dark:text-muted': activeTab === 'teams' }
-                            )}
-                          >
-                            &nbsp;Foster collaboration efficiently, enabling you to share and collaborate on content.
-                          </dd>
-                        </div>
-                      </div>
+                      <VerticalCarouselCard
+                        heading="Jots"
+                        description="&nbsp;- Empower your work with a modern editor, enhancing your ability to craft and refine Jots seamlessly."
+                        icon={Icons.file}
+                        isActive={activeTab === 'jots'}
+                        setActiveTab={() => setActiveTab('jots')}
+                      />
+                      <VerticalCarouselCard
+                        heading="Templates"
+                        description="&nbsp;- Elevate your Jots with curated templates, providing a foundation for building impactful content effortlessly."
+                        icon={Icons.template}
+                        isActive={activeTab === 'templates'}
+                        setActiveTab={() => setActiveTab('templates')}
+                      />
+                      <VerticalCarouselCard
+                        heading="Coming Soon..."
+                        description="&nbsp;Foster collaboration efficiently, enabling you to share and collaborate on content."
+                        icon={Icons.group}
+                        isActive={activeTab === 'teams'}
+                        setActiveTab={() => setActiveTab('teams')}
+                      />
                     </dl>
                   </div>
                 </div>
               </div>
               <div className="bg-secondary w-[48rem] overflow-hidden max-w-none rounded-lg shadow-2xl ring-1 ring-gray-400/10 sm:w-[57rem] md:-ml-4 lg:-ml-0">
-                { activeTab == 'jots' &&
-                  <>
-                    <Image
-                      className="block dark:hidden"
-                      src="/images/landing/jots-light.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src="/images/landing/jots-dark.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                  </>
-                }
-                { activeTab == 'templates' &&
-                  <>
-                    <Image
-                      className="block dark:hidden"
-                      src="/images/landing/templates-light.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src="/images/landing/templates-dark.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                  </>
-                }
-                { activeTab == 'teams' &&
-                  <>
-                    <Image
-                      className="block dark:hidden"
-                      src="/images/landing/teams-light.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src="/images/landing/teams-dark.png"
-                      alt="Jot Template"
-                      width={1200}
-                      height={600}
-                      priority={true}
-                    />
-                  </>
-                }
+                <Image
+                  className={cn(
+                    "dark:hidden",
+                    {
+                      'hidden': activeTab !== 'jots',
+                      'block': activeTab === 'jots'
+                    }
+                  )}
+                  src="/images/landing/jots-light.png"
+                  alt="Jot Light"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  className={cn(
+                    "hidden",
+                    {
+                      'hidden': activeTab !== 'jots',
+                      'dark:block': activeTab === 'jots'
+                    }
+                  )}
+                  src="/images/landing/jots-dark.png"
+                  alt="Jot Dark"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  className={cn(
+                    "dark:hidden",
+                    {
+                      'hidden': activeTab !== 'templates',
+                      'block': activeTab === 'templates'
+                    }
+                  )}
+                  src="/images/landing/templates-light.png"
+                  alt="Jot Template Light"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  className={cn(
+                    "hidden",
+                    {
+                      'hidden': activeTab !== 'templates',
+                      'dark:block': activeTab === 'templates'
+                    }
+                  )}
+                  src="/images/landing/templates-dark.png"
+                  alt="Jot Template Dark"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  className={cn(
+                    "dark:hidden",
+                    {
+                      'hidden': activeTab !== 'teams',
+                      'block': activeTab === 'teams'
+                    }
+                  )}
+                  src="/images/landing/teams-light.png"
+                  alt="Teams Light"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
+                <Image
+                  className={cn(
+                    "hidden",
+                    {
+                      'hidden': activeTab !== 'teams',
+                      'dark:block': activeTab === 'teams'
+                    }
+                  )}
+                  src="/images/landing/teams-dark.png"
+                  alt="Teams Dark"
+                  width={1200}
+                  height={600}
+                  priority={true}
+                />
               </div>
             </div>
           </motion.div>
