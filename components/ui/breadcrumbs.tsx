@@ -1,6 +1,7 @@
 import * as React from "react"
 import { ChevronRight } from "lucide-react"
 import { cn, getValidChildren } from "@/lib/utils"
+import Link from "next/link"
 
 export interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
   /* The visual separator between each breadcrumb item */
@@ -112,7 +113,7 @@ export const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   BreadcrumbLinkProps
 >(({ className, as: asComp, isCurrentPage, ...props }, forwardedRef) => {
-  const Comp = (isCurrentPage ? "span" : asComp || "a") as "a"
+  const Comp = (isCurrentPage ? "span" : asComp || Link) as "a"
 
   return (
     <Comp

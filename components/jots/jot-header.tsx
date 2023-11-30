@@ -7,13 +7,15 @@ import { buttonVariants } from "../plate-ui/button"
 import { Icons } from "../icons"
 import { UserAvatar } from "../user-avatar"
 import { MyValue } from "@/types/plate-types"
-import { RefObject, useState } from "react"
+import { RefObject, useEffect, useState } from "react"
 import { Button } from "../ui/button"
 import { PlateEditor } from "@udecode/plate-common"
 import { toast } from "../ui/use-toast"
 import { useRouter } from "next/navigation"
 import { Badge } from "../ui/badge"
 import { LabelSelection } from "../label-selection"
+import { useRecoilValue } from "recoil"
+import { isEditorAltered } from "../document-editor"
 
 interface LabelAssociations extends LabelAssociation {
   label: Label;
@@ -38,6 +40,22 @@ export function JotHeader({ jot, editorRef }: JotProps) {
   const router = useRouter()
   const [title, setTitle] = useState(jot.title)
   const [isSaving, setIsSaving] = useState(false)
+
+  // When a user attempts to navigate away with changes, we warn them first.
+  const isChanged = useRecoilValue(isEditorAltered);
+  useEffect(() => {
+    const handleWindowClose = (e) => {
+      if (isChanged || title !== jot.title) {
+        e.preventDefault()
+        return 'You have unsaved changes - are you sure you wish to leave this page?'
+      }
+    }
+
+    window.addEventListener('beforeunload', handleWindowClose)
+    return () => {
+      window.removeEventListener('beforeunload', handleWindowClose)
+    }
+  }, [isChanged, title])
 
   async function save() {
     setIsSaving(true)
@@ -64,6 +82,9 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         variant: "destructive",
       })
     }
+
+    // Title needs set to avoid event listener being triggered on update.
+    jot.title = title
 
     router.refresh()
     setIsSaving(false)
@@ -126,7 +147,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
           ) : (
             <Icons.save className="mr-2 h-4 w-4" />
           )}
-          <span>Save</span>
+          <span>{isChanged || title !== jot.title ? 'Save' : 'Saved'}</span>
         </Button>
       </PageBreadcrumbs>
 
