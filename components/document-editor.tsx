@@ -27,6 +27,10 @@ interface EditorProps {
   }
 }
 
+/**
+ * Used by parent components to determine farther up hierarchy
+ * to warn user from leaving page without saving
+ */
 export const isEditorAltered = atom({
   key: 'isEditorAltered',
   default: false,
@@ -37,13 +41,13 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
   const [initialValue, setInitialValue] = useState({})
   const [_, setEditor] = useRecoilState(isEditorAltered);
 
-  // todo - also need to account for title
-  // Store the initial value of the Jots content to compare on changes
+  // Store the initial value of the Jots content on mount
   useEffect(() => {
     setInitialValue(JSON.stringify(content.content))
   }, [])
 
-  function seeChange(event) {
+  // Compare the Jots content from its initial value to determine a change. 
+  function onContentChange(event) {
     if (JSON.stringify(event) === initialValue) {
       setEditor(false)
     } else {
@@ -58,7 +62,7 @@ export default function DocumentEditor({ editorRef, content }: EditorProps) {
           plugins={plugins}
           editorRef={editorRef}
           initialValue={content.content}
-          onChange={seeChange}
+          onChange={onContentChange}
         >
           <FixedToolbar>
             <FixedToolbarButtons />

@@ -45,16 +45,17 @@ export function JotHeader({ jot, editorRef }: JotProps) {
   const isChanged = useRecoilValue(isEditorAltered);
   useEffect(() => {
     const handleWindowClose = (e) => {
-      if (!isChanged) return
-      e.preventDefault()
-      return (e.returnValue = 'You have unsaved changes - are you sure you wish to leave this page?')
+      if (isChanged || title !== jot.title) {
+        e.preventDefault()
+        return 'You have unsaved changes - are you sure you wish to leave this page?'
+      }
     }
 
     window.addEventListener('beforeunload', handleWindowClose)
     return () => {
       window.removeEventListener('beforeunload', handleWindowClose)
     }
-  }, [isChanged])
+  }, [isChanged, title])
 
   async function save() {
     setIsSaving(true)
@@ -81,6 +82,9 @@ export function JotHeader({ jot, editorRef }: JotProps) {
         variant: "destructive",
       })
     }
+
+    // Title needs set to avoid event listener being triggered on update.
+    jot.title = title
 
     router.refresh()
     setIsSaving(false)
@@ -143,7 +147,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
           ) : (
             <Icons.save className="mr-2 h-4 w-4" />
           )}
-          <span>{isChanged ? 'Save' : 'Saved'}</span>
+          <span>{isChanged || title !== jot.title ? 'Save' : 'Saved'}</span>
         </Button>
       </PageBreadcrumbs>
 
