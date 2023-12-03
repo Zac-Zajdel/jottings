@@ -46,7 +46,7 @@ export default async function MarketingLayout({
         </motion.div>
       </div>
       <main className="flex-1">{children}</main>
-      <SiteFooter />
+      <SiteFooter className="py-5 ml-10 mr-0 3xl:mr-10" />
     </div>
   )
 }
