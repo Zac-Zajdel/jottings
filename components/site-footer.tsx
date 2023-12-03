@@ -18,9 +18,10 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
         }}
       >
         <div className="flex items-center justify-center lg:justify-between p-6">
-          <div className="mr-12">
+          <div className="mr-12 text-sm sm:text-base">
             <span className="text-muted-foreground">Proudly built in open source by </span>
             <Link
+              className="block sm:inline"
               href="https://github.com/Zac-Zajdel"
               target="_blank"
             >

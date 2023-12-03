@@ -35,7 +35,7 @@ export default function IndexPage() {
           </motion.div>
 
           <motion.div
-            className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-8xl"
+            className="font-heading text-6xl lg:text-8xl"
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{
