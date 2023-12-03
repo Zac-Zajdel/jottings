@@ -13,7 +13,8 @@
     "start": "next start",
     "lint": "next lint",
     "preview": "next build && next start",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "changelog": "node ./scripts/changelog.mjs run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
@@ -82,12 +83,14 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.6.1",
     "@ianvs/prettier-plugin-sort-imports": "^3.7.2",
+    "@inquirer/prompts": "^3.3.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node": "^18.16.0",
     "@types/react": "^18.2.38",
     "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.14",
+    "dedent": "^1.5.1",
     "eslint": "^8.47.0",
     "eslint-config-next": "^14.0.3",
     "eslint-config-prettier": "^8.8.0",
