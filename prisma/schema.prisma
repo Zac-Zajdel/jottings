@@ -42,24 +42,6 @@ model Session {
   @@map(name: "sessions")
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
-
-  accounts    Account[]
-  sessions    Session[]
-  Jot         Jot[]
-  JotTemplate JotTemplate[]
-  Label       Label[]
-
-  @@map(name: "users")
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -69,52 +51,114 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
-model Jot {
+// TODO - Need active workspace
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+
+  accounts      Account[]
+  sessions      Session[]
+  Jot           Jot[]
+  JotTemplate   JotTemplate[]
+  Label         Label[]
+  Workspace     Workspace[]     @relation("workspaceOwner")
+  WorkspaceUser WorkspaceUser[]
+
+  @@map(name: "users")
+}
+
+model Workspace {
   id        String   @id @default(cuid())
-  authorId  String
-  title     String
-  content   Json?
-  status    String   @default("Draft")
-  priority  String?
-  published Boolean  @default(false)
+  name      String
+  ownerId   String
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  author User               @relation(fields: [authorId], references: [id])
-  labels LabelAssociation[]
+  owner         User            @relation("workspaceOwner", fields: [ownerId], references: [id])
+  WorkspaceUser WorkspaceUser[]
+  Jot           Jot[]
+  JotTemplate   JotTemplate[]
+  Label         Label[]
+
+  @@index([ownerId])
+  @@map(name: "workspaces")
+}
+
+model WorkspaceUser {
+  id          String   @id @default(cuid())
+  userId      String
+  workspaceId String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  user      User      @relation(fields: [userId], references: [id])
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+
+  @@index([userId])
+  @@index([workspaceId])
+  @@map(name: "workspace_user")
+}
+
+model Jot {
+  id          String   @id @default(cuid())
+  authorId    String
+  workspaceId String
+  title       String
+  content     Json?
+  status      String   @default("Draft")
+  priority    String?
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  author    User               @relation(fields: [authorId], references: [id])
+  workspace Workspace          @relation(fields: [workspaceId], references: [id])
+  labels    LabelAssociation[]
 
   @@index([authorId])
+  @@index([workspaceId])
   @@map(name: "jots")
 }
 
 model JotTemplate {
   id          String   @id @default(cuid())
   authorId    String
+  workspaceId String
   title       String
   content     Json?
   isPublished Boolean  @default(false) @map(name: "is_published")
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
-  author User               @relation(fields: [authorId], references: [id])
-  labels LabelAssociation[]
+  author    User               @relation(fields: [authorId], references: [id])
+  workspace Workspace          @relation(fields: [workspaceId], references: [id])
+  labels    LabelAssociation[]
 
   @@index([authorId])
+  @@index([workspaceId])
   @@map(name: "jot_templates")
 }
 
 model Label {
-  id        String   @id @default(cuid())
-  authorId  String
-  name      String
-  color     String
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
+  id          String   @id @default(cuid())
+  authorId    String // TODO - Question that
+  workspaceId String
+  name        String
+  color       String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
-  author       User               @relation(fields: [authorId], references: [id])
+  author       User               @relation(fields: [authorId], references: [id]) // TODO - Question that
+  workspace    Workspace          @relation(fields: [workspaceId], references: [id])
   associations LabelAssociation[]
 
   @@index([authorId])
+  @@index([workspaceId])
   @@map(name: "labels")
 }
 
