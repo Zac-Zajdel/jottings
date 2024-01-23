@@ -1,16 +1,27 @@
-import { Jot, JotTemplate, Label, LabelAssociation, PrismaClient, User } from '@prisma/client'
+import {
+  PrismaClient,
+  Jot,
+  JotTemplate,
+  Label,
+  LabelAssociation,
+  User,
+  Workspace,
+  WorkspaceUser,
+} from '@prisma/client'
 const prisma = new PrismaClient()
 
 /**
- * 1. yarn prisma migrate reset
+ * 1. yarn prisma migrate reset (--skip-seed)
  * 2. Login with oAuth
  * 3. yarn prisma db seed
  */
 async function main() {
   const zac = await createUser()
-  const jot = await createJot(zac)
-  await createTemplate(zac)
-  const label = await createLabel(zac)
+  const workspace = await createWorkspace(zac)
+  await createWorkspaceUser(zac, workspace)
+  const jot = await createJot(zac, workspace)
+  await createTemplate(zac, workspace)
+  const label = await createLabel(zac, workspace)
   await createLabelAssociation(zac, label, jot)
 }
 
@@ -26,16 +37,62 @@ async function createUser(): Promise<User> {
   })
 }
 
-async function createJot(user: User): Promise<Jot> {
+async function createWorkspace(user: User): Promise<Workspace> {
+  let workspace = await prisma.workspace.findFirst({
+    where: {
+      name: 'Default',
+      ownerId: user.id,
+    }
+  });
+
+  if (!workspace) {
+    workspace = await prisma.workspace.create({
+      data: {
+        name: 'Default',
+        ownerId: user.id,
+      }
+    })
+  }
+
+  await prisma.user.update({
+    where: { email: 'zaczajdel213@gmail.com' },
+    data: {
+      activeWorkspaceId: workspace?.id,
+    }
+  })
+
+  return workspace
+}
+
+async function createWorkspaceUser(user: User, workspace: Workspace): Promise<WorkspaceUser> {
+  const workspaceUser = await prisma.workspaceUser.findFirst({
+    where: {
+      userId: user.id,
+      workspaceId: workspace.id,
+    }
+  });
+
+  return workspaceUser ?? await prisma.workspaceUser.create({
+    data: {
+      userId: user.id,
+      workspaceId: workspace.id,
+    }
+  })
+}
+
+async function createJot(user: User, workspace: Workspace): Promise<Jot> {
   const jot = await prisma.jot.findFirst({
     where: {
-      title: 'Chapter 1: In The Beginning',
       authorId: user.id,
+      workspaceId: workspace.id,
+      title: 'Chapter 1: In The Beginning',
     }
   });
 
   return jot ?? await prisma.jot.create({
     data: {
+      authorId: user.id,
+      workspaceId: workspace.id,
       title: 'Chapter 1: In The Beginning',
       content: [
         {"id":"jcv8h","type":"h1","children": [{"text":"In The Beginning…"}]},
@@ -48,23 +105,24 @@ async function createJot(user: User): Promise<Jot> {
       status: 'Draft',
       priority: null,
       published: false,
-      authorId: user.id,
     }
   })
 }
 
-async function createTemplate(user: User): Promise<JotTemplate> {
+async function createTemplate(user: User, workspace: Workspace): Promise<JotTemplate> {
   const jotTemplate = await prisma.jotTemplate.findFirst({
     where: {
-      title: 'Support Ticket Workflow',
       authorId: user.id,
+      workspaceId: workspace.id,
+      title: 'Support Ticket Workflow',
     }
   });
 
   return jotTemplate ?? await prisma.jotTemplate.create({
     data: {
-      title: 'Support Ticket Workflow',
       authorId: user.id,
+      workspaceId: workspace.id,
+      title: 'Support Ticket Workflow',
       content: [
         {"id":"0lkqc","type":"p","indent":0,"children":[{"bold":true,"text":"Ticket ID","color":"rgb(209, 213, 219)","fontSize":"16px"},{"text":": A unique identifier for each ticket.","color":"rgb(209, 213, 219)","fontSize":"16px"}],"listStyleType":""},
         {"id":"isth8","type":"p","indent":0,"children":[{"bold":true,"text":"Customer Name","color":"rgb(209, 213, 219)","fontSize":"16px"},{"text":": The name of the customer who raised the issue.","color":"rgb(209, 213, 219)","fontSize":"16px"}],"listStyleType":""},
@@ -84,10 +142,11 @@ async function createTemplate(user: User): Promise<JotTemplate> {
   })
 }
 
-async function createLabel(user: User): Promise<Label> {
+async function createLabel(user: User, workspace: Workspace): Promise<Label> {
   const label = await prisma.label.findFirst({
     where: {
       authorId: user.id,
+      workspaceId: workspace.id,
       name: 'Chapter 1',
     }
   })
@@ -95,6 +154,7 @@ async function createLabel(user: User): Promise<Label> {
   return label ?? await prisma.label.create({
     data: {
       authorId: user.id,
+      workspaceId: workspace.id,
       name: 'Chapter 1',
       color: '408aec',
     }

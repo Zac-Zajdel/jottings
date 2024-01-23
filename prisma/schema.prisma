@@ -51,24 +51,26 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
-// TODO - Need active workspace
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @default(now()) @map(name: "updated_at")
+  id                String    @id @default(cuid())
+  activeWorkspaceId String?
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  createdAt         DateTime  @default(now()) @map(name: "created_at")
+  updatedAt         DateTime  @default(now()) @map(name: "updated_at")
 
-  accounts      Account[]
-  sessions      Session[]
-  Jot           Jot[]
-  JotTemplate   JotTemplate[]
-  Label         Label[]
-  Workspace     Workspace[]     @relation("workspaceOwner")
-  WorkspaceUser WorkspaceUser[]
+  activeWorkspace Workspace?      @relation("activeWorkspace", fields: [activeWorkspaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  accounts        Account[]
+  sessions        Session[]
+  Jot             Jot[]
+  JotTemplate     JotTemplate[]
+  Label           Label[]
+  workspaceOwner  Workspace[]     @relation("workspaceOwner")
+  workspaceUser   WorkspaceUser[]
 
+  @@index([activeWorkspaceId])
   @@map(name: "users")
 }
 
@@ -79,8 +81,9 @@ model Workspace {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  owner         User            @relation("workspaceOwner", fields: [ownerId], references: [id])
-  WorkspaceUser WorkspaceUser[]
+  owner         User            @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  activeUsers   User[]          @relation("activeWorkspace")
+  workspaceUser WorkspaceUser[]
   Jot           Jot[]
   JotTemplate   JotTemplate[]
   Label         Label[]
@@ -146,14 +149,14 @@ model JotTemplate {
 
 model Label {
   id          String   @id @default(cuid())
-  authorId    String // TODO - Question that
+  authorId    String
   workspaceId String
   name        String
   color       String
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @default(now()) @map(name: "updated_at")
 
-  author       User               @relation(fields: [authorId], references: [id]) // TODO - Question that
+  author       User               @relation(fields: [authorId], references: [id])
   workspace    Workspace          @relation(fields: [workspaceId], references: [id])
   associations LabelAssociation[]
 
