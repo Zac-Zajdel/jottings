@@ -1,16 +1,16 @@
 import { notFound, redirect } from "next/navigation"
-import { Jot, User } from "@prisma/client"
+import { Jot } from "@prisma/client"
 import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { MyValue } from "@/types/plate-types"
 import JotDetails from "@/components/jots/jot-details"
 
-async function getJotForUser(jotId: Jot["id"], userId: User["id"]) {
+async function getJotForUser(jotId: Jot["id"], activeWorkspaceId: string) {
   return await db.jot.findFirst({
     where: {
       id: jotId,
-      authorId: userId,
+      workspaceId: activeWorkspaceId,
     },
     include: {
       author: true,
@@ -33,7 +33,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const jot = await getJotForUser(params.jotId, user.id)
+  const jot = await getJotForUser(params.jotId, user.activeWorkspaceId)
   if (!jot) {
     notFound()
   }

@@ -24,7 +24,7 @@ export default async function TemplatesPage({searchParams}: {
 
   const templates = await db.jotTemplate.findMany({
     where: {
-      authorId: user.id,
+      workspaceId: user.activeWorkspaceId,
       ...(
         searchParams?.search
           ? { title: { contains: searchParams.search as string } }

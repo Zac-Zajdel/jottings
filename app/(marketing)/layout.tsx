@@ -31,15 +31,15 @@ export default async function MarketingLayout({
             <div className="flex h-20 items-center justify-between py-6">
               <MainNav isLogin items={marketingConfig.mainNav} />
               <nav>
-                <Link
-                  href="/login"
+                <a
+                  href="/signin"
                   className={cn(
                     buttonVariants({ variant: "default", size: "sm" }),
                     "px-4"
                   )}
                 >
-                  Login
-                </Link>
+                  Login Testing This Issue
+                </a>
               </nav>
             </div>
           </header>

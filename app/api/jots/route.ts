@@ -28,6 +28,7 @@ export async function GET() {
       },
       where: {
         authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
       },
     })
 
@@ -53,6 +54,7 @@ export async function POST(req: Request) {
         where: {
           id: body.templateId,
           authorId: session.user.id,
+          workspaceId: session.user.activeWorkspaceId,
         },
       });
     }
@@ -62,6 +64,7 @@ export async function POST(req: Request) {
         title: body.title,
         content: template?.content ?? undefined,
         authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
       },
       select: {
         id: true,

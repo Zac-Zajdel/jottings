@@ -14,7 +14,7 @@ export async function copyJot(jotId: string) {
   const jot = await db.jot.findUnique({
     where: {
       id: jotId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
   if (!jot) {
@@ -24,6 +24,7 @@ export async function copyJot(jotId: string) {
   const clone = await db.jot.create({
     data: {
       authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
       title: `Copy of ${jot?.title}`,
       content: jot?.content ?? undefined,
       status: jot?.status,

@@ -10,7 +10,7 @@
 ALTER TABLE `jot_templates` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `id`;
 
 -- AlterTable
-ALTER TABLE `jots` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `authorId`;
+ALTER TABLE `jots` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `id`;
 
 -- AlterTable
 ALTER TABLE `labels` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `authorId`;

@@ -72,15 +72,15 @@ export default function IndexPage() {
               ease: [0, 0.71, 0.2, 1.01]
             }}
           >
-            <Link
-              href="/login"
+            <a
+              href="/signin"
               className={cn(
                 "mt-6",
                 buttonVariants({ size: "lg" })
               )}
             >
               Get Started
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>

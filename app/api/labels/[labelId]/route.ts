@@ -8,7 +8,7 @@ async function validateLabelId(labelId: string) {
   return !!await db.label.findFirst({
     where: {
       id: labelId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
 }
@@ -45,7 +45,7 @@ export async function PATCH(
     await db.label.update({
       where: {
         id: params.labelId,
-        authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
       },
       data: {
         name: body.name,
@@ -77,7 +77,7 @@ export async function DELETE(
     await db.label.delete({
       where: {
         id: params.labelId,
-        authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
       },
     })
 

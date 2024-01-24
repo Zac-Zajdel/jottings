@@ -24,7 +24,7 @@ export default async function JotsPage({searchParams}: {
 
   const jots = await db.jot.findMany({
     where: {
-      authorId: user.id,
+      workspaceId: user.activeWorkspaceId,
       ...(
         searchParams?.search
           ? { title: { contains: searchParams.search as string } }

@@ -14,7 +14,7 @@ export async function copyJotTemplates(jotTemplateId: string) {
   const jot = await db.jotTemplate.findUnique({
     where: {
       id: jotTemplateId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
   if (!jot) {
@@ -24,6 +24,7 @@ export async function copyJotTemplates(jotTemplateId: string) {
   const clone = await db.jotTemplate.create({
     data: {
       authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
       title: `Copy of ${jot?.title}`,
       content: jot?.content ?? undefined,
     }
