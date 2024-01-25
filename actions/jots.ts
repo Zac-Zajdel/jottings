@@ -3,6 +3,11 @@
 import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
+import { revalidateTag } from "next/cache"
+
+export async function invalidateJots() {
+  revalidateTag('jots')
+}
 
 export async function copyJot(jotId: string) {
   const session = await getServerSession(authOptions)
@@ -31,6 +36,8 @@ export async function copyJot(jotId: string) {
       priority: jot?.priority
     }
   })
+
+  await invalidateJots()
 
   return {
     message: "Your Jot has been copied.",

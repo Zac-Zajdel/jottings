@@ -23,7 +23,7 @@ import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
 import { JotTemplate } from "@prisma/client"
 import { toast } from "@/components/ui/use-toast"
-import { copyJotTemplates } from "@/actions/jotTemplates"
+import { copyJotTemplates, invalidateTemplates } from "@/actions/jotTemplates"
 
 interface PostOperationsProps {
   template: Pick<JotTemplate, "id" | "title">
@@ -139,7 +139,7 @@ export function TemplateOperations({ template }: PostOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-                  router.refresh()
+                  await invalidateTemplates()
                   toast({
                     description: "Your Template has been deleted.",
                   })

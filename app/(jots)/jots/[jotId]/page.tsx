@@ -30,7 +30,7 @@ interface EditorPageProps {
 export default async function EditorPage({ params }: EditorPageProps) {
   const user = await getCurrentUser()
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    redirect(authOptions?.pages?.signIn || "/signin")
   }
 
   const jot = await getJotForUser(params.jotId, user.activeWorkspaceId)

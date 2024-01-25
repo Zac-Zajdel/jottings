@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../plate-ui/dialog"
+import { invalidateTemplates } from "@/actions/jotTemplates"
 
 interface JotTemplateCreateButtonProps extends ButtonProps {}
 
@@ -55,7 +56,7 @@ export function JotTemplateCreateButton({
     }
 
     const template = await response.json()
-    router.refresh()
+    await invalidateTemplates()
     router.push(`/templates/${template.id}`)
   }
 

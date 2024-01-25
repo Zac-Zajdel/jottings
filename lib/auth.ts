@@ -28,10 +28,8 @@ export const authOptions: NextAuthOptions = {
       return session
     },
 
-    // TODO - Fix types....
-    async jwt({ token, user }) {
+    async jwt({ token }) {
       if (token?.id) {
-        console.log('TOKEN ANYWAYS', token)
         return {
           id: token.id,
           activeWorkspaceId: token.activeWorkspaceId,
@@ -42,9 +40,10 @@ export const authOptions: NextAuthOptions = {
       }
 
       /**
-       * 1. If we force non-automatic sign-in we can know we hit this
-       * 2. If workspace is not found, then do the work needed.
-       * 3. Worse case scenario force this after the creation.
+       * 1. Create user
+       * 2. Create workspace
+       * 3. Associate to workspace
+       * 4. Return a default created token
        */
       let dbUser = await db.user.upsert({
         where: {
@@ -59,14 +58,7 @@ export const authOptions: NextAuthOptions = {
         },
       })
 
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id
-        }
-        return token
-      }
-
-      // todo - added last second
+      // Create default workspace and associate to user.
       if (!dbUser.activeWorkspaceId) {
         const workspace = await db.workspace.create({
           data: {

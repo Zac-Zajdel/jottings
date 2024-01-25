@@ -18,6 +18,7 @@ import {
 } from "../plate-ui/dialog"
 import { JotTemplate } from "@prisma/client"
 import { useDebounce } from "@uidotdev/usehooks";
+import { invalidateJots } from "@/actions/jots"
 
 interface JotCreateButtonProps extends ButtonProps {}
 
@@ -82,7 +83,7 @@ export function JotCreateButton({
     }
 
     const jot = await response.json()
-    router.refresh()
+    await invalidateJots()
     router.push(`/jots/${jot.id}`)
   }
 

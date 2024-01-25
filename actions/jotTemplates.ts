@@ -3,6 +3,11 @@
 import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
+import { revalidateTag } from "next/cache"
+
+export async function invalidateTemplates() {
+  revalidateTag('templates')
+}
 
 export async function copyJotTemplates(jotTemplateId: string) {
   const session = await getServerSession(authOptions)
@@ -29,6 +34,8 @@ export async function copyJotTemplates(jotTemplateId: string) {
       content: jot?.content ?? undefined,
     }
   })
+
+  await invalidateTemplates()
 
   return {
     message: "Your template has been copied.",

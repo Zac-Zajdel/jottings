@@ -8,43 +8,54 @@ import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/jots/table/jot-table"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { unstable_cache } from "next/cache"
 
 export const metadata = {
   title: "Jots",
   description: "Create and manage Jots.",
 }
 
-export default async function JotsPage({searchParams}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const user = await getCurrentUser()
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
-  }
+type SearchParams = { [key: string]: string | string[] | undefined }
 
-  const jots = await db.jot.findMany({
-    where: {
-      workspaceId: user.activeWorkspaceId,
+const getJots = unstable_cache(
+  async (user, searchParams: SearchParams) => {
+    return await db.jot.findMany({
+      where: {
+        workspaceId: user.activeWorkspaceId,
+        ...(
+          searchParams?.search
+            ? { title: { contains: searchParams.search as string } }
+            : {}
+        ),
+      },
+      select: {
+        id: true,
+        title: true,
+        published: true,
+        createdAt: true,
+      },
       ...(
-        searchParams?.search
-          ? { title: { contains: searchParams.search as string } }
+        searchParams?.column && searchParams?.order
+          ? { orderBy: { [searchParams.column as string]: searchParams.order } }
           : {}
       ),
-    },
-    select: {
-      id: true,
-      title: true,
-      published: true,
-      createdAt: true,
-    },
-    ...(
-      searchParams?.column && searchParams?.order
-        ? { orderBy: { [searchParams.column as string]: searchParams.order } }
-        : {}
-    ),
-    skip: Number(searchParams?.skip ?? 0),
-    take: Number(searchParams?.take ?? 10),
-  })
+      skip: Number(searchParams?.skip ?? 0),
+      take: Number(searchParams?.take ?? 10),
+    })
+  },
+  ['jots'],
+  {
+    tags: ['jots'],
+  }
+);
+
+export default async function JotsPage({searchParams}: {
+  searchParams: SearchParams
+}) {
+  const user = await getCurrentUser()
+  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+
+  const jots = await getJots(user, searchParams)
 
   return (
     <PageShell className="gap-1">
