@@ -20,7 +20,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
+export function WorkspaceNav({ user }: UserAccountNavProps) {
   const { theme, setTheme } = useTheme()
 
   return (
@@ -29,23 +29,17 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         <div className="flex justify-between items-center p-2.5">
           <div className="flex items-center text-xs">
             <UserAvatar
-              user={{ name: user.name || null, image: user.image || null }}
+              user={{ name: user.name || null, image: 'https://picsum.photos/seed/picsum/200/300' || null }}
               className="h-8 w-8 mr-3 rounded-sm"
             />
-            <div className="text-xs">
+            <div className="text-xs text-left">
               <div className="font-medium truncate text-ellipsis w-24">
-                { user.name }
-              </div>
-              <div className="text-muted-foreground">
-                Admin
+                Zajdel Workspace
               </div>
             </div>
           </div>
-
-          {/* hover within square needs to appear here. */}
-          {/* This should become the trigger as well. */}
           <div className="pl-3 text-muted-foreground">
-            <Icons.ellipsis className="items-end h-4 w-4" />
+            <Icons.chevronsUpDown className="items-end h-4 w-4" />
           </div>
         </div>
       </DropdownMenuTrigger>
@@ -82,14 +76,6 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </Tabs>
 
         <DropdownMenuSeparator className="mt-2" />
-
-        <div className="flex items-center justify-start gap-2 p-2">
-          <div className="flex flex-col space-y-1 leading-none w-44">
-          <p className="text-xs font-medium leading-none">Version v{ packageJson.version }</p>
-          </div>
-        </div>
-
-        <DropdownMenuSeparator />
 
         <DropdownMenuItem
           className="cursor-pointer"
