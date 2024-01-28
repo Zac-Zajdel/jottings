@@ -13,9 +13,7 @@ export default async function JotsLayout({
   children,
 }: JotsLayoutProps) {
   const user = await getCurrentUser()
-  if (!user) {
-    return notFound()
-  }
+  if (!user) return notFound()
 
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6 bg-core">
@@ -36,7 +34,7 @@ export default async function JotsLayout({
           <DashboardNav items={dashboardConfig.sidebarNav} />
           <div className="flex-1 px-2"></div>
           <div className="pl-2">
-            <div className="w-full border rounded-xl">
+            <div className="w-full border rounded-lg">
               <UserAccountNav
                 user={{
                   name: user.name,

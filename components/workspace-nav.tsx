@@ -1,7 +1,5 @@
 "use client"
 
-import { User } from "next-auth"
-import { signOut } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,18 +7,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { User } from "next-auth"
+import { signOut } from "next-auth/react"
 import { UserAvatar } from "@/components/user-avatar"
-import packageJson from '../package.json'
 import { Tabs, TabsList } from "./ui/tabs"
 import { TabsTrigger } from "@radix-ui/react-tabs"
 import { useTheme } from "next-themes"
 import { Icons } from "./icons"
 
-interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
+interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
 }
 
-export function WorkspaceNav({ user }: UserAccountNavProps) {
+export function WorkspaceNav({ user }: WorkspaceNavProps) {
   const { theme, setTheme } = useTheme()
 
   return (
@@ -30,10 +29,10 @@ export function WorkspaceNav({ user }: UserAccountNavProps) {
           <div className="flex items-center text-xs">
             <UserAvatar
               user={{ name: user.name || null, image: 'https://picsum.photos/seed/picsum/200/300' || null }}
-              className="h-8 w-8 mr-3 rounded-sm"
+              className="h-8 w-8 mr-2 rounded-sm"
             />
             <div className="text-xs text-left">
-              <div className="font-medium truncate text-ellipsis w-24">
+              <div className="font-medium truncate text-ellipsis w-[7.5rem]">
                 Zajdel Workspace
               </div>
             </div>
