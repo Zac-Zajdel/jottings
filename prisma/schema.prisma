@@ -67,8 +67,8 @@ model User {
   Jot             Jot[]
   JotTemplate     JotTemplate[]
   Label           Label[]
-  workspaceOwner  Workspace[]     @relation("workspaceOwner")
-  workspaceUser   WorkspaceUser[]
+  workspaceOwners Workspace[]     @relation("workspaceOwner")
+  workspaceUsers  WorkspaceUser[]
 
   @@index([activeWorkspaceId])
   @@map(name: "users")
@@ -81,12 +81,12 @@ model Workspace {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  owner         User            @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  activeUsers   User[]          @relation("activeWorkspace")
-  workspaceUser WorkspaceUser[]
-  Jot           Jot[]
-  JotTemplate   JotTemplate[]
-  Label         Label[]
+  owner          User            @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  activeUsers    User[]          @relation("activeWorkspace")
+  workspaceUsers WorkspaceUser[]
+  Jot            Jot[]
+  JotTemplate    JotTemplate[]
+  Label          Label[]
 
   @@index([ownerId])
   @@map(name: "workspaces")

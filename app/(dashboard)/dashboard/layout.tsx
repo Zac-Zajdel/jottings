@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/session"
 import { DashboardNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
 import { WorkspaceNav } from "@/components/workspace-nav"
+import { getWorkspacesByUserId } from "@/lib/workspace/service"
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -15,6 +16,8 @@ export default async function DashboardLayout({
   const user = await getCurrentUser()
   if (!user) return notFound()
 
+  const workspaces = await getWorkspacesByUserId(user.id)
+
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6 bg-core">
       <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
@@ -23,10 +26,10 @@ export default async function DashboardLayout({
             <div className="w-full border-b">
               <WorkspaceNav
                 user={{
-                  name: user.name,
-                  image: user.image,
-                  email: user.email,
+                  id: user.id,
+                  activeWorkspaceId: user.activeWorkspaceId,
                 }}
+                workspaces={workspaces}
               />
             </div>
           </div>
