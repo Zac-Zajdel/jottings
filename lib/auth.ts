@@ -28,7 +28,12 @@ export const authOptions: NextAuthOptions = {
       return session
     },
 
-    async jwt({ token }) {
+    async jwt({ token, session, trigger }) {
+      // Called from components/workspace-nav.tsx
+      if (trigger === 'update' && session?.activeWorkspaceId) {
+        token.activeWorkspaceId = session.activeWorkspaceId
+      }
+  
       if (token?.id) {
         return {
           id: token.id,

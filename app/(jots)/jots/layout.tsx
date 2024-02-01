@@ -16,6 +16,9 @@ export default async function JotsLayout({
   const user = await getCurrentUser()
   if (!user) return notFound()
 
+  // TODO - Remove this into its own server component for workspaces.
+  // TODO - This will avoid an unnecessary dependency to rendering UI as this is just layout.
+  // TODO - Plus we have more control over our suspense boundaries.
   const workspaces = await getWorkspacesByUserId(user.id)
 
   return (

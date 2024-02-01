@@ -13,7 +13,9 @@ import { Workspace } from "@prisma/client"
 import { UserAvatar } from "@/components/user-avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { updateActiveWorkspace } from "@/lib/user/services"
-import { createWorkspace } from "@/lib/workspace/service"
+import { createWorkspace, getWorkspacesByUserId } from "@/lib/workspace/service"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
 interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
@@ -24,15 +26,26 @@ interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function WorkspaceNav({ user, workspaces }: WorkspaceNavProps) {
+  const router = useRouter()
+  const { update } = useSession()
+
   const activeWorkspace = workspaces?.find(workspace => workspace.id === user.activeWorkspaceId)
 
   async function updateWorkspace(workspace: Workspace) {
     await updateActiveWorkspace(workspace, user.id)
+    await update({ activeWorkspaceId: workspace.id})
+    router.refresh()
   }
 
-  async function createWorkspaceLocal() {
-    console.log('CALLING THIS')
-    await createWorkspace(user.id)
+  /**
+   * todo
+   * - clear value
+   * - close modal
+   */
+  async function create() {
+    const newWorkspace = await createWorkspace('Testing 213198', user.id)
+    await update({ activeWorkspaceId: newWorkspace.id})
+    router.refresh()
   }
 
   return (
@@ -62,12 +75,13 @@ export function WorkspaceNav({ user, workspaces }: WorkspaceNavProps) {
 
         <PopoverContent className="p-0" align="end">
           <Command>
+            {/* grab value and valueChangeProp */}
             <CommandInput placeholder="Select workspaces..." />
             <CommandList>
               <CommandEmpty className="p-1">
                 <span
                   className="flex justify-start items-center p-2 text-sm rounded cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                  onClick={() => createWorkspaceLocal()}
+                  onClick={() => create()}
                 >
                   <p className="pl-2">Create Workspaces </p>
                   <Icons.add className="items-end h-4 w-4 ml-2"/>

@@ -33,13 +33,13 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
   return workspaces ?? null;
 };
 
-export const createWorkspace = async (userId: string) => {
+export const createWorkspace = async (name: string, userId: string) => {
   // todo - validate unique name
   // todo transaction
   
   const workspace = await db.workspace.create({
     data: {
-      name: 'Hello World',
+      name: name,
       ownerId: userId,
     },
     select: {
@@ -64,4 +64,6 @@ export const createWorkspace = async (userId: string) => {
   })
 
   workspaceCache.revalidate({userId})
+
+  return workspace
 }

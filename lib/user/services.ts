@@ -16,7 +16,6 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
     })
 
     workspaceCache.revalidate({userId})
-    // todo - re-validate session.
   } catch (error) {
     throw error;
   }
