@@ -1,5 +1,3 @@
-'use client'
-
 import { Inter as FontSans } from "next/font/google"
 import localFont from "next/font/local"
 
@@ -10,6 +8,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
 import { SessionProvider } from "next-auth/react"
+import ClientSessionProvider from "@/components/client-session-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,47 +28,47 @@ interface RootLayoutProps {
 // TODO - This can be added back.
 // TODO - Make this a server component again and push <SessionProvider> into its own custom client component.
 
-// export const metadata = {
-//   metadataBase: new URL('https://acme.com'),
-//   title: {
-//     default: siteConfig.name,
-//     template: `%s | ${siteConfig.name}`,
-//   },
-//   description: siteConfig.description,
-//   keywords: [
-//     "Project Management",
-//     "Jottings",
-//     "Zac Zajdel",
-//     "Editor"
-//   ],
-//   authors: [
-//     {
-//       name: "Zac Zajdel",
-//       url: "https://zaczajdel.com/",
-//     },
-//   ],
-//   creator: "Zac Zajdel",
-//   openGraph: {
-//     type: "website",
-//     locale: "en_US",
-//     url: siteConfig.url,
-//     title: siteConfig.name,
-//     description: siteConfig.description,
-//     siteName: siteConfig.name,
-//   },
-//   twitter: {
-//     card: "summary_large_image",
-//     title: siteConfig.name,
-//     description: siteConfig.description,
-//     creator: "@zac_zajdel",
-//   },
-//   icons: {
-//     icon: "/favicon.ico",
-//     shortcut: "/favicon-16x16.png",
-//     apple: "/apple-touch-icon.png",
-//   },
-//   manifest: `${siteConfig.url}/site.webmanifest`,
-// }
+export const metadata = {
+  metadataBase: new URL('https://acme.com'),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [
+    "Project Management",
+    "Jottings",
+    "Zac Zajdel",
+    "Editor"
+  ],
+  authors: [
+    {
+      name: "Zac Zajdel",
+      url: "https://zaczajdel.com/",
+    },
+  ],
+  creator: "Zac Zajdel",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    creator: "@zac_zajdel",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: `${siteConfig.url}/site.webmanifest`,
+}
 
 export const viewport = {
   themeColor: [
@@ -89,7 +88,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <SessionProvider>
+        <ClientSessionProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -97,9 +96,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
           >
             {children}
             <Analytics />
-            <Toaster />
           </ThemeProvider>
-        </SessionProvider>
+        </ClientSessionProvider>
       </body>
     </html>
   )
