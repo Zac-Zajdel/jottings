@@ -21,6 +21,7 @@ export default async function DashboardLayout({
         <aside className="hidden w-[215px] flex-col md:flex mb-3">
           <div className="pt-1 pl-2">
             <div className="w-full border-b">
+              {/* @ts-ignore @ts-expect-error Server Component */}
               <WorkspaceNav
                 user={{
                   id: user.id,
