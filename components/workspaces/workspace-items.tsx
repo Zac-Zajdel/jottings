@@ -7,17 +7,17 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "./plate-ui/command"
-import { Icons } from "./icons"
+} from "../plate-ui/command"
+import { Icons } from "../icons"
 import { Workspace } from "@prisma/client"
 import { UserAvatar } from "@/components/user-avatar"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
-import { updateActiveWorkspace } from "@/lib/user/services"
-import { createWorkspace, getWorkspacesByUserId } from "@/lib/workspace/service"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { createWorkspace, updateActiveWorkspace } from "@/lib/workspace/service"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 
-interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
+interface WorkspaceItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
     id: string
     activeWorkspaceId: string
@@ -25,32 +25,43 @@ interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
   workspaces: Workspace[] | null
 }
 
-export function WorkspaceNav({ user, workspaces }: WorkspaceNavProps) {
+export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
   const router = useRouter()
   const { update } = useSession()
+  const [openPopover, setOpenPopover] = useState(false)
+  const [workspaceInput, setWorkspaceInput] = useState('')
 
+  // Based off users JWT token
   const activeWorkspace = workspaces?.find(workspace => workspace.id === user.activeWorkspaceId)
 
-  async function updateWorkspace(workspace: Workspace) {
-    await updateActiveWorkspace(workspace, user.id)
-    await update({ activeWorkspaceId: workspace.id})
+  /**
+   * @desc Create a new workspace and switch into that filter.
+   */
+  async function submitNewWorkspace() {
+    const newWorkspace = await createWorkspace(workspaceInput, user.id)
+    await update({ activeWorkspaceId: newWorkspace.id})
     router.refresh()
+    setOpenPopover(!openPopover)
   }
 
   /**
-   * todo
-   * - clear value
-   * - close modal
+   * @desc Select a different workspace and switch into that
    */
-  async function create() {
-    const newWorkspace = await createWorkspace('Testing 213198', user.id)
-    await update({ activeWorkspaceId: newWorkspace.id})
+  async function signIntoWorkspace(workspace: Workspace) {
+    if (workspace.id === user.activeWorkspaceId) return
+
+    await updateActiveWorkspace(workspace, user.id)
+    await update({ activeWorkspaceId: workspace.id})
     router.refresh()
+    setOpenPopover(!openPopover)
   }
 
   return (
     <div className="flex items-center justify-between space-x-4">
-      <Popover>
+      <Popover
+        open={openPopover}
+        onOpenChange={() => setOpenPopover(!openPopover)}
+      >
         <PopoverTrigger asChild className="cursor-pointer">
           <div className="flex justify-between items-center p-2.5">
             <div className="flex items-center text-xs">
@@ -73,15 +84,17 @@ export function WorkspaceNav({ user, workspaces }: WorkspaceNavProps) {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0" align="end">
+        <PopoverContent className="p-0 ml-2 w-52" align="end">
           <Command>
-            {/* grab value and valueChangeProp */}
-            <CommandInput placeholder="Select workspaces..." />
-            <CommandList>
+            <CommandInput
+              placeholder="Select workspaces..."
+              onValueChange={(value) => setWorkspaceInput(value)}
+            />
+            <CommandList className="no-scrollbar">
               <CommandEmpty className="p-1">
                 <span
                   className="flex justify-start items-center p-2 text-sm rounded cursor-pointer hover:bg-accent hover:text-accent-foreground"
-                  onClick={() => create()}
+                  onClick={() => submitNewWorkspace()}
                 >
                   <p className="pl-2">Create Workspaces </p>
                   <Icons.add className="items-end h-4 w-4 ml-2"/>
@@ -91,10 +104,13 @@ export function WorkspaceNav({ user, workspaces }: WorkspaceNavProps) {
                 {workspaces?.map((space, index) => (
                   <div
                     key={index}
-                    onClick={() => updateWorkspace(space)}
+                    onClick={() => signIntoWorkspace(space)}
                   >
-                    <CommandItem className="flex items-start px-4 py-2 cursor-pointer">
-                      <p>{space.name} </p>
+                    <CommandItem
+                      className="flex items-start px-4 py-2 cursor-pointer"
+                      value={`workspace-${space.id}`}
+                    >
+                      <p className="w-22 truncate">{space.name} </p>
                     </CommandItem>
                   </div>
                 ))}

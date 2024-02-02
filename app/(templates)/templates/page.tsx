@@ -9,15 +9,22 @@ import { JotTemplateCreateButton } from "@/components/templates/jot-template-cre
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { TemplateTable } from "@/components/templates/table/template-table"
 import { unstable_cache } from "next/cache"
+import { User } from "next-auth"
 
 export const metadata = {
   title: "Templates",
   description: "Create and manage Templates.",
 }
-type SearchParams = { [key: string]: string | string[] | undefined }
 
+type SearchParams = { [key: string]: string | string[] | undefined }
+type SessionUser = User & {
+  id: string;
+  activeWorkspaceId: string;
+}
+
+// TODO - Convert to service architecture
 const getTemplates = unstable_cache(
-  async (user, searchParams: SearchParams) => {
+  async (user: SessionUser, searchParams: SearchParams) => {
     return await db.jotTemplate.findMany({
       where: {
         workspaceId: user.activeWorkspaceId,
@@ -44,7 +51,7 @@ const getTemplates = unstable_cache(
   },
   ['templates'],
   {
-    tags: ['templates'],
+    tags: [`templates`],
   }
 );
 

@@ -3,8 +3,7 @@ import { dashboardConfig } from "@/config/dashboard"
 import { getCurrentUser } from "@/lib/session"
 import { DashboardNav } from "@/components/nav"
 import { UserAccountNav } from "@/components/user-account-nav"
-import { WorkspaceNav } from "@/components/workspace-nav"
-import { getWorkspacesByUserId } from "@/lib/workspace/service"
+import WorkspaceNav from "@/components/workspaces/workspace-nav"
 
 interface JotsLayoutProps {
   children?: React.ReactNode
@@ -15,11 +14,6 @@ export default async function JotsLayout({
 }: JotsLayoutProps) {
   const user = await getCurrentUser()
   if (!user) return notFound()
-
-  // TODO - Remove this into its own server component for workspaces.
-  // TODO - This will avoid an unnecessary dependency to rendering UI as this is just layout.
-  // TODO - Plus we have more control over our suspense boundaries.
-  const workspaces = await getWorkspacesByUserId(user.id)
 
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6 bg-core">
@@ -32,7 +26,6 @@ export default async function JotsLayout({
                   id: user.id,
                   activeWorkspaceId: user.activeWorkspaceId,
                 }}
-                workspaces={workspaces}
               />
             </div>
           </div>

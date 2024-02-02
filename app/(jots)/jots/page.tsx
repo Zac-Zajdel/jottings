@@ -9,6 +9,7 @@ import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/jots/table/jot-table"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { unstable_cache } from "next/cache"
+import { User } from "next-auth"
 
 export const metadata = {
   title: "Jots",
@@ -16,9 +17,14 @@ export const metadata = {
 }
 
 type SearchParams = { [key: string]: string | string[] | undefined }
+type SessionUser = User & {
+  id: string;
+  activeWorkspaceId: string;
+}
 
+// TODO - Convert to service architecture
 const getJots = unstable_cache(
-  async (user, searchParams: SearchParams) => {
+  async (user: SessionUser, searchParams: SearchParams) => {
     return await db.jot.findMany({
       where: {
         workspaceId: user.activeWorkspaceId,
@@ -43,9 +49,9 @@ const getJots = unstable_cache(
       take: Number(searchParams?.take ?? 10),
     })
   },
-  ['jots'],
+  ['getJots'],
   {
-    tags: ['jots'],
+    tags: [`jots`],
   }
 );
 
