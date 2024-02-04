@@ -20,7 +20,7 @@ export default async function JotsLayout({
       <div className="grid flex-1 md:grid-cols-[215px_1fr] h-[1vh]">
         <aside className="hidden w-[215px] flex-col md:flex mb-3">
           <div className="pt-1 pl-2">
-            <div className="w-full border-b">
+            <div className="w-full border-b-2 border-dotted">
               {/* @ts-ignore @ts-expect-error Server Component */}
               <WorkspaceNav
                 user={{

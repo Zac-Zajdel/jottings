@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
-import { SessionProvider } from "next-auth/react"
 import ClientSessionProvider from "@/components/client-session-provider"
 
 const fontSans = FontSans({
@@ -24,9 +23,6 @@ const fontHeading = localFont({
 interface RootLayoutProps {
   children: React.ReactNode
 }
-
-// TODO - This can be added back.
-// TODO - Make this a server component again and push <SessionProvider> into its own custom client component.
 
 export const metadata = {
   metadataBase: new URL('https://acme.com'),
@@ -96,6 +92,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           >
             {children}
             <Analytics />
+            <Toaster />
           </ThemeProvider>
         </ClientSessionProvider>
       </body>

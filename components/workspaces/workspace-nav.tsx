@@ -10,6 +10,7 @@ interface WorkspaceNavProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export default async function WorkspaceNav({ user }: WorkspaceNavProps) {
   const workspaces = await getWorkspacesByUserId(user.id)
+  workspaces?.sort((a) => a.id === user.activeWorkspaceId ? -1 : 0);
 
   return (
     <div className="flex items-center justify-between space-x-4">

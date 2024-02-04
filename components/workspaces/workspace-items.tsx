@@ -16,6 +16,7 @@ import { createWorkspace, updateActiveWorkspace } from "@/lib/workspace/service"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { toast } from "../ui/use-toast"
 
 interface WorkspaceItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
@@ -38,10 +39,17 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
    * @desc Create a new workspace and switch into that filter.
    */
   async function submitNewWorkspace() {
-    const newWorkspace = await createWorkspace(workspaceInput, user.id)
-    await update({ activeWorkspaceId: newWorkspace.id})
-    router.refresh()
-    setOpenPopover(!openPopover)
+    try {
+      const newWorkspace = await createWorkspace(workspaceInput, user.id)
+      await updateUserAndSidebar(newWorkspace.data.id as string)
+      toast({ description: newWorkspace.message })
+    } catch (error) {
+      toast({
+        title: "Something went wrong.",
+        description: 'An error occurred. Please try that again',
+        variant: "destructive",
+      })
+    }
   }
 
   /**
@@ -50,8 +58,23 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
   async function signIntoWorkspace(workspace: Workspace) {
     if (workspace.id === user.activeWorkspaceId) return
 
-    await updateActiveWorkspace(workspace, user.id)
-    await update({ activeWorkspaceId: workspace.id})
+    try {
+      const updatedUser = await updateActiveWorkspace(workspace, user.id)
+      await updateUserAndSidebar(updatedUser.data.activeWorkspaceId as string)
+    } catch (error) {
+      toast({
+        title: "Something went wrong.",
+        description: 'An error occurred. Please try that again',
+        variant: "destructive",
+      })
+    }
+  }
+
+  /**
+   * @desc Update users JWT and cleanup server
+   */
+  async function updateUserAndSidebar(activeWorkspaceId: string) {
+    await update({ activeWorkspaceId })
     router.refresh()
     setOpenPopover(!openPopover)
   }
@@ -84,9 +107,10 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
           </div>
         </PopoverTrigger>
 
-        <PopoverContent className="p-0 ml-2 w-52" align="end">
+        <PopoverContent className="p-0 w-52" align="end">
           <Command>
             <CommandInput
+              className="-m-1 pl-1"
               placeholder="Select workspaces..."
               onValueChange={(value) => setWorkspaceInput(value)}
             />
@@ -96,8 +120,8 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
                   className="flex justify-start items-center p-2 text-sm rounded cursor-pointer hover:bg-accent hover:text-accent-foreground"
                   onClick={() => submitNewWorkspace()}
                 >
-                  <p className="pl-2">Create Workspaces </p>
-                  <Icons.add className="items-end h-4 w-4 ml-2"/>
+                  <Icons.add className="h-4 w-4 ml-2"/>
+                  <p className="pl-2">Create workspace </p>
                 </span>
               </CommandEmpty>
               <CommandGroup>
@@ -107,10 +131,15 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
                     onClick={() => signIntoWorkspace(space)}
                   >
                     <CommandItem
-                      className="flex items-start px-4 py-2 cursor-pointer"
+                      className="flex items-center p-2 cursor-pointer"
                       value={`workspace-${space.id}`}
                     >
                       <p className="w-22 truncate">{space.name} </p>
+                      {
+                        space.id === activeWorkspace?.id
+                          ? <Icons.check className="h-4 w-4 ml-2"/>
+                          : null
+                      }
                     </CommandItem>
                   </div>
                 ))}
