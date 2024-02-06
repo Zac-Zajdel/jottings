@@ -8,7 +8,7 @@ async function uniqueLabel(name: string) {
   return !await db.label.findFirst({
     where: {
       name: name,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
 }
@@ -49,7 +49,7 @@ export async function GET(req: Request) {
         color: true,
       },
       where: {
-        authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
         ...(
           search?.length
             ? { name: { contains: search } }
@@ -83,6 +83,7 @@ export async function POST(req: Request) {
     // Create Label
     const label = await db.label.create({
       data: {
+        workspaceId: session.user.activeWorkspaceId,
         name: body.name,
         color: body.color,
         authorId: session.user.id,

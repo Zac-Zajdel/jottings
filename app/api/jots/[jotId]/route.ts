@@ -9,7 +9,7 @@ async function validateJotId(jotId: string) {
   return !!await db.jot.findFirst({
     where: {
       id: jotId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
 }
@@ -17,7 +17,7 @@ async function validateJotId(jotId: string) {
 const routeContextSchema = z.object({
   params: z.object({
     jotId: z.string().refine(validateJotId, val => ({
-      message: `${val} does not belong to the current user.`,
+      message: `${val} does not belong to the current workspace.`,
     })),
   }),
 })
@@ -27,6 +27,7 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
@@ -37,6 +38,7 @@ export async function PATCH(
     await db.jot.update({
       where: {
         id: params.jotId,
+        workspaceId: session?.user.activeWorkspaceId,
       },
       data: {
         title: body.title,
@@ -60,11 +62,13 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
+    const session = await getServerSession(authOptions)
     const { params } = await routeContextSchema.parseAsync(context)
 
     await db.jot.delete({
       where: {
         id: params.jotId as string,
+        workspaceId: session?.user.activeWorkspaceId,
       },
     })
 

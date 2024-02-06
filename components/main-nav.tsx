@@ -30,6 +30,8 @@ export function MainNav({ items, children, isLogin }: MainNavProps) {
         </span>
       </Link>
 
+      {/* Deal with mobile nav getting effected as well */}
+
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (

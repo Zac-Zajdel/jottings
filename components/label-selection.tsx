@@ -98,7 +98,7 @@ export function LabelSelection ({ model, modelId }: labelProps) {
         variant: "destructive",
       })
     }
-
+    
     router.refresh()
     router.push(`/${model}/${modelId}`)
 

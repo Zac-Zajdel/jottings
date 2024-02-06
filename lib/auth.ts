@@ -9,9 +9,6 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  pages: {
-    signIn: "/login",
-  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -22,6 +19,7 @@ export const authOptions: NextAuthOptions = {
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id
+        session.user.activeWorkspaceId = token.activeWorkspaceId as string
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
@@ -29,17 +27,30 @@ export const authOptions: NextAuthOptions = {
 
       return session
     },
-    async jwt({ token, user }) {
+
+    async jwt({ token, session, trigger }) {
+      // Called from components/workspace-nav.tsx
+      if (trigger === 'update' && session?.activeWorkspaceId) {
+        token.activeWorkspaceId = session.activeWorkspaceId
+      }
+  
       if (token?.id) {
         return {
           id: token.id,
+          activeWorkspaceId: token.activeWorkspaceId,
           name: token.name,
           email: token.email,
           picture: token.picture,
         }
       }
 
-      const dbUser = await db.user.upsert({
+      /**
+       * 1. Create user
+       * 2. Create workspace
+       * 3. Associate to workspace
+       * 4. Return a default created token
+       */
+      let dbUser = await db.user.upsert({
         where: {
           email: token.email as string,
         },
@@ -52,15 +63,34 @@ export const authOptions: NextAuthOptions = {
         },
       })
 
-      if (!dbUser) {
-        if (user) {
-          token.id = user?.id
-        }
-        return token
+      // Create default workspace and associate to user.
+      if (!dbUser.activeWorkspaceId) {
+        const workspace = await db.workspace.create({
+          data: {
+            name: 'Private Workspace',
+            ownerId: dbUser.id,
+            default: true,
+          }
+        })
+
+        dbUser = await db.user.update({
+          where: { id: dbUser.id },
+          data: {
+            activeWorkspaceId: workspace.id,
+          }
+        })
+
+        await db.workspaceUser.create({
+          data: {
+            userId: dbUser.id,
+            workspaceId: workspace.id,
+          }
+        })
       }
 
       return {
         id: dbUser.id,
+        activeWorkspaceId: dbUser.activeWorkspaceId,
         name: dbUser.name,
         email: dbUser.email,
         picture: dbUser.image,

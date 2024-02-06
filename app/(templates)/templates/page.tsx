@@ -8,43 +8,60 @@ import { PageShell } from "@/components/page-shell"
 import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { TemplateTable } from "@/components/templates/table/template-table"
+import { unstable_cache } from "next/cache"
+import { User } from "next-auth"
 
 export const metadata = {
   title: "Templates",
   description: "Create and manage Templates.",
 }
 
-export default async function TemplatesPage({searchParams}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const user = await getCurrentUser()
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
-  }
+type SearchParams = { [key: string]: string | string[] | undefined }
+type SessionUser = User & {
+  id: string;
+  activeWorkspaceId: string;
+}
 
-  const templates = await db.jotTemplate.findMany({
-    where: {
-      authorId: user.id,
+// TODO - Convert to service architecture
+const getTemplates = unstable_cache(
+  async (user: SessionUser, searchParams: SearchParams) => {
+    return await db.jotTemplate.findMany({
+      where: {
+        workspaceId: user.activeWorkspaceId,
+        ...(
+          searchParams?.search
+            ? { title: { contains: searchParams.search as string } }
+            : {}
+        ),
+      },
+      select: {
+        id: true,
+        title: true,
+        isPublished: true,
+        createdAt: true,
+      },
       ...(
-        searchParams?.search
-          ? { title: { contains: searchParams.search as string } }
+        searchParams?.column && searchParams?.order
+          ? { orderBy: { [searchParams.column as string]: searchParams.order } }
           : {}
       ),
-    },
-    select: {
-      id: true,
-      title: true,
-      isPublished: true,
-      createdAt: true,
-    },
-    ...(
-      searchParams?.column && searchParams?.order
-        ? { orderBy: { [searchParams.column as string]: searchParams.order } }
-        : {}
-    ),
-    skip: Number(searchParams?.skip ?? 0),
-    take: Number(searchParams?.take ?? 10),
-  })
+      skip: Number(searchParams?.skip ?? 0),
+      take: Number(searchParams?.take ?? 10),
+    })
+  },
+  ['templates'],
+  {
+    tags: [`templates`],
+  }
+);
+
+export default async function TemplatesPage({searchParams}: {
+  searchParams: SearchParams
+}) {
+  const user = await getCurrentUser()
+  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+
+  const templates = await getTemplates(user, searchParams)
 
   return (
     <PageShell className="gap-1">

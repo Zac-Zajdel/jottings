@@ -4,11 +4,9 @@ import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth"
 
 async function validateAssociationId(labelAssociationId: string) {
-  const session = await getServerSession(authOptions)
   return !!await db.labelAssociation.findFirst({
     where: {
       id: labelAssociationId,
-      authorId: session?.user.id,
     },
   })
 }
@@ -36,7 +34,6 @@ export async function DELETE(
     await db.labelAssociation.delete({
       where: {
         id: params.labelAssociationId,
-        authorId: session.user.id,
       },
     })
 
