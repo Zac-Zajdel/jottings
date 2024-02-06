@@ -7,22 +7,23 @@
 
 */
 -- AlterTable
-ALTER TABLE `jot_templates` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `id`;
+ALTER TABLE `jot_templates` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL;
 
 -- AlterTable
-ALTER TABLE `jots` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `id`;
+ALTER TABLE `jots` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL;
 
 -- AlterTable
-ALTER TABLE `labels` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL AFTER `authorId`;
+ALTER TABLE `labels` ADD COLUMN `workspaceId` VARCHAR(191) NOT NULL;
 
 -- AlterTable
-ALTER TABLE `users` ADD COLUMN `activeWorkspaceId` VARCHAR(191) NULL AFTER `id`;
+ALTER TABLE `users` ADD COLUMN `activeWorkspaceId` VARCHAR(191) NULL;
 
 -- CreateTable
 CREATE TABLE `workspaces` (
     `id` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `ownerId` VARCHAR(191) NOT NULL,
+    `default` BOOLEAN NOT NULL DEFAULT false,
     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 

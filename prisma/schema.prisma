@@ -74,11 +74,11 @@ model User {
   @@map(name: "users")
 }
 
-// TODO - Setup default
 model Workspace {
   id        String   @id @default(cuid())
   name      String
   ownerId   String
+  default   Boolean  @default(false)
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 

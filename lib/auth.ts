@@ -69,6 +69,7 @@ export const authOptions: NextAuthOptions = {
           data: {
             name: 'Private Workspace',
             ownerId: dbUser.id,
+            default: true,
           }
         })
 
