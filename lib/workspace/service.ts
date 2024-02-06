@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db"
 import { workspaceCache } from "./cache";
-import { Workspace } from "@prisma/client";
+import { User, Workspace } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 
 /**
@@ -110,4 +110,65 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
   }
 }
 
-// TODO - Delete Workspace
+/**
+ * TODO - This must get called from a settings page like https://dribbble.com/shots/20424953-Settings-Page-SaaS-Product
+ * @desc - Delete current workspace and go back to default
+ */
+export const deleteWorkspace = async (workspace: Workspace, user: User) => {
+  // validations
+  if (workspace.default) {
+    // todo - reject
+  }
+  if (workspace.ownerId !== user.id) {
+    // todo - reject
+  }
+
+  try {
+    await db.$transaction(async (tx) => {
+      // 1. Delete workspace pivot association to user
+      await tx.workspaceUser.delete({
+        where: {
+          id: workspace.id,
+          userId: user.id,
+        }
+      })
+
+      // 2. Delete workspace itself
+      await tx.workspace.delete({
+        where: {
+          id: workspace.id,
+        }
+      })
+    
+      // 3. Update user back to their default workspace if currently on deleted workspace
+      if (user.activeWorkspaceId === workspace.id) {
+        const defaultWorkspace = await tx.workspace.findFirst({
+          where: {
+            ownerId: user.id,
+            default: true,
+          }
+        })
+
+        if (defaultWorkspace) {
+          await tx.user.update({
+            where: {
+              id: user.id,
+            },
+            data: {
+              activeWorkspaceId: defaultWorkspace.id,
+            }
+          })
+        }
+      }
+        
+      workspaceCache.revalidate({userId: user.id})
+    })
+
+    return {
+      message: `Workspace ${workspace.name} deleted successfully`,
+      data: {}
+    }
+  } catch (error) {
+    throw error
+  }
+}
