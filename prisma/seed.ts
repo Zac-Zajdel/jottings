@@ -40,7 +40,7 @@ async function createUser(): Promise<User> {
 async function createWorkspace(user: User): Promise<Workspace> {
   let workspace = await prisma.workspace.findFirst({
     where: {
-      name: 'My Workspace',
+      name: 'Private Workspace',
       ownerId: user.id,
     }
   });
@@ -48,7 +48,7 @@ async function createWorkspace(user: User): Promise<Workspace> {
   if (!workspace) {
     workspace = await prisma.workspace.create({
       data: {
-        name: 'My Workspace',
+        name: 'Private Workspace',
         ownerId: user.id,
       }
     })

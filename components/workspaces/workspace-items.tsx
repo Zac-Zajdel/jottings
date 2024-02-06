@@ -8,15 +8,15 @@ import {
   CommandItem,
   CommandList,
 } from "../plate-ui/command"
+import { useState } from "react"
 import { Icons } from "../icons"
+import { toast } from "../ui/use-toast"
 import { Workspace } from "@prisma/client"
-import { UserAvatar } from "@/components/user-avatar"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { createWorkspace, updateActiveWorkspace } from "@/lib/workspace/service"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { toast } from "../ui/use-toast"
+import { Avatar, AvatarFallback } from "../ui/avatar"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
+import { createWorkspace, updateActiveWorkspace } from "@/lib/workspace/service"
 
 interface WorkspaceItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
@@ -34,6 +34,7 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
 
   // Based off users JWT token
   const activeWorkspace = workspaces?.find(workspace => workspace.id === user.activeWorkspaceId)
+  const getWorkspaceAbbrev = activeWorkspace?.name?.split(' ')?.map(word => word?.[0])?.join('')?.slice(0, 2) ?? 'WS'
 
   /**
    * @desc Create a new workspace and switch into that filter.
@@ -88,13 +89,11 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
         <PopoverTrigger asChild className="cursor-pointer">
           <div className="flex justify-between items-center p-2.5">
             <div className="flex items-center text-xs">
-              <UserAvatar
-                user={{ 
-                  name: `${activeWorkspace?.name ?? ''}`,
-                  image: 'https://picsum.photos/seed/picsum/200/300' || null
-                }}
-                className="h-8 w-8 mr-2 rounded-sm"
-              />
+              <Avatar className="h-8 w-8 mr-2 rounded-sm">
+                <AvatarFallback className="bg-accent font-medium">
+                  {getWorkspaceAbbrev}
+                </AvatarFallback>
+              </Avatar>
               <div className="text-xs text-left">
                 <div className="font-medium truncate text-ellipsis w-[7.5rem]">
                   {activeWorkspace?.name}

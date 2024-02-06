@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
       if (!dbUser.activeWorkspaceId) {
         const workspace = await db.workspace.create({
           data: {
-            name: 'My Workspace',
+            name: 'Private Workspace',
             ownerId: dbUser.id,
           }
         })
