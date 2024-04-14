@@ -27,7 +27,7 @@ export async function GET(req: Request) {
         createdAt: true
       },
       where: {
-        authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
         ...(search ? { title: { contains: search as string } } : {}),
       },
       orderBy: {
@@ -57,6 +57,7 @@ export async function POST(req: Request) {
         title: body.title,
         content: body.content,
         authorId: session.user.id,
+        workspaceId: session.user.activeWorkspaceId,
         isPublished: true,
       },
       select: {

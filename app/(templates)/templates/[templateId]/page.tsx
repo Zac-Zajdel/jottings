@@ -30,7 +30,7 @@ interface EditorPageProps {
 export default async function EditorPage({ params }: EditorPageProps) {
   const user = await getCurrentUser()
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    redirect(authOptions?.pages?.signIn || "/signin")
   }
 
   const template = await getJotTemplate(params.templateId, user.id)

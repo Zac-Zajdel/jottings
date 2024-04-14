@@ -8,7 +8,7 @@ async function validateTemplateId(jotTemplateId: string) {
   return !!await db.jotTemplate.findFirst({
     where: {
       id: jotTemplateId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
 }
@@ -16,7 +16,7 @@ async function validateTemplateId(jotTemplateId: string) {
 const routeContextSchema = z.object({
   params: z.object({
     jotTemplateId: z.string().refine(validateTemplateId, val => ({
-      message: `${val} does not belong to the current user.`,
+      message: `${val} does not belong to the current workspace.`,
     })),
   }),
 })
@@ -42,7 +42,7 @@ export async function PATCH(
     await db.jotTemplate.update({
       where: {
         id: params.jotTemplateId,
-        authorId: session?.user.id,
+        workspaceId: session?.user.activeWorkspaceId,
       },
       data: {
         title: body.title,
@@ -70,7 +70,7 @@ export async function DELETE(
     await db.jotTemplate.delete({
       where: {
         id: params.jotTemplateId,
-        authorId: session?.user.id,
+        workspaceId: session?.user.activeWorkspaceId,
       },
     })
 

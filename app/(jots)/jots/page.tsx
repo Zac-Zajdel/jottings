@@ -8,23 +8,24 @@ import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/jots/table/jot-table"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { unstable_noStore as noStore } from "next/cache"
+import { User } from "next-auth"
 
 export const metadata = {
   title: "Jots",
   description: "Create and manage Jots.",
 }
 
-export default async function JotsPage({searchParams}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const user = await getCurrentUser()
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
-  }
+type SearchParams = { [key: string]: string | string[] | undefined }
+type SessionUser = User & {
+  id: string;
+  activeWorkspaceId: string;
+}
 
-  const jots = await db.jot.findMany({
+const getJots = async (user: SessionUser, searchParams: SearchParams) => {
+  return await db.jot.findMany({
     where: {
-      authorId: user.id,
+      workspaceId: user.activeWorkspaceId,
       ...(
         searchParams?.search
           ? { title: { contains: searchParams.search as string } }
@@ -45,6 +46,16 @@ export default async function JotsPage({searchParams}: {
     skip: Number(searchParams?.skip ?? 0),
     take: Number(searchParams?.take ?? 10),
   })
+};
+
+export default async function JotsPage({searchParams}: {
+  searchParams: SearchParams
+}) {
+  const user = await getCurrentUser()
+  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+
+  await noStore();
+  const jots = await getJots(user, searchParams)
 
   return (
     <PageShell className="gap-1">

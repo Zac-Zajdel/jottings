@@ -1,7 +1,5 @@
 "use client"
 
-import { User } from "next-auth"
-import { signOut } from "next-auth/react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +7,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { User } from "next-auth"
+import { signOut } from "next-auth/react"
 import { UserAvatar } from "@/components/user-avatar"
 import packageJson from '../package.json'
 import { Tabs, TabsList } from "./ui/tabs"
 import { TabsTrigger } from "@radix-ui/react-tabs"
 import { useTheme } from "next-themes"
 import { Icons } from "./icons"
+import Link from "next/link"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
@@ -25,29 +26,32 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full focus-visible:outline-none">
-        <div className="flex justify-between items-center p-2.5">
-          <div className="flex items-center text-xs">
-            <UserAvatar
-              user={{ name: user.name || null, image: user.image || null }}
-              className="h-8 w-8 mr-3 rounded-sm"
-            />
-            <div className="text-xs">
-              <div className="font-medium truncate text-ellipsis w-24">
-                { user.name }
-              </div>
-              <div className="text-muted-foreground">
-                Admin
-              </div>
+      <div className="flex w-full focus-visible:outline-none justify-between items-center p-2.5">
+        <div className="flex items-center text-xs">
+          <UserAvatar
+            user={{ name: user.name || null, image: user.image || null }}
+            className="h-8 w-8 mr-3 rounded-sm"
+          />
+          <div className="text-xs">
+            <div className="font-medium truncate text-ellipsis w-24">
+              { user.name }
+            </div>
+            <div className="text-muted-foreground">
+              Admin
             </div>
           </div>
-          <div className="pl-3 text-muted-foreground">
-            <Icons.chevronsUpDown className="items-end h-4 w-4" />
-          </div>
         </div>
-      </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="-ml-1 w-[12.8rem]" align="end">
+        <DropdownMenuTrigger className="outline-none">
+          <div className="pl-3 text-muted-foreground">
+            <div className="p-1 rounded hover:bg-muted">
+              <Icons.ellipsis className="items-end h-4 w-4" />
+            </div>
+          </div>
+        </DropdownMenuTrigger>
+      </div>
+
+      <DropdownMenuContent className="ml-2 mb-4 w-[13rem]" align="end">
         <div className="flex items-center justify-start gap-2 p-2 mb-2">
           <div className="flex flex-col space-y-1 leading-none w-44">
             <p className="text-sm font-bold leading-none">{user.name}</p>
@@ -82,7 +86,14 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
         <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none w-44">
-          <p className="text-xs font-medium leading-none">Version v{ packageJson.version }</p>
+            <Link
+              href={`/changelog/release-v${packageJson.version}`}
+              target="_blank"
+              prefetch={false}
+              className="text-xs font-medium leading-none hover:underline"
+            >
+              Version v{ packageJson.version }
+            </Link>
           </div>
         </div>
 
@@ -93,7 +104,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           onSelect={(event) => {
             event.preventDefault()
             signOut({
-              callbackUrl: `${window.location.origin}/login`,
+              callbackUrl: `${window.location.origin}/signin`,
             })
           }}
         >
