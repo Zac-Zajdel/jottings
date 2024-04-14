@@ -1,14 +1,21 @@
 'use server'
 
 import { db } from "@/lib/db"
+import { authOptions } from "@/lib/auth"
 import { workspaceCache } from "./cache";
 import { Workspace } from "@prisma/client";
 import { unstable_cache } from "next/cache";
+import { getServerSession } from "next-auth/next"
 
 /**
  * @desc - Obtain workspaces within the sidebar
  */
 export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[] | null> => {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    throw new Error('Unauthorized Action.');
+  }
+
   const workspaces = await unstable_cache(
     async () => {
       try {
@@ -43,6 +50,11 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
  * @desc - Generates a new workspace and updates active workspace
  */
 export const createWorkspace = async (name: string, userId: string) => {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    throw new Error('Unauthorized Action.');
+  }
+
   try {
     const workspace = await db.$transaction(async (tx) => {
       // 1. Create new workspace
@@ -89,6 +101,11 @@ export const createWorkspace = async (name: string, userId: string) => {
  * @desc - Updates the active workspace of a user
  */
 export const updateActiveWorkspace = async (workspace: Workspace, userId: string) => {
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    throw new Error('Unauthorized Action.');
+  }
+
   try {
     const updatedUser = await db.user.update({
       where: {
@@ -114,27 +131,32 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
  * @desc - Delete current workspace and go back to default
  */
 export const deleteWorkspace = async (workspaceId: string, userId: string) => {
-  const workspace = await db.workspace.findFirst({
-    where: {
-      id: workspaceId,
-      ownerId: userId,
-    },
-  });
-
-  const defaultWorkspace = await db.workspace.findFirst({
-    where: {
-      ownerId: userId,
-      default: true,
-    }
-  })
-
-  if (!workspace || !defaultWorkspace)
-    throw new Error('Cannot find workspace for deletion.')
-
-  if (workspace.default)
-    throw new Error('Default workspaces are not applicable for removal.')
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    throw new Error('Unauthorized Action.');
+  }
 
   try {
+    const workspace = await db.workspace.findFirst({
+      where: {
+        id: workspaceId,
+        ownerId: userId,
+      },
+    });
+  
+    const defaultWorkspace = await db.workspace.findFirst({
+      where: {
+        ownerId: userId,
+        default: true,
+      }
+    })
+  
+    if (!workspace || !defaultWorkspace)
+      throw new Error('Cannot find workspace for deletion.')
+  
+    if (workspace.default)
+      throw new Error('Default workspaces are not applicable for removal.')
+  
     await db.$transaction(async (tx) => {
       await tx.user.update({
         where: {

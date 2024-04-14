@@ -3,10 +3,10 @@
 import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
-import { revalidateTag } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 export async function invalidateTemplates() {
-  revalidateTag('templates')
+  revalidatePath('/templates')
 }
 
 export async function copyJotTemplates(jotTemplateId: string) {

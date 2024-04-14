@@ -11,6 +11,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -28,7 +29,12 @@ import { Icons } from "../icons"
 import { useRouter } from "next/navigation"
 import { Workspace } from "@prisma/client"
 
-export function WorkspaceSettings({ user }: { user: User & { activeWorkspaceId: string } }) {
+interface WorkspaceSettingsProps {
+  user: User & { activeWorkspaceId: string },
+  activeWorkspace: Workspace|undefined
+}
+
+export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsProps) {
   const router = useRouter()
   const { update } = useSession()
   const [workspaceName, setWorkspaceName] = useState('')
@@ -81,6 +87,9 @@ export function WorkspaceSettings({ user }: { user: User & { activeWorkspaceId: 
             <AlertDialogTitle className="flex justify-center">
               Confirm Deletion
             </AlertDialogTitle>
+            <AlertDialogDescription className="flex justify-center">
+              { activeWorkspace?.name }
+            </AlertDialogDescription>
             <div className="border-t py-5">
               <Label htmlFor="name">
                 Type Workspace Name
@@ -89,6 +98,7 @@ export function WorkspaceSettings({ user }: { user: User & { activeWorkspaceId: 
                 id="name"
                 placeholder="Type workspace name here..."
                 className="mt-2"
+                value={workspaceName}
                 onChange={(event) => setWorkspaceName(event?.target.value)}
                 size={32}
               />
@@ -100,7 +110,7 @@ export function WorkspaceSettings({ user }: { user: User & { activeWorkspaceId: 
               onClick={async (event) => {
                 event.preventDefault()
 
-                if (workspaceName !== 'hi')
+                if (workspaceName !== activeWorkspace?.name)
                   return toast({
                     variant: 'destructive',
                     description: 'Workspace name does not match',
