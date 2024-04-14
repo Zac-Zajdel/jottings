@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db"
 import { workspaceCache } from "./cache";
-import { User, Workspace } from "@prisma/client";
+import { Workspace } from "@prisma/client";
 import { unstable_cache } from "next/cache";
 
 /**
@@ -111,62 +111,79 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
 }
 
 /**
- * TODO - This must get called from a settings page like https://dribbble.com/shots/20424953-Settings-Page-SaaS-Product
  * @desc - Delete current workspace and go back to default
  */
-export const deleteWorkspace = async (workspace: Workspace, user: User) => {
-  // validations
-  if (workspace.default) {
-    // todo - reject
-  }
-  if (workspace.ownerId !== user.id) {
-    // todo - reject
-  }
+export const deleteWorkspace = async (workspaceId: string, userId: string) => {
+  const workspace = await db.workspace.findFirst({
+    where: {
+      id: workspaceId,
+      ownerId: userId,
+    },
+  });
+
+  const defaultWorkspace = await db.workspace.findFirst({
+    where: {
+      ownerId: userId,
+      default: true,
+    }
+  })
+
+  if (!workspace || !defaultWorkspace)
+    throw new Error('Cannot find workspace for deletion.')
+
+  if (workspace.default)
+    throw new Error('Default workspaces are not applicable for removal.')
 
   try {
     await db.$transaction(async (tx) => {
-      // 1. Delete workspace pivot association to user
-      await tx.workspaceUser.delete({
+      await tx.user.update({
         where: {
-          id: workspace.id,
-          userId: user.id,
+          id: userId
+        },
+        data: {
+          activeWorkspaceId: defaultWorkspace.id,
         }
       })
 
-      // 2. Delete workspace itself
+      await tx.jotTemplate.deleteMany({
+        where: {
+          workspaceId: workspace.id,
+        }
+      })
+
+      await tx.jot.deleteMany({
+        where: {
+          workspaceId: workspace.id,
+        }
+      })
+
+      await tx.label.deleteMany({
+        where: {
+          workspaceId: workspace.id,
+        }
+      })
+
+      await tx.workspaceUser.deleteMany({
+        where: {
+          workspaceId: workspace.id,
+        }
+      })
+
       await tx.workspace.delete({
         where: {
           id: workspace.id,
+          ownerId: userId,
         }
       })
-    
-      // 3. Update user back to their default workspace if currently on deleted workspace
-      if (user.activeWorkspaceId === workspace.id) {
-        const defaultWorkspace = await tx.workspace.findFirst({
-          where: {
-            ownerId: user.id,
-            default: true,
-          }
-        })
-
-        if (defaultWorkspace) {
-          await tx.user.update({
-            where: {
-              id: user.id,
-            },
-            data: {
-              activeWorkspaceId: defaultWorkspace.id,
-            }
-          })
-        }
-      }
-        
-      workspaceCache.revalidate({userId: user.id})
+  
+      workspaceCache.revalidate({userId: userId})
     })
 
     return {
       message: `Workspace ${workspace.name} deleted successfully`,
-      data: {}
+      data: {
+        workspace: defaultWorkspace,
+      }
     }
   } catch (error) {
     throw error

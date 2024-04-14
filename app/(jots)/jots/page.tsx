@@ -8,7 +8,7 @@ import { PageShell } from "@/components/page-shell"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/jots/table/jot-table"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { unstable_cache } from "next/cache"
+import { unstable_noStore as noStore } from "next/cache"
 import { User } from "next-auth"
 
 export const metadata = {
@@ -22,38 +22,31 @@ type SessionUser = User & {
   activeWorkspaceId: string;
 }
 
-// TODO - Convert to service architecture
-const getJots = unstable_cache(
-  async (user: SessionUser, searchParams: SearchParams) => {
-    return await db.jot.findMany({
-      where: {
-        workspaceId: user.activeWorkspaceId,
-        ...(
-          searchParams?.search
-            ? { title: { contains: searchParams.search as string } }
-            : {}
-        ),
-      },
-      select: {
-        id: true,
-        title: true,
-        published: true,
-        createdAt: true,
-      },
+const getJots = async (user: SessionUser, searchParams: SearchParams) => {
+  return await db.jot.findMany({
+    where: {
+      workspaceId: user.activeWorkspaceId,
       ...(
-        searchParams?.column && searchParams?.order
-          ? { orderBy: { [searchParams.column as string]: searchParams.order } }
+        searchParams?.search
+          ? { title: { contains: searchParams.search as string } }
           : {}
       ),
-      skip: Number(searchParams?.skip ?? 0),
-      take: Number(searchParams?.take ?? 10),
-    })
-  },
-  ['getJots'],
-  {
-    tags: [`jots`],
-  }
-);
+    },
+    select: {
+      id: true,
+      title: true,
+      published: true,
+      createdAt: true,
+    },
+    ...(
+      searchParams?.column && searchParams?.order
+        ? { orderBy: { [searchParams.column as string]: searchParams.order } }
+        : {}
+    ),
+    skip: Number(searchParams?.skip ?? 0),
+    take: Number(searchParams?.take ?? 10),
+  })
+};
 
 export default async function JotsPage({searchParams}: {
   searchParams: SearchParams
@@ -61,6 +54,7 @@ export default async function JotsPage({searchParams}: {
   const user = await getCurrentUser()
   if (!user) redirect(authOptions?.pages?.signIn || "/signin")
 
+  await noStore();
   const jots = await getJots(user, searchParams)
 
   return (
