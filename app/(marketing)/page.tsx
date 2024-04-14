@@ -26,10 +26,10 @@ export default function IndexPage() {
             }}
           >
             <Link
-              href="/changelog/release-v1.3.0"
+              href="/changelog/release-v1.4.0"
               className="flex items-center h-8 px-4 rounded-full bg-primary hover:bg-primary/90 text-core text-sm font-medium"
             >
-              Release v1.3.0 is Here!
+              Release v1.4.0 is Here!
               <Icons.chevronRight className="ml-2 h-4 w-4" />
             </Link>
           </motion.div>
@@ -119,11 +119,11 @@ export default function IndexPage() {
                           setActiveTab={() => setActiveTab('templates')}
                         />
                         <VerticalCarouselCard
-                          heading="Coming Soon..."
+                          heading="Workspaces"
                           description="&nbsp;Foster collaboration efficiently, enabling you to share and collaborate on content."
                           icon={Icons.group}
-                          isActive={activeTab === 'teams'}
-                          setActiveTab={() => setActiveTab('teams')}
+                          isActive={activeTab === 'workspaces'}
+                          setActiveTab={() => setActiveTab('workspaces')}
                         />
                       </dl>
                     </div>
@@ -138,7 +138,7 @@ export default function IndexPage() {
                         'block': activeTab === 'jots'
                       }
                     )}
-                    src="/images/landing/jots-light.png"
+                    src="/images/guides/jots-light.png"
                     alt="Jot Light"
                     width={1200}
                     height={600}
@@ -152,7 +152,7 @@ export default function IndexPage() {
                         'dark:block': activeTab === 'jots'
                       }
                     )}
-                    src="/images/landing/jots-dark.png"
+                    src="/images/guides/jots-dark.png"
                     alt="Jot Dark"
                     width={1200}
                     height={600}
@@ -166,7 +166,7 @@ export default function IndexPage() {
                         'block': activeTab === 'templates'
                       }
                     )}
-                    src="/images/landing/templates-light.png"
+                    src="/images/guides/templates-light.png"
                     alt="Jot Template Light"
                     width={1200}
                     height={600}
@@ -180,7 +180,7 @@ export default function IndexPage() {
                         'dark:block': activeTab === 'templates'
                       }
                     )}
-                    src="/images/landing/templates-dark.png"
+                    src="/images/guides/templates-dark.png"
                     alt="Jot Template Dark"
                     width={1200}
                     height={600}
@@ -190,11 +190,11 @@ export default function IndexPage() {
                     className={cn(
                       "dark:hidden",
                       {
-                        'hidden': activeTab !== 'teams',
-                        'block': activeTab === 'teams'
+                        'hidden': activeTab !== 'workspaces',
+                        'block': activeTab === 'workspaces'
                       }
                     )}
-                    src="/images/landing/teams-light.png"
+                    src="/images/guides/workspaces-light.png"
                     alt="Teams Light"
                     width={1200}
                     height={600}
@@ -204,11 +204,11 @@ export default function IndexPage() {
                     className={cn(
                       "hidden",
                       {
-                        'hidden': activeTab !== 'teams',
-                        'dark:block': activeTab === 'teams'
+                        'hidden': activeTab !== 'workspaces',
+                        'dark:block': activeTab === 'workspaces'
                       }
                     )}
-                    src="/images/landing/teams-dark.png"
+                    src="/images/guides/workspaces-dark.png"
                     alt="Teams Dark"
                     width={1200}
                     height={600}

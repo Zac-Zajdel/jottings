@@ -11,3 +11,7 @@
 3. Replace `DATABASE_URL` in `.env` with Proxy port
 4. Connect to branch via: `pscale connect <database-name> <branch-name> --port <port>`
 5. Sync branch with local DB schema via: `yarn prisma db push`
+
+## Generating Release Notes
+
+1. `yarn changelog`
