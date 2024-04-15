@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
 import { ThemeProvider } from "@/components/theme-provider"
+import ClientSessionProvider from "@/components/client-session-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -83,15 +84,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-        >
-          {children}
-          <Analytics />
-          <Toaster />
-        </ThemeProvider>
+        <ClientSessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+          >
+            {children}
+            <Analytics />
+            <Toaster />
+          </ThemeProvider>
+        </ClientSessionProvider>
       </body>
     </html>
   )

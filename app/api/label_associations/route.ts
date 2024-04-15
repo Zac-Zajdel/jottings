@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
 
     const alreadyAssociated = await db.labelAssociation.findFirst({
       where: {
-        authorId: session.user.id,
         labelId: body.labelId,
         [dynamicColumn]: body.modelId,
       },

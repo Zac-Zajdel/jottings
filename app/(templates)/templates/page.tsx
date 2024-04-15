@@ -8,23 +8,24 @@ import { PageShell } from "@/components/page-shell"
 import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { TemplateTable } from "@/components/templates/table/template-table"
+import { unstable_noStore as noStore } from "next/cache"
+import { User } from "next-auth"
 
 export const metadata = {
   title: "Templates",
   description: "Create and manage Templates.",
 }
 
-export default async function TemplatesPage({searchParams}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
-  const user = await getCurrentUser()
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
-  }
+type SearchParams = { [key: string]: string | string[] | undefined }
+type SessionUser = User & {
+  id: string;
+  activeWorkspaceId: string;
+}
 
-  const templates = await db.jotTemplate.findMany({
+const getTemplates = async (user: SessionUser, searchParams: SearchParams) => {
+  return await db.jotTemplate.findMany({
     where: {
-      authorId: user.id,
+      workspaceId: user.activeWorkspaceId,
       ...(
         searchParams?.search
           ? { title: { contains: searchParams.search as string } }
@@ -45,6 +46,16 @@ export default async function TemplatesPage({searchParams}: {
     skip: Number(searchParams?.skip ?? 0),
     take: Number(searchParams?.take ?? 10),
   })
+};
+
+export default async function TemplatesPage({searchParams}: {
+  searchParams: SearchParams
+}) {
+  const user = await getCurrentUser()
+  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+
+  await noStore();
+  const templates = await getTemplates(user, searchParams)
 
   return (
     <PageShell className="gap-1">

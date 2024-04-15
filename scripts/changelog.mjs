@@ -10,7 +10,7 @@ const generateContent = async (answers) => {
     ---
     title: Release ${answers.version}
     description: ${answers.description}
-    image: /images/changelog/${answers.image}
+    image: /images/guides/${answers.image}
     date: ${date}
     authors:
       - zac
@@ -59,8 +59,8 @@ const run = async () => {
         return 'Image is required.';
       }
 
-      if (!fs.existsSync(`public/images/changelog/${value}`)) {
-        return 'Image was not found in /images/changelog/. Please try again.';
+      if (!fs.existsSync(`public/images/guides/${value}`)) {
+        return 'Image was not found in /images/guides/. Please try again.';
       }
     
       return true;

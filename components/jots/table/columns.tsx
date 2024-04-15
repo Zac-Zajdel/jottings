@@ -27,7 +27,7 @@ export const columns: ColumnDef<any>[] = [
             </Link>
             <div>
               <p className="text-sm text-muted-foreground">
-                {formatDate(row.original.createdAt?.toDateString())}
+                {formatDate(row.original.createdAt)}
               </p>
             </div>
           </div>

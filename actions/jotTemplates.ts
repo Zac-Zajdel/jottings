@@ -3,6 +3,11 @@
 import { db } from "@/lib/db"
 import { authOptions } from "@/lib/auth"
 import { getServerSession } from "next-auth/next"
+import { revalidatePath } from "next/cache"
+
+export async function invalidateTemplates() {
+  revalidatePath('/templates')
+}
 
 export async function copyJotTemplates(jotTemplateId: string) {
   const session = await getServerSession(authOptions)
@@ -14,7 +19,7 @@ export async function copyJotTemplates(jotTemplateId: string) {
   const jot = await db.jotTemplate.findUnique({
     where: {
       id: jotTemplateId,
-      authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
     },
   })
   if (!jot) {
@@ -24,10 +29,13 @@ export async function copyJotTemplates(jotTemplateId: string) {
   const clone = await db.jotTemplate.create({
     data: {
       authorId: session?.user.id,
+      workspaceId: session?.user.activeWorkspaceId,
       title: `Copy of ${jot?.title}`,
       content: jot?.content ?? undefined,
     }
   })
+
+  await invalidateTemplates()
 
   return {
     message: "Your template has been copied.",

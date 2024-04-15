@@ -20,7 +20,7 @@ import {
 import Link from "next/link"
 import { useState } from "react"
 import { Jot } from "@prisma/client"
-import { copyJot } from "@/actions/jots"
+import { copyJot, invalidateJots } from "@/actions/jots"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
 import { toast } from "@/components/ui/use-toast"
@@ -140,8 +140,7 @@ export function JotOperations({ jot }: PostOperationsProps) {
                 if (deleted) {
                   setIsDeleteLoading(false)
                   setShowDeleteAlert(false)
-
-                  router.refresh()
+                  await invalidateJots()
                   toast({
                     description: "Your Jot has been deleted.",
                   })
