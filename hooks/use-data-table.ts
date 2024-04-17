@@ -1,11 +1,9 @@
 import {
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   getCoreRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -15,7 +13,7 @@ import { useState } from "react"
 export function useDataTable(data, columns) {
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState('')
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const table = useReactTable({
@@ -25,15 +23,14 @@ export function useDataTable(data, columns) {
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters,
+      globalFilter,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
@@ -46,8 +43,8 @@ export function useDataTable(data, columns) {
     table,
     rowSelection,
     columnVisibility,
-    columnFilters,
     sorting,
+    globalFilter,
     pageSize: table.getState().pagination.pageSize,
     pageIndex: table.getState().pagination.pageIndex,
   }

@@ -15,12 +15,13 @@ export function JotTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
+
   const {
     table,
     sorting,
     pageSize,
     pageIndex,
-    columnFilters,
+    globalFilter,
   } = useDataTable(data, columns)
 
   useEffect(() => {
@@ -39,10 +40,10 @@ export function JotTable<TData, TValue>({
     }
 
     // Column Filters
-    if (columnFilters.length)
+    if (globalFilter.length)
       url.searchParams.append(
         'search',
-        columnFilters[0].value as string,
+        globalFilter as string,
       );
 
     // Pagination Grab Options
@@ -58,7 +59,7 @@ export function JotTable<TData, TValue>({
     );
 
     router.push(`${url.origin}/jots${url.search}`)
-  }, [sorting, columnFilters, pageSize, pageIndex])
+  }, [sorting, globalFilter, pageSize, pageIndex])
 
   return (
     <div>

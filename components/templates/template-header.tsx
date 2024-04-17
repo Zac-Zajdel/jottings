@@ -27,6 +27,7 @@ interface TemplateProps {
     title: string
     content: MyValue
     createdAt: Date
+    updatedAt: Date
     author: User
     labelAssociations: LabelAssociations[]
   },
@@ -162,7 +163,7 @@ export function TemplateHeader({ jotTemplate, editorRef }: TemplateProps) {
             <div className="flex items-center h-[34px] w-40 leading-5 min-w-0 text-sm">
               <Icons.user className="mr-2 h-4 w-4" />
               <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                Created by:
+                Author:
               </div>
             </div>
             <div className="flex h-100 flex-auto flex-col min-w-0">
@@ -194,7 +195,7 @@ export function TemplateHeader({ jotTemplate, editorRef }: TemplateProps) {
                 <div className="relative text-sm overflow-hidden inline-block rounded-sm w-100 py-[7px] px-[8px] min-h-[34px]">
                   <div className="flex flex-wrap items-center flex-shrink-0 min-w-0 h-[20px]">
                     <div className="whitespace-nowrap overflow-hidden text-ellipsis">
-                      {formatDate(jotTemplate.createdAt?.toDateString())}
+                      {formatDate(jotTemplate.updatedAt)}
                     </div>
                   </div>
                 </div>

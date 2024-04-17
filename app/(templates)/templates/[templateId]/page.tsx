@@ -45,6 +45,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
         title: template.title,
         content: template.content as MyValue,
         createdAt: template.createdAt,
+        updatedAt: template.updatedAt,
         author: template.author,
         labelAssociations: template.labels,
       }}
