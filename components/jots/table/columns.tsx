@@ -8,6 +8,7 @@ import { DataTableColumnHeader } from "../../table/data-table-column-header"
 
 export const columns: ColumnDef<any>[] = [
   {
+    meta: 'Title',
     accessorKey: "title",
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -32,7 +33,7 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: true,
   },
   {
-    id: 'author',
+    meta: 'Author',
     accessorKey: "author",
     accessorFn: row => row.author?.name,
     header: ({ column }) => (
@@ -53,7 +54,7 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: false,
   },
   {
-    // TODO - Fix this showing on sidebar as not proper key
+    meta: 'Last Updated',
     accessorKey: "updatedAt",
     header: ({ column }) => (
       <DataTableColumnHeader
