@@ -45,6 +45,7 @@ export async function PATCH(
         content: body.content,
         status: body.status,
         priority: body.priority,
+        updatedAt: new Date(),
       },
     })
 

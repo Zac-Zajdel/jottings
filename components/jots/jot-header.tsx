@@ -29,6 +29,7 @@ interface JotProps {
     status: string
     priority: string | null
     createdAt: Date
+    updatedAt: Date
     published: boolean
     author: User
     labelAssociations: LabelAssociations[]
@@ -170,7 +171,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
             <div className="flex h-[34px] w-40 min-w-0 items-center text-sm leading-5">
               <Icons.user className="mr-2 h-4 w-4" />
               <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                Created by:
+                Author:
               </div>
             </div>
             <div className="h-100 flex min-w-0 flex-auto flex-col">
@@ -205,7 +206,7 @@ export function JotHeader({ jot, editorRef }: JotProps) {
                 <div className="w-100 relative inline-block min-h-[34px] overflow-hidden rounded-sm p-2 text-sm">
                   <div className="flex h-[20px] min-w-0 flex-shrink-0 flex-wrap items-center">
                     <div className="overflow-hidden text-ellipsis whitespace-nowrap">
-                      {formatDate(jot.createdAt?.toDateString())}
+                      {formatDate(jot.updatedAt)}
                     </div>
                   </div>
                 </div>

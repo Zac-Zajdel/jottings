@@ -26,17 +26,32 @@ const getTemplates = async (user: SessionUser, searchParams: SearchParams) => {
   return await db.jotTemplate.findMany({
     where: {
       workspaceId: user.activeWorkspaceId,
-      ...(
-        searchParams?.search
-          ? { title: { contains: searchParams.search as string } }
-          : {}
-      ),
+      ...(searchParams?.search ? {
+        OR: [
+          {
+            title: {
+              contains: searchParams.search as string,
+              mode: 'insensitive',
+            }
+          },
+          {
+            author: {
+              name: {
+                contains: searchParams.search as string,
+                mode: 'insensitive',
+              }
+            }
+          }
+        ]
+      } : {})
     },
     select: {
       id: true,
       title: true,
       isPublished: true,
       createdAt: true,
+      updatedAt: true,
+      author: true,
     },
     ...(
       searchParams?.column && searchParams?.order

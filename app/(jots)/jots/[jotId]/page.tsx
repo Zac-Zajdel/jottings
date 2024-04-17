@@ -48,6 +48,7 @@ export default async function EditorPage({ params }: EditorPageProps) {
           status: jot.status,
           priority: jot.priority,
           createdAt: jot.createdAt,
+          updatedAt: jot.updatedAt,
           published: jot.published,
           author: jot.author,
           labelAssociations: jot.labels,

@@ -1,10 +1,10 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { DataTableColumnHeader } from "../../table/data-table-column-header"
-import { JotOperations } from "../jot-operations"
-import { formatDate } from "@/lib/utils"
 import Link from "next/link"
+import { formatDate } from "@/lib/utils"
+import { ColumnDef } from "@tanstack/react-table"
+import { JotOperations } from "../jot-operations"
+import { DataTableColumnHeader } from "../../table/data-table-column-header"
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -25,16 +25,52 @@ export const columns: ColumnDef<any>[] = [
             >
               {row.getValue("title")}
             </Link>
-            <div>
-              <p className="text-sm text-muted-foreground">
-                {formatDate(row.original.createdAt)}
-              </p>
-            </div>
           </div>
         </div>
       )
     },
     enableSorting: true,
+  },
+  {
+    id: 'author',
+    accessorKey: "author",
+    accessorFn: row => row.author?.name,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Author"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center justify-between">
+          <div className="grid gap-1">
+            { row.getValue('author')}
+          </div>
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    // TODO - Fix this showing on sidebar as not proper key
+    accessorKey: "updatedAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Last Updated"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center justify-between">
+          <div className="grid gap-1">
+            {formatDate(row.getValue('updatedAt'), 'MMM D, YYYY')}
+          </div>
+        </div>
+      )
+    },
+    enableSorting: false,
   },
   {
     id: "actions",

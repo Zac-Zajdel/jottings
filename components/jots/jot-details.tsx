@@ -20,6 +20,7 @@ interface JotProps {
     status: string
     priority: string | null
     createdAt: Date
+    updatedAt: Date
     published: boolean
     author: User
     labelAssociations: LabelAssociations[]

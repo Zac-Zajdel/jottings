@@ -5,6 +5,7 @@ import { Input } from "../ui/input"
 import { Button } from "../ui/button"
 import { DataTableViewOptions } from "./data-table-view-options"
 import { Icons } from "../icons"
+import { useState } from "react"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
@@ -13,23 +14,28 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().globalFilter?.length > 0
+  const [search, setSearch] = useState('')
 
   return (
     <div className="flex items-center justify-between pb-3">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
+          value={search}
+          onChange={(event) => {
+            setSearch(event.target.value)
+            table.setGlobalFilter(event.target.value)
+          }}
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {isFiltered && (
           <Button
             variant="ghost"
-            onClick={() => table.resetColumnFilters()}
+            onClick={() => {
+              setSearch('')
+              table.setGlobalFilter('')
+            }}
             className="h-8 px-2 lg:px-3"
           >
             Reset
