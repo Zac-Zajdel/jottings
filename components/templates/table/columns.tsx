@@ -74,6 +74,7 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: false,
   },
   {
+    meta: 'Actions',
     id: "actions",
     cell: ({ row }) => {
       return (
