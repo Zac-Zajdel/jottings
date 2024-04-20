@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
-import { PrismaClient } from "@prisma/client"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 
@@ -9,20 +8,15 @@ import type { NextAuthConfig } from "next-auth"
 export const config = {
   adapter: PrismaAdapter(db),
   secret: process.env.NEXTAUTH_SECRET,
-  // We recommend using version @prisma/client@5.9.1 or above if using middleware or any other edge runtime(s).
-  providers: [Google({
-    clientId: process.env.AUTH_GOOGLE_ID,
-    clientSecret: process.env.AUTH_GOOGLE_SECRET,
-  }),],
+  providers: [Google],
   session: { strategy: "jwt" },
   callbacks: {
     async session({ token, session }) {
-      console.log('SESSION CALLBACK')
       if (token) {
         session.user.id = token.id
         session.user.activeWorkspaceId = token.activeWorkspaceId as string
         session.user.name = token.name
-        // session.user.email = token.email
+        session.user.email = token.email as string
         session.user.image = token.picture
       }
 
@@ -30,7 +24,6 @@ export const config = {
     },
 
     async jwt({ token, session, trigger }) {
-      console.log('JWT CALLBACK')
       // Called from components/workspace-nav.tsx
       if (trigger === 'update' && session?.activeWorkspaceId) {
         token.activeWorkspaceId = session.activeWorkspaceId

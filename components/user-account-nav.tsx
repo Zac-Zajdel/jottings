@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User } from "next-auth"
+import { User } from "@auth/core/types"
 import { signOut } from "next-auth/react"
 import { UserAvatar } from "@/components/user-avatar"
 import packageJson from '../package.json'
@@ -104,7 +104,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           onSelect={(event) => {
             event.preventDefault()
             signOut({
-              callbackUrl: `${window.location.origin}/signin`,
+              callbackUrl: `${window.location.origin}/`,
             })
           }}
         >

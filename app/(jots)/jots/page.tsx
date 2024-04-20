@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-// import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { PageHeader } from "@/components/page-header"
@@ -9,7 +8,7 @@ import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTable } from "@/components/jots/table/jot-table"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { unstable_noStore as noStore } from "next/cache"
-import { User } from "next-auth"
+import { User } from "@auth/core/types"
 
 export const metadata = {
   title: "Jots",

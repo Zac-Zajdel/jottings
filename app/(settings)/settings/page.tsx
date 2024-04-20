@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-// import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"

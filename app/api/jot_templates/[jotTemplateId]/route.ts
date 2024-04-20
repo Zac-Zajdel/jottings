@@ -1,7 +1,6 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
 import { auth } from "@/auth"
-// import { authOptions } from "@/lib/auth"
 
 async function validateTemplateId(jotTemplateId: string) {
   const session = await auth()
