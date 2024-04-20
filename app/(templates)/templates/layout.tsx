@@ -1,7 +1,7 @@
-import { notFound } from "next/navigation"
-import { dashboardConfig } from "@/config/dashboard"
+import { User } from "@/types"
 import { getCurrentUser } from "@/lib/session"
 import { DashboardNav } from "@/components/nav"
+import { dashboardConfig } from "@/config/dashboard"
 import { UserAccountNav } from "@/components/user-account-nav"
 import WorkspaceNav from "@/components/workspaces/workspace-nav"
 
@@ -12,8 +12,7 @@ interface TemplatesLayoutProps {
 export default async function TemplatesLayout({
   children,
 }: TemplatesLayoutProps) {
-  const user = await getCurrentUser()
-  if (!user) return notFound()
+  const user = await getCurrentUser() as User
 
   return (
     <div className="relative flex min-h-screen h-screen overflow-hidden flex-col space-y-6 bg-core">

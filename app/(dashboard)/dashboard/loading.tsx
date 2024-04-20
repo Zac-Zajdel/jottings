@@ -1,7 +1,7 @@
+import { PageShell } from "@/components/page-shell"
+import { JotItem } from "@/components/jots/jot-item"
 import { PageHeader } from "@/components/page-header"
 import { JotCreateButton } from "@/components/jots/jot-create-button"
-import { JotItem } from "@/components/jots/jot-item"
-import { PageShell } from "@/components/page-shell"
 
 export default function DashboardLoading() {
   return (

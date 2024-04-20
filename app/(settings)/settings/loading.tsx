@@ -1,7 +1,7 @@
+import { PageShell } from "@/components/page-shell"
+import { PageHeader } from "@/components/page-header"
 import { CardSkeleton } from "@/components/card-skeleton"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { PageHeader } from "@/components/page-header"
-import { PageShell } from "@/components/page-shell"
 
 export default function SettingsLoading() {
   return (
