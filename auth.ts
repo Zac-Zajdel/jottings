@@ -1,27 +1,21 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { NextAuthOptions } from "next-auth"
-import GoogleProvider from 'next-auth/providers/google'
-import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
+import NextAuth from "next-auth"
+import { NextAuthConfig } from "next-auth"
+import Google from "next-auth/providers/google"
+import { PrismaAdapter } from "@auth/prisma-adapter"
 
-export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(db as any),
-  session: {
-    strategy: "jwt",
-  },
-  providers: [
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
+export const config: NextAuthConfig = {
+  adapter: PrismaAdapter(db),
+  secret: process.env.AUTH_SECRET,
+  providers: [Google],
+  session: { strategy: "jwt" },
   callbacks: {
     async session({ token, session }) {
       if (token) {
         session.user.id = token.id
         session.user.activeWorkspaceId = token.activeWorkspaceId as string
         session.user.name = token.name
-        session.user.email = token.email
+        session.user.email = token.email as string
         session.user.image = token.picture
       }
 
@@ -98,3 +92,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
 }
+
+export const { handlers, auth, signIn, signOut } = NextAuth(config)

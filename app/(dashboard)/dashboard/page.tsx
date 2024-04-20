@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 
 export const metadata = {
@@ -9,7 +8,7 @@ export const metadata = {
 
 export default async function DashboardPage() {
   const user = await getCurrentUser()
-  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+  if (!user) redirect("/signin")
 
   return (
     <div className="flex flex-row min-h-screen justify-center items-center">

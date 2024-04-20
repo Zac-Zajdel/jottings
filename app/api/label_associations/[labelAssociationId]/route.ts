@@ -1,7 +1,6 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth"
+import { auth } from "@/auth"
 
 async function validateAssociationId(labelAssociationId: string) {
   return !!await db.labelAssociation.findFirst({
@@ -24,7 +23,7 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }

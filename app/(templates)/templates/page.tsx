@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
@@ -9,7 +8,7 @@ import { JotTemplateCreateButton } from "@/components/templates/jot-template-cre
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { TemplateTable } from "@/components/templates/table/template-table"
 import { unstable_noStore as noStore } from "next/cache"
-import { User } from "next-auth"
+import { User } from "@auth/core/types"
 
 export const metadata = {
   title: "Templates",
@@ -67,7 +66,7 @@ export default async function TemplatesPage({searchParams}: {
   searchParams: SearchParams
 }) {
   const user = await getCurrentUser()
-  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+  if (!user) redirect("/signin")
 
   await noStore();
   const templates = await getTemplates(user, searchParams)

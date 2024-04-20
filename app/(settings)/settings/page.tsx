@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/auth"
 import { getCurrentUser } from "@/lib/session"
 import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
@@ -15,7 +14,7 @@ export const metadata = {
 
 export default async function SettingsPage() {
   const user = await getCurrentUser()
-  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+  if (!user) redirect("/signin")
 
   const workspaces = await getWorkspacesByUserId(user.id)
   const activeWorkspace = workspaces?.find(space => space.id === user.activeWorkspaceId)
