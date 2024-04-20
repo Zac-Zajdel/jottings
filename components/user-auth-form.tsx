@@ -16,7 +16,7 @@ export function UserAuthForm({ className }: UserAuthFormProps) {
           await signInUser('google', '/jots')
         }}
       >
-        Sign in
+        Sign in with Google
       </button>
     </div>
   )

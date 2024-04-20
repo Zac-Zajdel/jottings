@@ -1,8 +1,9 @@
-import { notFound, redirect } from "next/navigation"
-import { JotTemplate, User } from "@prisma/client"
 import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
+import { User } from "@/types"
+import { notFound } from "next/navigation"
+import { JotTemplate } from "@prisma/client"
 import { MyValue } from "@/types/plate-types"
+import { getCurrentUser } from "@/lib/session"
 import TemplateDetails from "@/components/templates/template-details"
 
 async function getJotTemplate(templateId: JotTemplate["id"], userId: User["id"]) {
@@ -27,15 +28,10 @@ interface EditorPageProps {
 }
 
 export default async function EditorPage({ params }: EditorPageProps) {
-  const user = await getCurrentUser()
-  if (!user) {
-    redirect("/signin")
-  }
+  const user = await getCurrentUser() as User
 
   const template = await getJotTemplate(params.templateId, user.id)
-  if (!template) {
-    notFound()
-  }
+  if (!template) notFound()
 
   return (
     <TemplateDetails

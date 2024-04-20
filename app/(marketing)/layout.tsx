@@ -1,12 +1,11 @@
 "use client"
 
-import { marketingConfig } from "@/config/marketing"
 import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-import { MainNav } from "@/components/main-nav"
-import { SiteFooter } from "@/components/site-footer"
-import Link from "next/link"
 import { motion } from "framer-motion"
+import { MainNav } from "@/components/main-nav"
+import { marketingConfig } from "@/config/marketing"
+import { SiteFooter } from "@/components/site-footer"
+import { buttonVariants } from "@/components/ui/button"
 
 interface MarketingLayoutProps {
   children: React.ReactNode

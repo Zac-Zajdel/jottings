@@ -10,7 +10,9 @@ export default auth((req) => {
 export const config = {
   matcher: [
     "/dashboard/:path*",
-    "/editor/:path*",
+    "/jots/:path*",
+    "/templates/:path*",
+    "/settings/:path*",
     "/signin",
     "/register",
   ],

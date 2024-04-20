@@ -1,11 +1,10 @@
-import { Inter as FontSans } from "next/font/google"
-import localFont from "next/font/local"
-
 import "@/styles/globals.css"
-import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
+import localFont from "next/font/local"
+import { siteConfig } from "@/config/site"
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from "@/components/analytics"
+import { Inter as FontSans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import ClientSessionProvider from "@/components/client-session-provider"
 

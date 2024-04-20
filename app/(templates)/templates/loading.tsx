@@ -1,7 +1,7 @@
-import { JotItem } from "@/components/jots/jot-item"
-import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
+import { JotItem } from "@/components/jots/jot-item"
+import { PageHeader } from "@/components/page-header"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 
 export default function TemplatesLoading() {

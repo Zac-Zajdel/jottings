@@ -1,14 +1,21 @@
-import { User } from "@prisma/client"
 import type { Icon } from "lucide-react"
-
 import { Icons } from "@/components/icons"
+import { User as AuthUser } from "@auth/core/types"
+
+export interface User extends AuthUser {
+  id: UserId
+  activeWorkspaceId: string
+}
+
+export type SearchParams = {
+  [key: string]: string | string[] | undefined
+}
 
 export type NavItem = {
   title: string
   href: string
   disabled?: boolean
 }
-
 export type MainNavItem = NavItem
 
 export type SidebarNavItem = {
