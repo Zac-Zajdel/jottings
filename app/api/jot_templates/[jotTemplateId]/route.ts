@@ -1,10 +1,10 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth"
+import { auth } from "@/auth"
+// import { authOptions } from "@/lib/auth"
 
 async function validateTemplateId(jotTemplateId: string) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   return !!await db.jotTemplate.findFirst({
     where: {
       id: jotTemplateId,
@@ -31,7 +31,7 @@ export async function PATCH(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     const { params } = await routeContextSchema.parseAsync(context)
 
     // Get the request body and validate it.
@@ -65,7 +65,7 @@ export async function DELETE(
   context: z.infer<typeof routeContextSchema>
 ) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     const { params } = await routeContextSchema.parseAsync(context)
 
     await db.jotTemplate.delete({

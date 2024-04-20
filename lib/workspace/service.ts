@@ -1,17 +1,16 @@
 'use server'
 
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
+import { auth } from "@/auth"
 import { workspaceCache } from "./cache";
 import { Workspace } from "@prisma/client";
 import { unstable_cache } from "next/cache";
-import { getServerSession } from "next-auth/next"
 
 /**
  * @desc - Obtain workspaces within the sidebar
  */
 export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[] | null> => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!session) {
     throw new Error('Unauthorized Action.');
   }
@@ -50,7 +49,7 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
  * @desc - Generates a new workspace and updates active workspace
  */
 export const createWorkspace = async (name: string, userId: string) => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!session) {
     throw new Error('Unauthorized Action.');
   }
@@ -101,7 +100,7 @@ export const createWorkspace = async (name: string, userId: string) => {
  * @desc - Updates the active workspace of a user
  */
 export const updateActiveWorkspace = async (workspace: Workspace, userId: string) => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!session) {
     throw new Error('Unauthorized Action.');
   }
@@ -131,7 +130,7 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
  * @desc - Delete current workspace and go back to default
  */
 export const deleteWorkspace = async (workspaceId: string, userId: string) => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!session) {
     throw new Error('Unauthorized Action.');
   }

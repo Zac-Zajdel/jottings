@@ -1,8 +1,7 @@
 'use server'
 
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth/next"
+import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
 
 export async function invalidateTemplates() {
@@ -10,7 +9,7 @@ export async function invalidateTemplates() {
 }
 
 export async function copyJotTemplates(jotTemplateId: string) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!session) {
     throw new Error('Unauthorized Action.');
   }
