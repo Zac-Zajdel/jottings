@@ -1,13 +1,12 @@
+import { db } from "@/lib/db"
 import NextAuth from "next-auth"
+import { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
-import { db } from "@/lib/db"
 
-import type { NextAuthConfig } from "next-auth"
-
-export const config = {
+export const config: NextAuthConfig = {
   adapter: PrismaAdapter(db),
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.AUTH_SECRET,
   providers: [Google],
   session: { strategy: "jwt" },
   callbacks: {
@@ -92,6 +91,6 @@ export const config = {
       }
     },
   },
-} satisfies NextAuthConfig
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth(config)

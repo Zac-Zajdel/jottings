@@ -1,25 +1,23 @@
+"use client"
+
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { signInUser } from "@/lib/auth/actions"
 import { buttonVariants } from "@/components/ui/button"
-import { signIn } from "@/auth"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className }: UserAuthFormProps) {
   return (
-    <form
-      className={cn("grid gap-6", className)}
-      action={async () => {
-        "use server"
-        await signIn("google", { redirectTo: "/jots" })
-      }}
-    >
+    <div className={cn("grid gap-6", className)}>
       <button
-        type="submit"
         className={cn(buttonVariants({ variant: "default" }))}
+        onClick={async () => {
+          await signInUser('google', '/jots')
+        }}
       >
         Sign in
       </button>
-    </form>
+    </div>
   )
 }

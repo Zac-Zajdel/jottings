@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { User } from "@auth/core/types"
-import { signOut } from "next-auth/react"
+import { signOut } from "@/auth"
 import { UserAvatar } from "@/components/user-avatar"
 import packageJson from '../package.json'
 import { Tabs, TabsList } from "./ui/tabs"
@@ -16,6 +16,7 @@ import { TabsTrigger } from "@radix-ui/react-tabs"
 import { useTheme } from "next-themes"
 import { Icons } from "./icons"
 import Link from "next/link"
+import { signOutUser } from "@/lib/auth/actions"
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
   user: Pick<User, "name" | "image" | "email">
@@ -101,11 +102,9 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
+          onSelect={async (event) => {
             event.preventDefault()
-            signOut({
-              callbackUrl: `${window.location.origin}/`,
-            })
+            await signOutUser(`${window.location.origin}/`)
           }}
         >
           Sign out
