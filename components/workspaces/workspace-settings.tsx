@@ -43,7 +43,7 @@ export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsPr
 
   async function removeWorkspace(): Promise<Workspace | undefined> {
     try {
-      const response = await deleteWorkspace(user.activeWorkspaceId, user.id)
+      const response = await deleteWorkspace(user.activeWorkspaceId, user.id as string)
       toast({ description: response.message})
       return response.data.workspace
     } catch(e) {
