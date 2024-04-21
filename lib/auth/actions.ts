@@ -2,8 +2,14 @@
 
 import { signIn, signOut } from "@/auth"
 
-export const signInUser = async (provider, redirectTo: string) => {
-  await signIn(provider, { redirectTo })
+type provider = 'google'|'resend'
+
+export const signInUser = async (
+  provider: provider,
+  redirectTo: string,
+  formData = {}
+) => {
+  await signIn(provider, {...formData, redirectTo })
 }
 
 export const signOutUser = async (redirectTo: string) => {

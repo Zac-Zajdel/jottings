@@ -13,7 +13,10 @@ export const config = {
     "/jots/:path*",
     "/templates/:path*",
     "/settings/:path*",
-    "/signin",
-    "/register",
+  ],
+  // Temporary fix until Tailwind package is compatible with edge runtime
+  // See: https://github.com/resend/react-email/issues/1105
+  unstable_allowDynamic: [
+    "**/node_modules/@react-email*/**/*.mjs*",
   ],
 }
