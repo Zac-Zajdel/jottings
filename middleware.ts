@@ -13,7 +13,5 @@ export const config = {
     "/jots/:path*",
     "/templates/:path*",
     "/settings/:path*",
-    "/signin",
-    "/register",
   ],
 }

@@ -2,13 +2,35 @@ import { db } from "@/lib/db"
 import NextAuth from "next-auth"
 import { NextAuthConfig } from "next-auth"
 import Google from "next-auth/providers/google"
+import Resend from "next-auth/providers/resend"
 import { PrismaAdapter } from "@auth/prisma-adapter"
+import { magicLinkVerificationRequest } from './lib/resend/magicLinkVerificationRequest'
 
 export const config: NextAuthConfig = {
   adapter: PrismaAdapter(db),
   secret: process.env.AUTH_SECRET,
-  providers: [Google],
   session: { strategy: "jwt" },
+  providers: [
+    Google,
+    Resend({
+      from: 'login@jottings.dev',
+      sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { server, from },
+      }) {
+        magicLinkVerificationRequest({
+          to: email,
+          url,
+          server,
+          from,
+        })
+      },
+    }),
+  ],
+  pages: {
+    verifyRequest: "/verify-request",
+  },
   callbacks: {
     async session({ token, session }) {
       if (token) {
