@@ -30,6 +30,7 @@ export const config: NextAuthConfig = {
   ],
   pages: {
     verifyRequest: "/verify-request",
+    error: "/error",
   },
   callbacks: {
     async session({ token, session }) {
