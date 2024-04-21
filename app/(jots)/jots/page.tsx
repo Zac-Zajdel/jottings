@@ -1,42 +1,49 @@
-import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { SearchParams, User } from "@/types"
 import { getCurrentUser } from "@/lib/session"
-import { PageHeader } from "@/components/page-header"
-import { JotCreateButton } from "@/components/jots/jot-create-button"
 import { PageShell } from "@/components/page-shell"
-import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { JotTable } from "@/components/jots/table/jot-table"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { PageHeader } from "@/components/page-header"
 import { unstable_noStore as noStore } from "next/cache"
-import { User } from "next-auth"
+import { JotTable } from "@/components/jots/table/jot-table"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { JotCreateButton } from "@/components/jots/jot-create-button"
 
 export const metadata = {
   title: "Jots",
   description: "Create and manage Jots.",
 }
 
-type SearchParams = { [key: string]: string | string[] | undefined }
-type SessionUser = User & {
-  id: string;
-  activeWorkspaceId: string;
-}
-
-const getJots = async (user: SessionUser, searchParams: SearchParams) => {
+const getJots = async (user: User, searchParams: SearchParams) => {
   return await db.jot.findMany({
     where: {
       workspaceId: user.activeWorkspaceId,
-      ...(
-        searchParams?.search
-          ? { title: { contains: searchParams.search as string } }
-          : {}
-      ),
+      ...(searchParams?.search ? {
+        OR: [
+          {
+            title: {
+              contains: searchParams.search as string,
+              mode: 'insensitive',
+            }
+          },
+          {
+            author: {
+              name: {
+                contains: searchParams.search as string,
+                mode: 'insensitive',
+              }
+            }
+          }
+        ]
+      } : {})
     },
     select: {
       id: true,
       title: true,
       published: true,
       createdAt: true,
+      updatedAt: true,
+      author: true,
     },
     ...(
       searchParams?.column && searchParams?.order
@@ -51,8 +58,7 @@ const getJots = async (user: SessionUser, searchParams: SearchParams) => {
 export default async function JotsPage({searchParams}: {
   searchParams: SearchParams
 }) {
-  const user = await getCurrentUser()
-  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+  const user = await getCurrentUser() as User
 
   await noStore();
   const jots = await getJots(user, searchParams)

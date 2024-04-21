@@ -1,7 +1,6 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth/next"
+import { auth } from "@/auth"
 import { type NextRequest } from 'next/server'
 
 const associationRequest = z.object({
@@ -15,7 +14,7 @@ const associationRequest = z.object({
 
 export async function POST(req: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }

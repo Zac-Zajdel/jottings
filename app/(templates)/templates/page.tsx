@@ -1,42 +1,49 @@
-import { redirect } from "next/navigation"
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { SearchParams, User } from "@/types"
 import { getCurrentUser } from "@/lib/session"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { PageHeader } from "@/components/page-header"
 import { PageShell } from "@/components/page-shell"
-import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
-import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
-import { TemplateTable } from "@/components/templates/table/template-table"
+import { PageHeader } from "@/components/page-header"
 import { unstable_noStore as noStore } from "next/cache"
-import { User } from "next-auth"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { EmptyPlaceholder } from "@/components/empty-placeholder"
+import { TemplateTable } from "@/components/templates/table/template-table"
+import { JotTemplateCreateButton } from "@/components/templates/jot-template-create-button"
 
 export const metadata = {
   title: "Templates",
   description: "Create and manage Templates.",
 }
 
-type SearchParams = { [key: string]: string | string[] | undefined }
-type SessionUser = User & {
-  id: string;
-  activeWorkspaceId: string;
-}
-
-const getTemplates = async (user: SessionUser, searchParams: SearchParams) => {
+const getTemplates = async (user: User, searchParams: SearchParams) => {
   return await db.jotTemplate.findMany({
     where: {
       workspaceId: user.activeWorkspaceId,
-      ...(
-        searchParams?.search
-          ? { title: { contains: searchParams.search as string } }
-          : {}
-      ),
+      ...(searchParams?.search ? {
+        OR: [
+          {
+            title: {
+              contains: searchParams.search as string,
+              mode: 'insensitive',
+            }
+          },
+          {
+            author: {
+              name: {
+                contains: searchParams.search as string,
+                mode: 'insensitive',
+              }
+            }
+          }
+        ]
+      } : {})
     },
     select: {
       id: true,
       title: true,
       isPublished: true,
       createdAt: true,
+      updatedAt: true,
+      author: true,
     },
     ...(
       searchParams?.column && searchParams?.order
@@ -51,8 +58,7 @@ const getTemplates = async (user: SessionUser, searchParams: SearchParams) => {
 export default async function TemplatesPage({searchParams}: {
   searchParams: SearchParams
 }) {
-  const user = await getCurrentUser()
-  if (!user) redirect(authOptions?.pages?.signIn || "/signin")
+  const user = await getCurrentUser() as User
 
   await noStore();
   const templates = await getTemplates(user, searchParams)

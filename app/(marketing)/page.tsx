@@ -5,6 +5,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { motion } from "framer-motion"
+import packageJson from '../../package.json'
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 import VerticalCarouselCard from "@/components/landing/vertical-carousel-card"
@@ -26,10 +27,10 @@ export default function IndexPage() {
             }}
           >
             <Link
-              href="/changelog/release-v1.4.0"
+              href={`/changelog/release-v${packageJson.version}`}
               className="flex items-center h-8 px-4 rounded-full bg-primary hover:bg-primary/90 text-core text-sm font-medium"
             >
-              Release v1.4.0 is Here!
+              Release v{ packageJson.version } is Here!
               <Icons.chevronRight className="ml-2 h-4 w-4" />
             </Link>
           </motion.div>

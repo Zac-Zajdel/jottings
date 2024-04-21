@@ -1,8 +1,8 @@
-import { PageHeader } from "@/components/page-header"
-import { JotCreateButton } from "@/components/jots/jot-create-button"
-import { JotItem } from "@/components/jots/jot-item"
 import { PageShell } from "@/components/page-shell"
+import { JotItem } from "@/components/jots/jot-item"
+import { PageHeader } from "@/components/page-header"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { JotCreateButton } from "@/components/jots/jot-create-button"
 
 export default function JotsLanding() {
   return (

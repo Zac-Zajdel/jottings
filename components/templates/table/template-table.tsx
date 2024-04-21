@@ -20,7 +20,7 @@ export function TemplateTable<TData, TValue>({
     sorting,
     pageSize,
     pageIndex,
-    columnFilters,
+    globalFilter,
   } = useDataTable(data, columns)
 
   useEffect(() => {
@@ -39,10 +39,10 @@ export function TemplateTable<TData, TValue>({
     }
 
     // Column Filters
-    if (columnFilters.length)
+    if (globalFilter.length)
       url.searchParams.append(
         'search',
-        columnFilters[0].value as string,
+        globalFilter as string,
       );
 
     // Pagination Grab Options
@@ -58,7 +58,7 @@ export function TemplateTable<TData, TValue>({
     );
 
     router.push(`${url.origin}/templates${url.search}`)
-  }, [sorting, columnFilters, pageSize, pageIndex])
+  }, [sorting, globalFilter, pageSize, pageIndex])
 
   return (
     <div>

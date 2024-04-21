@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label"
 import { Button, buttonVariants } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { toast } from "../ui/use-toast"
-import { User } from "next-auth"
+import { User } from "@auth/core/types"
 import { deleteWorkspace } from "@/lib/workspace/service"
 import { useSession } from "next-auth/react"
 import { useState } from "react"
@@ -43,7 +43,7 @@ export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsPr
 
   async function removeWorkspace(): Promise<Workspace | undefined> {
     try {
-      const response = await deleteWorkspace(user.activeWorkspaceId, user.id)
+      const response = await deleteWorkspace(user.activeWorkspaceId, user.id as string)
       toast({ description: response.message})
       return response.data.workspace
     } catch(e) {

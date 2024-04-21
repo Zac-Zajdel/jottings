@@ -1,10 +1,9 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
-import { getServerSession } from "next-auth/next"
+import { auth } from "@/auth"
 
 async function uniqueLabel(name: string) {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   return !await db.label.findFirst({
     where: {
       name: name,
@@ -27,7 +26,7 @@ const labelCreateSchema = z.object({
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
@@ -72,7 +71,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }

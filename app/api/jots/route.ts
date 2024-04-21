@@ -1,8 +1,7 @@
 import * as z from "zod"
 import { db } from "@/lib/db"
-import { authOptions } from "@/lib/auth"
+import { auth } from "@/auth"
 import { JotTemplate } from "@prisma/client"
-import { getServerSession } from "next-auth/next"
 
 const jotCreateSchema = z.object({
   title: z.string().min(2).max(191),
@@ -12,7 +11,7 @@ const jotCreateSchema = z.object({
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }
@@ -40,7 +39,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const session = await auth()
     if (!session) {
       return new Response("Unauthorized", { status: 403 })
     }

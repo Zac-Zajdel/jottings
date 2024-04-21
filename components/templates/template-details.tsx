@@ -18,6 +18,7 @@ interface TemplateProps {
     title: string
     content: MyValue
     createdAt: Date
+    updatedAt: Date
     author: User
     labelAssociations: LabelAssociations[]
   },
