@@ -3,7 +3,6 @@ import {
   Body,
   Container,
   Head,
-  Img,
   Button,
   Heading,
   Html,
@@ -12,9 +11,7 @@ import {
   Text
 } from '@react-email/components'
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : 'https://www.jottings.dev';
+const baseUrl = process.env.NEXTAUTH_URL
 
 export default function MagicLinkEmail({ url, host }) {
   return (
@@ -23,13 +20,6 @@ export default function MagicLinkEmail({ url, host }) {
       <Preview>Jottings Login Link</Preview>
       <Body style={main}>
         <Container style={container}>
-          <Img
-            src={`${baseUrl}/favicon.ico`}
-            width="42"
-            height="42"
-            alt="Linear"
-            style={logo}
-          />
           <Heading style={h1}>Your login request for Jottings</Heading>
 
           <Button
@@ -77,12 +67,6 @@ const container = {
   paddingRight: '12px',
   margin: '0 auto'
 }
-
-const logo = {
-  borderRadius: 21,
-  width: 42,
-  height: 42,
-};
 
 const h1 = {
   color: '#333',

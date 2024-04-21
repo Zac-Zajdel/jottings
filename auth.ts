@@ -13,7 +13,7 @@ export const config: NextAuthConfig = {
   providers: [
     Google,
     Resend({
-      from: 'login@jottings.dev',
+      from: 'Jottings <login@jottings.dev>',
       sendVerificationRequest({
         identifier: email,
         url,
