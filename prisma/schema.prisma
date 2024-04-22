@@ -61,14 +61,16 @@ model User {
   createdAt         DateTime  @default(now()) @map(name: "created_at")
   updatedAt         DateTime  @default(now()) @map(name: "updated_at")
 
-  activeWorkspace Workspace?      @relation("activeWorkspace", fields: [activeWorkspaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  accounts        Account[]
-  sessions        Session[]
-  Jot             Jot[]
-  JotTemplate     JotTemplate[]
-  Label           Label[]
-  workspaceOwners Workspace[]     @relation("workspaceOwner")
-  workspaceUsers  WorkspaceUser[]
+  activeWorkspace          Workspace?        @relation("activeWorkspace", fields: [activeWorkspaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  accounts                 Account[]
+  sessions                 Session[]
+  Jot                      Jot[]
+  JotTemplate              JotTemplate[]
+  Label                    Label[]
+  workspaceOwners          Workspace[]       @relation("workspaceOwner")
+  workspaceUsers           WorkspaceUser[]
+  invitedWorkspaces        WorkspaceInvite[] @relation("invitee")
+  sentWorkspaceInvitations WorkspaceInvite[] @relation("invitor")
 
   @@index([activeWorkspaceId])
   @@map(name: "users")
@@ -82,12 +84,13 @@ model Workspace {
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @default(now()) @map(name: "updated_at")
 
-  owner          User            @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  activeUsers    User[]          @relation("activeWorkspace")
-  workspaceUsers WorkspaceUser[]
-  Jot            Jot[]
-  JotTemplate    JotTemplate[]
-  Label          Label[]
+  owner            User              @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  activeUsers      User[]            @relation("activeWorkspace")
+  workspaceUsers   WorkspaceUser[]
+  Jot              Jot[]
+  JotTemplate      JotTemplate[]
+  Label            Label[]
+  WorkspaceInvites WorkspaceInvite[]
 
   @@index([ownerId])
   @@map(name: "workspaces")
@@ -106,6 +109,24 @@ model WorkspaceUser {
   @@index([userId])
   @@index([workspaceId])
   @@map(name: "workspace_user")
+}
+
+model WorkspaceInvite {
+  id          String   @id @default(cuid())
+  invitorId   String
+  inviteeId   String
+  workspaceId String
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @default(now()) @map(name: "updated_at")
+
+  invitor   User      @relation("invitor", fields: [invitorId], references: [id], map: "workspace_invite_invitorId_fkey")
+  invitee   User      @relation("invitee", fields: [invitorId], references: [id], map: "workspace_invite_inviteeId_fkey")
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+
+  @@index([invitorId])
+  @@index([inviteeId])
+  @@index([workspaceId])
+  @@map(name: "workspace_invites")
 }
 
 model Jot {
