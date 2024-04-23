@@ -82,7 +82,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Name</CardTitle>
+          <CardTitle>Your Name</CardTitle>
           <CardDescription>
             Please enter your name or a display name.
           </CardDescription>

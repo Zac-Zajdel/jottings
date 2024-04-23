@@ -11,9 +11,7 @@ import { unstable_cache } from "next/cache";
  */
 export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[] | null> => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   const workspaces = await unstable_cache(
     async () => {
@@ -50,9 +48,7 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
  */
 export const createWorkspace = async (name: string, userId: string) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const workspace = await db.$transaction(async (tx) => {
@@ -99,11 +95,42 @@ export const createWorkspace = async (name: string, userId: string) => {
 /**
  * @desc - Updates the active workspace of a user
  */
-export const updateActiveWorkspace = async (workspace: Workspace, userId: string) => {
+export const updateWorkspace = async (
+  workspace: Workspace,
+  userId: string,
+  name: string,
+) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
+  if (!session) throw new Error('Unauthorized Action.')
+
+  try {
+    const updatedWorkspace = await db.workspace.update({
+      where: {
+        id: workspace.id,
+        ownerId: userId,
+      },
+      data: {
+        name,
+      }
+    })
+
+    workspaceCache.revalidate({userId})
+
+    return {
+      message: 'Workspace details updated successfully',
+      data: { ...updatedWorkspace }
+    }
+  } catch (error) {
+    throw error;
   }
+}
+
+/**
+ * @desc - Updates the active workspace of a user
+ */
+export const updateActiveUserWorkspace = async (workspace: Workspace, userId: string) => {
+  const session = await auth()
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const updatedUser = await db.user.update({
@@ -131,9 +158,7 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
  */
 export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const workspace = await db.workspace.findFirst({

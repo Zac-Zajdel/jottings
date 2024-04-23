@@ -1,7 +1,7 @@
 import { User } from "@/types"
 import { getCurrentUser } from "@/lib/session"
-import { UserNameForm } from "@/components/user-name-form"
 import { getWorkspacesByUserId } from "@/lib/workspace/service"
+import WorkspaceDetails from "@/components/workspaces/workspace-details"
 import { DeleteWorkspace } from "@/components/workspaces/delete-workspace"
 
 export const metadata = {
@@ -18,14 +18,10 @@ export default async function SettingsGeneral() {
   return (
     <>
       <div className="grid gap-10 mx-8 mb-3">
-        {/* Workspace Name Form? */}
-        <UserNameForm user={{ id: user.id, name: user.name || "" }} />
-      </div>
-
-      <div className="grid gap-10 m-8">
-        <div>
-          Workspace Users Placeholder
-        </div>
+        <WorkspaceDetails
+          workspace={activeWorkspace}
+          user={user}
+        />
       </div>
 
       {!activeWorkspace?.default && (

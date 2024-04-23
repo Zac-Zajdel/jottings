@@ -16,7 +16,7 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Avatar, AvatarFallback } from "../ui/avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
-import { createWorkspace, updateActiveWorkspace } from "@/lib/workspace/service"
+import { createWorkspace, updateActiveUserWorkspace } from "@/lib/workspace/service"
 
 interface WorkspaceItemsProps extends React.HTMLAttributes<HTMLDivElement> {
   user: {
@@ -60,7 +60,7 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
     if (workspace.id === user.activeWorkspaceId) return
 
     try {
-      const updatedUser = await updateActiveWorkspace(workspace, user.id)
+      const updatedUser = await updateActiveUserWorkspace(workspace, user.id)
       await updateUserAndSidebar(updatedUser.data.activeWorkspaceId as string)
     } catch (error) {
       toast({
