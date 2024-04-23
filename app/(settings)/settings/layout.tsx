@@ -1,9 +1,12 @@
 import { User } from "@/types"
 import { getCurrentUser } from "@/lib/session"
 import { DashboardNav } from "@/components/nav"
+import { PageShell } from "@/components/page-shell"
 import { dashboardConfig } from "@/config/dashboard"
+import { PageHeader } from "@/components/page-header"
 import { UserAccountNav } from "@/components/user-account-nav"
 import WorkspaceNav from "@/components/workspaces/workspace-nav"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 
 interface SettingsLayoutProps {
   children?: React.ReactNode
@@ -45,7 +48,27 @@ export default async function SettingsLayout({
           </div>
         </aside>
         <main className="flex flex-1 border rounded-xl bg-background m-3 flex-col overflow-scroll no-scrollbar">
-          {children}
+          <PageShell className="gap-1">
+            <PageBreadcrumbs crumbs={[
+                {
+                  link: '/settings/general',
+                  title: 'Home',
+                  icon: 'home',
+                },
+                {
+                  link: '/settings/general',
+                  title: 'Settings',
+                },
+              ]}
+            />
+
+            <PageHeader
+              heading="Settings"
+              text="Manage account and workspace settings."
+            />
+
+            {children}
+          </PageShell>
         </main>
       </div>
     </div>

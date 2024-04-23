@@ -1,12 +1,17 @@
 "use client"
 
-import { HTMLAttributes, useState } from "react"
-import { useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { User } from "@prisma/client"
-import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { cn } from "@/lib/utils"
+import { User } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import { Icons } from "@/components/icons"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { HTMLAttributes, useState } from "react"
+import { toast } from "@/components/ui/use-toast"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { userNameSchema } from "@/lib/validations/user"
 import { buttonVariants } from "@/components/ui/button"
 import {
@@ -17,10 +22,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
 
 interface UserNameFormProps extends HTMLAttributes<HTMLFormElement> {
   user: Pick<User, "id" | "name">
@@ -30,6 +31,8 @@ type FormData = z.infer<typeof userNameSchema>
 
 export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
   const router = useRouter()
+  const { update } = useSession()
+
   const {
     handleSubmit,
     register,
@@ -65,10 +68,10 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       })
     }
 
-    toast({
-      description: "Your name has been updated.",
-    })
+    // Update sessions name and refresh component
+    await update({ name: data.name })
     router.refresh()
+    toast({ description: "Your name has been updated." })
   }
 
   return (
@@ -79,9 +82,9 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Your Name</CardTitle>
+          <CardTitle>Name</CardTitle>
           <CardDescription>
-            Please enter your full name or a display name.
+            Please enter your name or a display name.
           </CardDescription>
         </CardHeader>
         <CardContent>

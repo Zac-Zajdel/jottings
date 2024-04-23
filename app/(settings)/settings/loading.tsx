@@ -8,12 +8,12 @@ export default function SettingsLoading() {
     <PageShell className="gap-1">
       <PageBreadcrumbs crumbs={[
           {
-            link: '/settings',
+            link: '/settings/general',
             title: 'Home',
             icon: 'home',
           },
           {
-            link: '/settings',
+            link: '/settings/general',
             title: 'Settings',
           },
         ]}
@@ -21,7 +21,7 @@ export default function SettingsLoading() {
 
       <PageHeader
         heading="Settings"
-        text="Manage account and website settings."
+        text="Manage account and workspace settings."
       />
 
       <div className="grid gap-10 mx-8">

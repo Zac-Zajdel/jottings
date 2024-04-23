@@ -130,7 +130,7 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
                     onClick={() => signIntoWorkspace(space)}
                   >
                     <CommandItem
-                      className="flex items-center p-2 cursor-pointer"
+                      className="flex items-center justify-between p-2 cursor-pointer"
                       value={`workspace-${space.id}`}
                     >
                       <p className="w-22 truncate">{space.name} </p>
