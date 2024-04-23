@@ -21,6 +21,9 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Settings",
       href: "/settings/general",
+      items: [
+        "/settings/workspace",
+      ],
       icon: "settings",
     },
   ],

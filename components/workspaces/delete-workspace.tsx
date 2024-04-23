@@ -16,25 +16,25 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { User } from "@auth/core/types"
+import { Workspace } from "@prisma/client"
+import { Icons } from "@/components/icons"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button, buttonVariants } from "../ui/button"
-import { cn } from "@/lib/utils"
-import { toast } from "../ui/use-toast"
-import { User } from "@auth/core/types"
+import { toast } from "@/components/ui/use-toast"
 import { deleteWorkspace } from "@/lib/workspace/service"
-import { useSession } from "next-auth/react"
-import { useState } from "react"
-import { Icons } from "../icons"
-import { useRouter } from "next/navigation"
-import { Workspace } from "@prisma/client"
+import { Button, buttonVariants } from "@/components/ui/button"
 
-interface WorkspaceSettingsProps {
+interface DeleteWorkspaceProps {
   user: User & { activeWorkspaceId: string },
   activeWorkspace: Workspace|undefined
 }
 
-export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsProps) {
+export function DeleteWorkspace({ user, activeWorkspace }: DeleteWorkspaceProps) {
   const router = useRouter()
   const { update } = useSession()
   const [workspaceName, setWorkspaceName] = useState('')
