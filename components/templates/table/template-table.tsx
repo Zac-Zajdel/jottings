@@ -1,11 +1,11 @@
 "use client"
 
-import { DataTableToolbar } from "../../table/data-table-toolbar"
-import { useDataTable } from "@/hooks/use-data-table"
-import { useRouter } from "next/navigation"
-import { columns } from "./columns"
-import { DataTable } from "../../table/data-table"
 import { useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { useDataTable } from "@/hooks/use-data-table"
+import { DataTable } from "@/components/table/data-table"
+import { columns } from "@/components/templates/table/columns"
+import { DataTableToolbar } from "@/components/table/data-table-toolbar"
 
 interface DataTableProps<TData, TValue> {
   data: TData[]

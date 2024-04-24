@@ -65,7 +65,7 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
         <CardHeader>
           <CardTitle>Workspace Name</CardTitle>
           <CardDescription>
-            Update workspace details.
+            {workspace?.default ? 'Non-editable name for personal workspaces.' : 'This will be viewable to all workspace members.'}
           </CardDescription>
         </CardHeader>
         <CardContent>

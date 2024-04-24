@@ -85,7 +85,7 @@ export function DeleteWorkspace({ user, activeWorkspace }: DeleteWorkspaceProps)
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex justify-center">
-              Confirm Deletion
+              Confirm Deletion of
             </AlertDialogTitle>
             <AlertDialogDescription className="flex justify-center">
               { activeWorkspace?.name }

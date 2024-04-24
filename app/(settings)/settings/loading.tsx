@@ -24,7 +24,12 @@ export default function SettingsLoading() {
         text="Manage account and workspace settings."
       />
 
+      {/* TODO - need to add the nav items for loading screen */}
       <div className="grid gap-10 mx-8">
+        <CardSkeleton />
+      </div>
+
+      <div className="grid gap-10 mx-8 mb-3">
         <CardSkeleton />
       </div>
     </PageShell>

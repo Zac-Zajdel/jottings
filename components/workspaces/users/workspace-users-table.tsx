@@ -1,17 +1,17 @@
 "use client"
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { DataTableToolbar } from "../../table/data-table-toolbar"
 import { useDataTable } from "@/hooks/use-data-table"
-import { DataTable } from "@/components/table/data-table"
-import { columns } from "@/components/jots/table/columns"
-import { DataTableToolbar } from "@/components/table/data-table-toolbar"
+import { useRouter } from "next/navigation"
+import { columns } from "../../jots/table/columns"
+import { DataTable } from "../../table/data-table"
+import { useEffect } from "react"
 
 interface DataTableProps<TData, TValue> {
   data: TData[]
 }
 
-export function JotTable<TData, TValue>({
+export function WorkspaceUsersTable<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
@@ -58,7 +58,7 @@ export function JotTable<TData, TValue>({
       (pageIndex * pageSize).toString(),
     );
 
-    router.push(`${url.origin}/jots${url.search}`)
+    router.push(`${url.origin}/settings/workspace/${url.search}`)
   }, [sorting, globalFilter, pageSize, pageIndex])
 
   return (
