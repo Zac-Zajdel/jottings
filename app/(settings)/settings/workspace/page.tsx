@@ -51,6 +51,7 @@ export default async function SettingsGeneral() {
                 </div>
               </div>
             }>
+              {/* @ts-ignore @ts-expect-error Server Component */}
               <WorkspaceUsers
                 user={user}
                 workspace={activeWorkspace}
