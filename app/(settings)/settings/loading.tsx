@@ -2,6 +2,7 @@ import { PageShell } from "@/components/page-shell"
 import { PageHeader } from "@/components/page-header"
 import { CardSkeleton } from "@/components/card-skeleton"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
+import { SettingsNav } from "@/components/settings/settings-nav"
 
 export default function SettingsLoading() {
   return (
@@ -24,8 +25,9 @@ export default function SettingsLoading() {
         text="Manage account and workspace settings."
       />
 
-      {/* TODO - need to add the nav items for loading screen */}
-      <div className="grid gap-10 mx-8">
+      <SettingsNav />
+
+      <div className="grid gap-10 mx-8 mb-3">
         <CardSkeleton />
       </div>
 

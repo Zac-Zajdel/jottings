@@ -1,8 +1,8 @@
-import { User } from "@/types"
 import { Suspense } from 'react'
 import { Workspace } from "@prisma/client"
+import { User, SearchParams } from "@/types"
 import { getCurrentUser } from "@/lib/session"
-import { JotItem } from "@/components/jots/jot-item"
+import TableSkeleton from "@/components/table/table-skeleton"
 import { getWorkspacesByUserId } from "@/lib/workspace/service"
 import WorkspaceDetails from "@/components/workspaces/workspace-details"
 import { DeleteWorkspace } from "@/components/workspaces/delete-workspace"
@@ -14,7 +14,9 @@ export const metadata = {
   description: "Manage account and workspace settings.",
 }
 
-export default async function SettingsGeneral() {
+export default async function SettingsGeneral({ searchParams }: {
+  searchParams: SearchParams
+}) {
   const user = await getCurrentUser() as User
 
   const workspaces = await getWorkspacesByUserId(user.id)
@@ -39,22 +41,12 @@ export default async function SettingsGeneral() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Suspense fallback={
-              // This needs to be custom to show those that card with the table cells.
-              // Make this be as close to the UI as possible.
-              // Grab useTimeout to give me time for showing exactly what those loaders should contain
-              // todo - also create file structure for loading screens.
-              <div className="grid gap-10 mx-8 my-3">
-                <div className="divide-border-200 divide-y rounded-md border">
-                  <JotItem.Skeleton />
-                  <JotItem.Skeleton />
-                </div>
-              </div>
-            }>
+            <Suspense fallback={<TableSkeleton />}>
               {/* @ts-ignore @ts-expect-error Server Component */}
               <WorkspaceUsers
                 user={user}
                 workspace={activeWorkspace}
+                searchParams={searchParams}
               />
             </Suspense>
           </CardContent>
