@@ -1,5 +1,6 @@
 "use client"
 
+import { User } from "@/types"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useDataTable } from "@/hooks/use-data-table"
@@ -9,10 +10,12 @@ import { columns } from "@/components/workspaces/users/workspace-users-table-col
 
 interface DataTableProps<TData, TValue> {
   data: TData[]
+  user: User
 }
 
 export function WorkspaceUsersTable<TData, TValue>({
   data,
+  user
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
 
@@ -22,7 +25,7 @@ export function WorkspaceUsersTable<TData, TValue>({
     pageSize,
     pageIndex,
     globalFilter,
-  } = useDataTable(data, columns)
+  } = useDataTable(data, columns, user)
 
   useEffect(() => {
     let url = new URL(window.location.origin);

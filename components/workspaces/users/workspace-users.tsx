@@ -26,6 +26,8 @@ const getWorkspaceUsers = async (user: User, searchParams: SearchParams) => {
     select: {
       id: true,
       userId: true,
+      workspaceId: true,
+      hasAcceptedInvite: true,
       createdAt: true,
       user: true,
     },
@@ -51,6 +53,7 @@ export default async function WorkspaceUsers({ user, workspace, searchParams }: 
     <>
       <WorkspaceUsersTable
         data={workspaceUsers}
+        user={user}
       />
     </>
   )

@@ -21,6 +21,7 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
             workspaceUsers: {
               some: {
                 userId: userId,
+                hasAcceptedInvite: true,
               }
             }
           },
@@ -65,6 +66,7 @@ export const createWorkspace = async (name: string, userId: string) => {
         data: {
           userId: userId,
           workspaceId: workspace.id,
+          hasAcceptedInvite: true,
         }
       })
     

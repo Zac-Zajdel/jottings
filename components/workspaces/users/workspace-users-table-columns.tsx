@@ -1,6 +1,7 @@
 "use client"
 
 import { formatDate } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header"
 import { WorkspaceUsersTableOperations } from "./workspace-users-table-operations"
@@ -18,10 +19,15 @@ export const columns: ColumnDef<any>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex items-center justify-between p-4">
-          <div className="grid gap-1">
+        <div className="flex items-center space-x-3 p-4">
+          <span>
             { row.getValue('user')}
-          </div>
+          </span>
+          <span>
+            { row.original.hasAcceptedInvite && (
+              <Badge>FIX STYLING/BOOLEAN Logic</Badge>
+            )}
+          </span>
         </div>
       )
     },
@@ -58,7 +64,9 @@ export const columns: ColumnDef<any>[] = [
               id: row.original.id,
               userId: row.original.userId,
               workspaceId: row.original.workspaceId,
+              hasAcceptedInvite: row.original.hasAcceptedInvite,
             }}
+            authenticatedUser={row.original.authenticatedUser}
           />
         </div>
       )

@@ -51,75 +51,58 @@ model VerificationToken {
 }
 
 model User {
-  id                       String            @id @default(cuid())
-  activeWorkspaceId        String?
-  name                     String?
-  email                    String?           @unique
-  emailVerified            DateTime?
-  image                    String?
-  createdAt                DateTime          @default(now()) @map("created_at")
-  updatedAt                DateTime          @default(now()) @map("updated_at")
-  accounts                 Account[]
-  JotTemplate              JotTemplate[]
-  Jot                      Jot[]
-  Label                    Label[]
-  sessions                 Session[]
-  activeWorkspace          Workspace?        @relation("activeWorkspace", fields: [activeWorkspaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  sentWorkspaceInvitations WorkspaceInvite[] @relation("invitor")
-  workspaceUsers           WorkspaceUser[]
-  workspaceOwners          Workspace[]       @relation("workspaceOwner")
+  id                String          @id @default(cuid())
+  activeWorkspaceId String?
+  name              String?
+  email             String?         @unique
+  emailVerified     DateTime?
+  image             String?
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @default(now()) @map("updated_at")
+  accounts          Account[]
+  JotTemplate       JotTemplate[]
+  Jot               Jot[]
+  Label             Label[]
+  sessions          Session[]
+  activeWorkspace   Workspace?      @relation("activeWorkspace", fields: [activeWorkspaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  workspaceUsers    WorkspaceUser[]
+  workspaceOwners   Workspace[]     @relation("workspaceOwner")
 
   @@index([activeWorkspaceId])
   @@map("users")
 }
 
 model Workspace {
-  id               String            @id @default(cuid())
-  name             String
-  ownerId          String
-  default          Boolean           @default(false)
-  createdAt        DateTime          @default(now()) @map("created_at")
-  updatedAt        DateTime          @default(now()) @map("updated_at")
-  JotTemplate      JotTemplate[]
-  Jot              Jot[]
-  Label            Label[]
-  activeUsers      User[]            @relation("activeWorkspace")
-  WorkspaceInvites WorkspaceInvite[]
-  workspaceUsers   WorkspaceUser[]
-  owner            User              @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id             String          @id @default(cuid())
+  name           String
+  ownerId        String
+  default        Boolean         @default(false)
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @default(now()) @map("updated_at")
+  JotTemplate    JotTemplate[]
+  Jot            Jot[]
+  Label          Label[]
+  activeUsers    User[]          @relation("activeWorkspace")
+  workspaceUsers WorkspaceUser[]
+  owner          User            @relation("workspaceOwner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([ownerId])
   @@map("workspaces")
 }
 
 model WorkspaceUser {
-  id          String    @id @default(cuid())
-  userId      String
-  workspaceId String
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @map("updated_at")
-  user        User      @relation(fields: [userId], references: [id])
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  id                String    @id @default(cuid())
+  userId            String
+  workspaceId       String
+  hasAcceptedInvite Boolean   @default(false)
+  createdAt         DateTime  @default(now()) @map("created_at")
+  updatedAt         DateTime  @default(now()) @map("updated_at")
+  user              User      @relation(fields: [userId], references: [id])
+  workspace         Workspace @relation(fields: [workspaceId], references: [id])
 
   @@index([userId])
   @@index([workspaceId])
   @@map("workspace_user")
-}
-
-model WorkspaceInvite {
-  id          String    @id @default(cuid())
-  invitorId   String
-  inviteeId   String
-  workspaceId String
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @default(now()) @map("updated_at")
-  invitor     User      @relation("invitor", fields: [invitorId], references: [id], map: "workspace_invite_invitorId_fkey")
-  workspace   Workspace @relation(fields: [workspaceId], references: [id])
-
-  @@index([invitorId])
-  @@index([inviteeId])
-  @@index([workspaceId])
-  @@map("workspace_invites")
 }
 
 model Jot {

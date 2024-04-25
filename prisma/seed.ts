@@ -76,6 +76,7 @@ async function createWorkspaceUser(user: User, workspace: Workspace): Promise<Wo
     data: {
       userId: user.id,
       workspaceId: workspace.id,
+      hasAcceptedInvite: true,
     }
   })
 }

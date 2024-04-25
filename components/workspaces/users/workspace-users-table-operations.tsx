@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { User } from "@/types"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
@@ -24,10 +25,11 @@ import { toast } from "@/components/ui/use-toast"
 import { deleteWorkspaceUser } from "@/lib/workspaceUsers/service"
 
 interface WorkspaceUsersTableProps {
-  workspaceUser: Pick<WorkspaceUser, "id" | "userId" | "workspaceId">
+  workspaceUser: Pick<WorkspaceUser, "id" | "userId" | "workspaceId" | "hasAcceptedInvite">
+  authenticatedUser: User
 }
 
-export function WorkspaceUsersTableOperations({ workspaceUser }: WorkspaceUsersTableProps) {
+export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser }: WorkspaceUsersTableProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
@@ -53,10 +55,21 @@ export function WorkspaceUsersTableOperations({ workspaceUser }: WorkspaceUsersT
     setShowDeleteAlert(false)
   }
 
+  /**
+   * TODO
+   * 
+   * 1. Have a button for accept invitation if they are invited
+   * 2. The dropdown items shouldn't be viewable if the user cannot take said action.
+   *    - not owner of workspace and row is another user
+   *    - not owner but is the same user and can leave workspace.
+   */
+
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
+        <DropdownMenuTrigger
+          className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted"
+        >
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>

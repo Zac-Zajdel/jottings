@@ -105,6 +105,7 @@ export const config: NextAuthConfig = {
           data: {
             userId: dbUser.id,
             workspaceId: workspace.id,
+            hasAcceptedInvite: true,
           }
         })
       }
