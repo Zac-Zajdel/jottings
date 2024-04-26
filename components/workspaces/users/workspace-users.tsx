@@ -1,19 +1,17 @@
 import { db } from "@/lib/db"
-import { Workspace } from "@prisma/client"
 import { SearchParams, User } from "@/types"
 import { unstable_noStore as noStore } from "next/cache"
 import { WorkspaceUsersTable } from "@/components/workspaces/users/workspace-users-table"
 
 interface WorkspaceUsersProps {
-  user: User
-  workspace: Workspace
+  authUser: User
   searchParams: SearchParams
 }
 
-const getWorkspaceUsers = async (user: User, searchParams: SearchParams) => {
+const getWorkspaceUsers = async (authUser: User, searchParams: SearchParams) => {
   return await db.workspaceUser.findMany({
     where: {
-      workspaceId: user.activeWorkspaceId,
+      workspaceId: authUser.activeWorkspaceId,
       ...(searchParams?.search ? {
         user: {
           name: {
@@ -30,6 +28,7 @@ const getWorkspaceUsers = async (user: User, searchParams: SearchParams) => {
       hasAcceptedInvite: true,
       createdAt: true,
       user: true,
+      workspace: true,
     },
     ...(
       searchParams?.column === 'name' && searchParams?.order ? {
@@ -45,15 +44,14 @@ const getWorkspaceUsers = async (user: User, searchParams: SearchParams) => {
   })
 };
 
-export default async function WorkspaceUsers({ user, workspace, searchParams }: WorkspaceUsersProps) {
+export default async function WorkspaceUsers({ authUser, searchParams }: WorkspaceUsersProps) {
   await noStore();
-  const workspaceUsers = await getWorkspaceUsers(user, searchParams)
+  const workspaceUsers = await getWorkspaceUsers(authUser, searchParams)
 
   return (
     <>
       <WorkspaceUsersTable
         data={workspaceUsers}
-        user={user}
       />
     </>
   )

@@ -56,7 +56,7 @@ export function DeleteWorkspace({ user, activeWorkspace }: DeleteWorkspaceProps)
 
   return (
     <>
-      <Card className="bg-red-900/5">
+      <Card className="bg-red-700/20">
         <CardHeader>
           <div className="flex justify-between">
             <div>

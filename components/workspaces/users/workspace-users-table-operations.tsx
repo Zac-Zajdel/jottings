@@ -16,29 +16,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { User } from "@/types"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
-import { WorkspaceUser } from "@prisma/client"
 import { toast } from "@/components/ui/use-toast"
+import { Workspace, WorkspaceUser } from "@prisma/client"
 import { deleteWorkspaceUser } from "@/lib/workspaceUsers/service"
 
 interface WorkspaceUsersTableProps {
   workspaceUser: Pick<WorkspaceUser, "id" | "userId" | "workspaceId" | "hasAcceptedInvite">
-  authenticatedUser: User
+  workspace: Workspace
 }
 
-export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser }: WorkspaceUsersTableProps) {
+export function WorkspaceUsersTableOperations({ workspaceUser, workspace }: WorkspaceUsersTableProps) {
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
 
-  async function removeUser(id: string, userId: string) {
+  async function removeUser() {
     try {
       setIsDeleteLoading(true)
 
-      const response = await deleteWorkspaceUser(id, userId)
+      const response = await deleteWorkspaceUser(workspaceUser.id, workspace)
       if (response) {
         router.refresh()
         toast({ description: response?.message })
@@ -56,13 +55,11 @@ export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser
   }
 
   /**
-   * TODO
-   * 
-   * 1. Have a button for accept invitation if they are invited
-   * 2. The dropdown items shouldn't be viewable if the user cannot take said action.
-   *    - not owner of workspace and row is another user
-   *    - not owner but is the same user and can leave workspace.
+   * Each workspace MUST have an owner.
+   * Therefore owners cannot remove themselves before transferring.
    */
+  if (workspaceUser.userId === workspace.ownerId)
+    return null
 
   return (
     <>
@@ -78,7 +75,7 @@ export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser
             className="flex items-center cursor-pointer text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            Remove Member
+            { !workspaceUser.hasAcceptedInvite ? 'Revoke Invite' : 'Remove Member' }
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -90,10 +87,13 @@ export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to remove this member?
+              Are you sure you want to remove?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This user will be removed and all content will be transferred to you.
+            { workspaceUser.hasAcceptedInvite
+              ? 'This user will be removed and all content will be transferred to you.'
+              : 'This user will no longer be able to join your workspace.'
+            }
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -101,16 +101,16 @@ export function WorkspaceUsersTableOperations({ workspaceUser, authenticatedUser
             <AlertDialogAction
               onClick={async (event) => {
                 event.preventDefault()
-                await removeUser(workspaceUser.id, workspaceUser.userId)
+                await removeUser()
               }}
-              className="bg-red-600 focus:ring-red-600 hover:bg-red-700"
+              className="bg-red-600 focus:ring-red-600 hover:bg-red-700 text-primary"
             >
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Delete</span>
+              <span>Remove</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

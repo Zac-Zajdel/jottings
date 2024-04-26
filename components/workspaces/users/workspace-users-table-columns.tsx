@@ -4,17 +4,17 @@ import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header"
-import { WorkspaceUsersTableOperations } from "./workspace-users-table-operations"
+import { WorkspaceUsersTableOperations } from "@/components/workspaces/users/workspace-users-table-operations"
 
 export const columns: ColumnDef<any>[] = [
   {
-    meta: 'Member',
+    meta: 'User',
     accessorKey: "user",
     accessorFn: row => row.user?.name,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Member"
+        title="User"
       />
     ),
     cell: ({ row }) => {
@@ -24,9 +24,13 @@ export const columns: ColumnDef<any>[] = [
             { row.getValue('user')}
           </span>
           <span>
-            { row.original.hasAcceptedInvite && (
-              <Badge>FIX STYLING/BOOLEAN Logic</Badge>
+            { !row.original.hasAcceptedInvite && (
+              <Badge>Invited</Badge>
             )}
+            { row.original.userId === row.original?.workspace?.ownerId
+              ? <Badge>Owner</Badge>
+              : null
+            }
           </span>
         </div>
       )
@@ -66,7 +70,7 @@ export const columns: ColumnDef<any>[] = [
               workspaceId: row.original.workspaceId,
               hasAcceptedInvite: row.original.hasAcceptedInvite,
             }}
-            authenticatedUser={row.original.authenticatedUser}
+            workspace={row.original.workspace}
           />
         </div>
       )
