@@ -11,10 +11,10 @@ import {
 import * as z from "zod"
 import { User } from "next-auth"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { Icons } from "@/components/icons"
 import { Workspace } from "@prisma/client"
+import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
@@ -37,6 +37,7 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
   const {
     handleSubmit,
     register,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(workspaceSchema),
@@ -45,6 +46,11 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
     },
   })
   const [isSaving, setIsSaving] = useState(false)
+
+  // Used to updated the form input when changing workspaces.
+  useEffect(() => {
+    setValue('name', workspace?.name ?? '')
+  }, [workspace])
 
   async function onSubmit(data: FormData) {
     setIsSaving(true)
@@ -65,7 +71,7 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
         <CardHeader>
           <CardTitle>Workspace Name</CardTitle>
           <CardDescription>
-            {workspace?.default ? 'Non-editable name for personal workspaces.' : 'This will be viewable to all workspace members.'}
+            {workspace?.default ? 'Private workspace cannot be altered.' : 'This will be viewable to all workspace members.'}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -85,18 +91,20 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
             )}
           </div>
         </CardContent>
-        <CardFooter>
-          <button
-            type="submit"
-            className={cn(buttonVariants())}
-            disabled={isSaving || workspace?.default || workspace?.ownerId !== user.id}
-          >
-            {isSaving && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Save</span>
-          </button>
-        </CardFooter>
+        { !workspace?.default &&
+          <CardFooter>
+            <button
+              type="submit"
+              className={cn(buttonVariants())}
+              disabled={isSaving || workspace?.default || workspace?.ownerId !== user.id}
+            >
+              {isSaving && (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              <span>Save</span>
+            </button>
+          </CardFooter>
+        }
       </Card>
     </form>
   )

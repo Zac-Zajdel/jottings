@@ -50,6 +50,7 @@ async function createWorkspace(user: User): Promise<Workspace> {
       data: {
         name: 'Private Workspace',
         ownerId: user.id,
+        default: true,
       }
     })
   }

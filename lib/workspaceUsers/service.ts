@@ -4,8 +4,9 @@ import * as z from "zod"
 import { db } from "@/lib/db"
 import { auth } from "@/auth"
 import { Workspace } from "@prisma/client"
+import { workspaceCache } from "../workspace/cache"
 
-async function validateWorkspaceUserParams (email: string, workspaceId: string) {
+async function validateInviteWorkspaceUser (email: string, workspaceId: string) {
   const addWorkspaceUserSchema = z.object({
     email: z.string().email(),
     workspaceId: z.string(),
@@ -19,11 +20,11 @@ async function validateWorkspaceUserParams (email: string, workspaceId: string) 
   ])
 
   if (!user) {
-    throw new Error('A user does not exist with this email.')
+    throw new Error('A user could not be found with this email.')
   }
 
   if (!workspace) {
-    throw new Error('Workspace does not exist.')
+    throw new Error('Workspace could not be found.')
   }
 
   const workspaceUser = await db.workspaceUser.findFirst({
@@ -40,11 +41,11 @@ async function validateWorkspaceUserParams (email: string, workspaceId: string) 
   return { user, workspace }
 }
 
-export const createWorkspaceUser = async (email: string, workspaceId: string) => {
+export const inviteWorkspaceUser = async (email: string, workspaceId: string) => {
   const session = await auth()
   if (!session) throw new Error('Unauthorized Action.')
 
-  const { user, workspace } = await validateWorkspaceUserParams(email, workspaceId)
+  const { user, workspace } = await validateInviteWorkspaceUser(email, workspaceId)
 
   try {
     const invite = await db.workspaceUser.create({
@@ -58,6 +59,58 @@ export const createWorkspaceUser = async (email: string, workspaceId: string) =>
     return {
       message: "Invite Sent.",
       data: invite,
+    }
+  } catch (error) {
+    throw error
+  }
+}
+
+async function acceptInviteWorkspaceUser (workspaceUserId: string, workspaceId: string) {
+  const acceptWorkspaceUserSchema = z.object({
+    workspaceUserId: z.string(),
+    workspaceId: z.string(),
+  })
+
+  await acceptWorkspaceUserSchema.parseAsync({workspaceUserId, workspaceId})
+
+  const [workspaceUser, workspace] = await Promise.all([
+    db.workspaceUser.findUnique({ where: { id: workspaceUserId, hasAcceptedInvite: false } }),
+    db.workspace.findUnique({ where: { id: workspaceId } }),
+  ])
+
+  if (!workspaceUser) {
+    throw new Error('Invite could not be found')
+  }
+
+  if (!workspace) {
+    throw new Error('Workspace could not be found.')
+  }
+
+  return workspaceUser
+}
+
+export const acceptInviteWorkspace = async (workspaceUserId: string, workspaceId: string) => {
+  const session = await auth()
+  if (!session) throw new Error('Unauthorized Action.')
+
+  const workspaceUser = await acceptInviteWorkspaceUser(workspaceUserId, workspaceId)
+
+  try {
+    const updatedWorkspaceUser = await db.workspaceUser.update({
+      where: {
+        id: workspaceUser.id,
+      },
+      data: {
+        hasAcceptedInvite: true,
+      },
+    });
+
+    // Refresh workspace sidebar content
+    workspaceCache.revalidate({ userId: session.user.id })
+
+    return {
+      message: "Invite Accepted.",
+      data: updatedWorkspaceUser,
     }
   } catch (error) {
     throw error

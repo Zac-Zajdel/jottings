@@ -7,16 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../plate-ui/dialog"
+} from "../../plate-ui/dialog"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { Input } from "../ui/input"
-import { Label } from "../ui/label"
+import { Input } from "../../ui/input"
+import { Label } from "../../ui/label"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
-import { createWorkspaceUser } from "@/lib/workspaceUsers/service"
+import { inviteWorkspaceUser } from "@/lib/workspaceUsers/service"
 
 interface Props {
   workspaceId: string;
@@ -31,7 +31,7 @@ export default function WorkspaceInviteButton({ workspaceId }: Props) {
   async function inviteUser() {
     try {
       setIsLoading(true)
-      const response = await createWorkspaceUser(email, workspaceId)
+      const response = await inviteWorkspaceUser(email, workspaceId)
       toast({ description: response?.message })
 
       router.refresh()

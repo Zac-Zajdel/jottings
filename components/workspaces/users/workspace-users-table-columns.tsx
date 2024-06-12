@@ -59,26 +59,6 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: true,
   },
   {
-    meta: 'Date Invited',
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Date Invited"
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center justify-between">
-          <div className="grid gap-1">
-            {formatDate(row.getValue('createdAt'), 'MMM D, YYYY')}
-          </div>
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
-  {
     meta: 'Actions',
     id: "actions",
     cell: ({ row }) => {
