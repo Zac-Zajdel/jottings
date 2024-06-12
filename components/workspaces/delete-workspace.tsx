@@ -61,7 +61,7 @@ export function DeleteWorkspace({ user, activeWorkspace }: DeleteWorkspaceProps)
           <div className="flex justify-between">
             <div>
               <CardTitle>Delete Workspace</CardTitle>
-              <CardDescription className="pt-2">
+              <CardDescription className="pt-2 mr-4">
                 This action is irreversible and deletes all content specific to this workspace.
               </CardDescription>
             </div>

@@ -2,12 +2,12 @@ import { Suspense } from 'react'
 import { Workspace } from "@prisma/client"
 import { User, SearchParams } from "@/types"
 import { getCurrentUser } from "@/lib/session"
-import { Button } from '@/components/ui/button'
 import TableSkeleton from "@/components/table/table-skeleton"
 import { getWorkspacesByUserId } from "@/lib/workspace/service"
 import WorkspaceDetails from "@/components/workspaces/workspace-details"
 import { DeleteWorkspace } from "@/components/workspaces/delete-workspace"
 import WorkspaceUsers from "@/components/workspaces/users/workspace-users"
+import WorkspaceInviteButton from "@/components/workspaces/workspace-invite-button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 
 export const metadata = {
@@ -39,14 +39,15 @@ export default async function SettingsGeneral({ searchParams }: {
             <CardHeader>
               <CardTitle>Users</CardTitle>
               <CardDescription>
-                Users have access to your workspaces information.
+                Users will have access across your workspace.
               </CardDescription>
             </CardHeader>
 
-            {/* TODO - Make this into its own component like jot-create-button */}
-            <div>
-              <Button className="mr-7">Invite</Button>
+          { user.id === activeWorkspace.ownerId &&
+            <div className="mr-6">
+              <WorkspaceInviteButton workspaceId={activeWorkspace.id} />
             </div>
+          }
           </div>
           <CardContent>
             <Suspense fallback={<TableSkeleton />}>

@@ -49,10 +49,8 @@ export default async function WorkspaceUsers({ authUser, searchParams }: Workspa
   const workspaceUsers = await getWorkspaceUsers(authUser, searchParams)
 
   return (
-    <>
-      <WorkspaceUsersTable
-        data={workspaceUsers}
-      />
-    </>
+    <WorkspaceUsersTable
+      data={workspaceUsers}
+    />
   )
 }

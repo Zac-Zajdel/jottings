@@ -38,12 +38,33 @@ export const columns: ColumnDef<any>[] = [
     enableSorting: true,
   },
   {
-    meta: 'Date Joined',
+    meta: 'Email',
+    accessorKey: "email",
+    accessorFn: row => row.user?.email,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Email"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center space-x-3 p-4">
+          <span>
+            { row.getValue('email')}
+          </span>
+        </div>
+      )
+    },
+    enableSorting: true,
+  },
+  {
+    meta: 'Date Invited',
     accessorKey: "createdAt",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Date Joined"
+        title="Date Invited"
       />
     ),
     cell: ({ row }) => {
