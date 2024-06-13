@@ -1,6 +1,5 @@
 "use client"
 
-import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header"
@@ -62,6 +61,8 @@ export const columns: ColumnDef<any>[] = [
     meta: 'Actions',
     id: "actions",
     cell: ({ row }) => {
+      const { sessionUser } = row?.original;
+
       return (
         <div className="flex items-center justify-end p-4 pr-8">
           <WorkspaceUsersTableOperations
@@ -72,6 +73,7 @@ export const columns: ColumnDef<any>[] = [
               hasAcceptedInvite: row.original.hasAcceptedInvite,
             }}
             workspace={row.original.workspace}
+            sessionUser={sessionUser}
           />
         </div>
       )

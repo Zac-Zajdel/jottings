@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { SearchParams, User } from "@/types"
+import { getCurrentUser } from "@/lib/session"
 import { unstable_noStore as noStore } from "next/cache"
 import { WorkspaceUsersTable } from "@/components/workspaces/users/workspace-users-table"
 
@@ -46,11 +47,13 @@ const getWorkspaceUsers = async (authUser: User, searchParams: SearchParams) => 
 
 export default async function WorkspaceUsers({ authUser, searchParams }: WorkspaceUsersProps) {
   await noStore();
+  const user = await getCurrentUser() as User
   const workspaceUsers = await getWorkspaceUsers(authUser, searchParams)
 
   return (
     <WorkspaceUsersTable
       data={workspaceUsers}
+      user={user}
     />
   )
 }

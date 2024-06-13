@@ -130,21 +130,19 @@ export const updateWorkspace = async (
 /**
  * @desc - Updates the active workspace of a user
  */
-export const updateActiveUserWorkspace = async (workspace: Workspace, userId: string) => {
+export const updateActiveUserWorkspace = async (workspace: Workspace) => {
   const session = await auth()
   if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const updatedUser = await db.user.update({
       where: {
-        id: userId,
+        id: session.user.id,
       },
       data: {
         activeWorkspaceId: workspace.id,
       }
     })
-
-    workspaceCache.revalidate({userId})
 
     return {
       message: `Active workspace updated successfully`,
@@ -236,4 +234,8 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   } catch (error) {
     throw error
   }
+}
+
+export const revalidateWorkspaceCache = async (userId: string) => {
+  workspaceCache.revalidate({ userId })
 }

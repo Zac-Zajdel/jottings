@@ -60,7 +60,7 @@ export function WorkspaceItems({ user, workspaces }: WorkspaceItemsProps) {
     if (workspace.id === user.activeWorkspaceId) return
 
     try {
-      const updatedUser = await updateActiveUserWorkspace(workspace, user.id)
+      const updatedUser = await updateActiveUserWorkspace(workspace)
       await updateUserAndSidebar(updatedUser.data.activeWorkspaceId as string)
     } catch (error) {
       toast({

@@ -117,7 +117,11 @@ export const acceptInviteWorkspace = async (workspaceUserId: string, workspaceId
   }
 }
 
-export const deleteWorkspaceUser = async (workspaceUserPrimaryKey: string, workspace: Workspace) => {
+export const deleteWorkspaceUser = async (
+  workspaceUserPrimaryKey: string,
+  workspace: Workspace,
+  isWorkspaceOwner: boolean,
+) => {
   const session = await auth()
   if (!session) throw new Error('Unauthorized Action.')
 
@@ -132,10 +136,10 @@ export const deleteWorkspaceUser = async (workspaceUserPrimaryKey: string, works
 
   if (workspaceUser.userId === workspace.ownerId)
     throw new Error('Owners of a workspace cannot be removed.')
-
-  // If they have only been invited, we have much less cleanup to do.
-  if (!workspaceUser.hasAcceptedInvite) {
-    try {
+  
+  try {
+    // If they have only been invited, we have much less cleanup to do.
+    if (!workspaceUser.hasAcceptedInvite) {
       await db.workspaceUser.delete({
         where: {
           id: workspaceUser.id,
@@ -144,59 +148,49 @@ export const deleteWorkspaceUser = async (workspaceUserPrimaryKey: string, works
 
       return {
         message: "Invited user has been removed.",
+        data: {
+          defaultWorkspace: null,
+        },
       }
-    } catch (error) {
-      throw error
     }
-  }
-  
-  try {
-    await db.$transaction(async (tx) => {
-      await tx.workspaceUser.delete({
-        where: {
-          id: workspaceUser.id,
-        },
-      })
 
-      await tx.jot.updateMany({
-        where: {
-          authorId: workspaceUser.userId,
-        },
-        data: {
-          authorId: session.user.id,
-        },
-      })
-
-      await tx.jotTemplate.updateMany({
-        where: {
-          authorId: workspaceUser.userId,
-        },
-        data: {
-          authorId: session.user.id,
-        },
-      })
-
-      await tx.label.updateMany({
-        where: {
-          authorId: workspaceUser.userId,
-        },
-        data: {
-          authorId: session.user.id,
-        },
-      })
-
-      await tx.labelAssociation.updateMany({
-        where: {
-          authorId: workspaceUser.userId,
-        },
-        data: {
-          authorId: session.user.id,
-        },
-      })
+    // Remove active workspace user.
+    await db.workspaceUser.delete({
+      where: {
+        id: workspaceUser.id,
+      },
     })
+
+    let defaultWorkspace = await db.workspace.findFirst({
+      where: {
+        id: session.user.activeWorkspaceId,
+      }
+    })
+
+    // Refresh workspace sidebar content since user has left workspace.
+    if (!isWorkspaceOwner) {
+      defaultWorkspace = await db.workspace.findFirst({
+        where: {
+          ownerId: session.user.id,
+          default: true,
+        }
+      })
+
+      await db.user.update({
+        where: {
+          id: session.user.id,
+        },
+        data: {
+          activeWorkspaceId: defaultWorkspace?.id,
+        }
+      })
+    }
 
     return {
       message: "User has been removed from the workspace.",
+      data: {
+        defaultWorkspace,
+      },
     }
   } catch (error) {
     throw error

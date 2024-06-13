@@ -16,28 +16,81 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { useState } from "react"
+import { User } from "next-auth"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 import { toast } from "@/components/ui/use-toast"
 import { Workspace, WorkspaceUser } from "@prisma/client"
+import { revalidateWorkspaceCache } from "@/lib/workspace/service"
 import { deleteWorkspaceUser } from "@/lib/workspaceUsers/service"
 
 interface WorkspaceUsersTableProps {
   workspaceUser: Pick<WorkspaceUser, "id" | "userId" | "workspaceId" | "hasAcceptedInvite">
   workspace: Workspace
+  sessionUser: User
 }
 
-export function WorkspaceUsersTableOperations({ workspaceUser, workspace }: WorkspaceUsersTableProps) {
+export function WorkspaceUsersTableOperations({ workspaceUser, workspace, sessionUser }: WorkspaceUsersTableProps) {
   const router = useRouter()
+  const { update } = useSession()
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+  const [labels, setLabels] = useState({
+    label: '',
+    title: '',
+    description: '',
+    button: '',
+  });
+
+  useEffect(() => {
+    let labelOptions = { label: '', title: '', description: '', button: '' };
+
+    if (sessionUser.id === workspaceUser.userId) {
+      labelOptions = {
+        label: 'Leave Workspace',
+        title: 'Leave Workspace',
+        description: 'Are you sure you want to leave the workspace?',
+        button: 'Leave',
+      };
+    } else if (!workspaceUser.hasAcceptedInvite) {
+      labelOptions = {
+        label: 'Revoke Invite',
+        title: 'Revoke Invitation',
+        description: 'Are you sure you want to revoke the invitation for this user?',
+        button: 'Revoke',
+      };
+    } else {
+      labelOptions = {
+        label: 'Remove Member',
+        title: 'Remove Member',
+        description: 'Are you sure you want to remove this member from the workspace?',
+        button: 'Remove',
+      };
+    }
+
+    setLabels(labelOptions);
+  }, [sessionUser.id, workspaceUser.userId, workspaceUser.hasAcceptedInvite]);
 
   async function removeUser() {
     try {
       setIsDeleteLoading(true)
+      const isWorkspaceOwner = sessionUser.id === workspace.ownerId
 
-      const response = await deleteWorkspaceUser(workspaceUser.id, workspace)
+      const response = await deleteWorkspaceUser(
+        workspaceUser.id,
+        workspace,
+        isWorkspaceOwner,
+      )
+
+      // If a user leaves the workspace, their session and cached workspaces need updated.
+      if (!isWorkspaceOwner && response.data?.defaultWorkspace) {
+        await update({ activeWorkspaceId: response.data.defaultWorkspace.id })
+        if (sessionUser?.id)
+          await revalidateWorkspaceCache(sessionUser.id)
+      }
+
       if (response) {
         router.refresh()
         toast({ description: response?.message })
@@ -75,7 +128,7 @@ export function WorkspaceUsersTableOperations({ workspaceUser, workspace }: Work
             className="flex items-center cursor-pointer text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            { !workspaceUser.hasAcceptedInvite ? 'Revoke Invite' : 'Remove Member' }
+            { labels.label }
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -87,13 +140,10 @@ export function WorkspaceUsersTableOperations({ workspaceUser, workspace }: Work
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to remove?
+              { labels.title }
             </AlertDialogTitle>
             <AlertDialogDescription>
-            { workspaceUser.hasAcceptedInvite
-              ? 'This user will be removed and all content will be transferred to you.'
-              : 'This user will no longer be able to join your workspace.'
-            }
+            { labels.description }
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -110,7 +160,7 @@ export function WorkspaceUsersTableOperations({ workspaceUser, workspace }: Work
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>Remove</span>
+              <span>{ labels.button }</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

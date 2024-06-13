@@ -44,7 +44,7 @@ export default async function SettingsGeneral({ searchParams }: {
                 </CardDescription>
               </CardHeader>
 
-            { user.id === activeWorkspace.ownerId &&
+            { user?.id === activeWorkspace?.ownerId &&
               <div className="mr-6">
                 <WorkspaceInviteButton workspaceId={activeWorkspace.id} />
               </div>

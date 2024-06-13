@@ -91,7 +91,7 @@ export default function WorkspaceDetails({ workspace, user }: WorkspaceDetailsPr
             )}
           </div>
         </CardContent>
-        { !workspace?.default &&
+        { workspace?.ownerId === user.id &&
           <CardFooter>
             <button
               type="submit"
