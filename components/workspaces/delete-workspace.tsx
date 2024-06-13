@@ -16,25 +16,25 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
+import { User } from "@auth/core/types"
+import { Workspace } from "@prisma/client"
+import { Icons } from "@/components/icons"
+import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button, buttonVariants } from "../ui/button"
-import { cn } from "@/lib/utils"
-import { toast } from "../ui/use-toast"
-import { User } from "@auth/core/types"
+import { toast } from "@/components/ui/use-toast"
 import { deleteWorkspace } from "@/lib/workspace/service"
-import { useSession } from "next-auth/react"
-import { useState } from "react"
-import { Icons } from "../icons"
-import { useRouter } from "next/navigation"
-import { Workspace } from "@prisma/client"
+import { Button, buttonVariants } from "@/components/ui/button"
 
-interface WorkspaceSettingsProps {
+interface DeleteWorkspaceProps {
   user: User & { activeWorkspaceId: string },
   activeWorkspace: Workspace|undefined
 }
 
-export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsProps) {
+export function DeleteWorkspace({ user, activeWorkspace }: DeleteWorkspaceProps) {
   const router = useRouter()
   const { update } = useSession()
   const [workspaceName, setWorkspaceName] = useState('')
@@ -56,12 +56,12 @@ export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsPr
 
   return (
     <>
-      <Card className="bg-red-900/5">
+      <Card className="bg-red-700/20">
         <CardHeader>
           <div className="flex justify-between">
             <div>
               <CardTitle>Delete Workspace</CardTitle>
-              <CardDescription className="pt-2">
+              <CardDescription className="pt-2 mr-4">
                 This action is irreversible and deletes all content specific to this workspace.
               </CardDescription>
             </div>
@@ -85,7 +85,7 @@ export function WorkspaceSettings({ user, activeWorkspace }: WorkspaceSettingsPr
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle className="flex justify-center">
-              Confirm Deletion
+              Confirm Deletion of
             </AlertDialogTitle>
             <AlertDialogDescription className="flex justify-center">
               { activeWorkspace?.name }

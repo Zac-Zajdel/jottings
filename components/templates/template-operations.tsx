@@ -145,7 +145,7 @@ export function TemplateOperations({ template }: PostOperationsProps) {
                   })
                 }
               }}
-              className="bg-red-600 focus:ring-red-600 hover:bg-red-700"
+              className="bg-red-600 focus:ring-red-600 hover:bg-red-700 text-primary"
             >
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />

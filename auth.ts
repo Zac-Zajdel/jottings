@@ -46,9 +46,13 @@ export const config: NextAuthConfig = {
     },
 
     async jwt({ token, session, trigger }) {
-      // Called from components/workspace-nav.tsx
-      if (trigger === 'update' && session?.activeWorkspaceId) {
-        token.activeWorkspaceId = session.activeWorkspaceId
+      // Called when updating the tokens information
+      if (trigger === 'update') {
+        if (session?.activeWorkspaceId)
+          token.activeWorkspaceId = session.activeWorkspaceId
+
+        if (session?.name)
+          token.name = session.name
       }
   
       if (token?.id) {
@@ -101,6 +105,7 @@ export const config: NextAuthConfig = {
           data: {
             userId: dbUser.id,
             workspaceId: workspace.id,
+            hasAcceptedInvite: true,
           }
         })
       }

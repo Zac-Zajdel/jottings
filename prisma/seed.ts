@@ -50,6 +50,7 @@ async function createWorkspace(user: User): Promise<Workspace> {
       data: {
         name: 'Private Workspace',
         ownerId: user.id,
+        default: true,
       }
     })
   }
@@ -76,6 +77,7 @@ async function createWorkspaceUser(user: User, workspace: Workspace): Promise<Wo
     data: {
       userId: user.id,
       workspaceId: workspace.id,
+      hasAcceptedInvite: true,
     }
   })
 }

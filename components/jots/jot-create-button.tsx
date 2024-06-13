@@ -102,11 +102,10 @@ export function JotCreateButton({
             disabled={isLoading}
             {...props}
           >
-            {isLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Icons.add className="mr-2 h-4 w-4" />
-            )}
+            { isLoading
+              ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              : <Icons.add className="mr-2 h-4 w-4" />
+            }
             New Jot
           </Button>
         </DialogTrigger>
@@ -193,11 +192,10 @@ export function JotCreateButton({
               disabled={isLoading}
               onClick={createJot}
             >
-              {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Icons.add className="mr-2 h-4 w-4" />
-              )}
+              { isLoading
+                ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                : <Icons.add className="mr-2 h-4 w-4" />
+              }
               Create
             </Button>
           </DialogFooter>

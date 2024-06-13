@@ -1,20 +1,27 @@
 "use client"
 
+import { User } from "next-auth"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useDataTable } from "@/hooks/use-data-table"
 import { DataTable } from "@/components/table/data-table"
-import { columns } from "@/components/jots/table/columns"
 import { DataTableToolbar } from "@/components/table/data-table-toolbar"
+import { columns } from "@/components/workspaces/users/workspace-users-table-columns"
 
 interface DataTableProps<TData, TValue> {
-  data: TData[]
+  data: TData[];
+  user: User
 }
 
-export function JotTable<TData, TValue>({
+export function WorkspaceUsersTable<TData, TValue>({
   data,
+  user,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter()
+
+  // Need the session user to determine correct wording for action menu.
+  // @ts-ignore
+  data.map(data => data.sessionUser = user)
 
   const {
     table,
@@ -58,7 +65,7 @@ export function JotTable<TData, TValue>({
       (pageIndex * pageSize).toString(),
     );
 
-    router.push(`${url.origin}/jots${url.search}`)
+    router.push(`${url.origin}/settings/workspace/${url.search}`)
   }, [sorting, globalFilter, pageSize, pageIndex])
 
   return (

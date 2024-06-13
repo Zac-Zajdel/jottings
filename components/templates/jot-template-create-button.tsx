@@ -75,11 +75,10 @@ export function JotTemplateCreateButton({
             disabled={isLoading}
             {...props}
           >
-            {isLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Icons.add className="mr-2 h-4 w-4" />
-            )}
+            { isLoading
+              ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              : <Icons.add className="mr-2 h-4 w-4" />
+            }
             New Template
           </Button>
         </DialogTrigger>
@@ -105,11 +104,10 @@ export function JotTemplateCreateButton({
               disabled={isLoading}
               onClick={createTemplate}
             >
-              {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <Icons.add className="mr-2 h-4 w-4" />
-              )}
+              { isLoading
+                ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                : <Icons.add className="mr-2 h-4 w-4" />
+              }
               Create
             </Button>
           </DialogFooter>
