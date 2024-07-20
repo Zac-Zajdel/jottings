@@ -4,18 +4,17 @@ import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
+import { WorkspaceUser } from "@prisma/client"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { buttonVariants } from "../plate-ui/button"
-import { Workspace, WorkspaceUser } from "@prisma/client"
 import { acceptInviteWorkspace } from "@/lib/workspaceUsers/service"
 
 interface Props {
   workspaceUser: WorkspaceUser
-  workspace: Workspace
 }
 
-export default function WorkspaceAcceptButton({ workspaceUser, workspace }: Props) {
+export default function WorkspaceAcceptButton({ workspaceUser }: Props) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -24,7 +23,7 @@ export default function WorkspaceAcceptButton({ workspaceUser, workspace }: Prop
       setIsLoading(true)
       const response = await acceptInviteWorkspace(
         workspaceUser.id,
-        workspace.id,
+        workspaceUser.workspaceId,
       )
       toast({ description: response?.message })
 

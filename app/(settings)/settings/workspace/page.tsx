@@ -63,30 +63,6 @@ export default async function SettingsGeneral({ searchParams }: {
         </div>
       )}
 
-      {(!activeWorkspace?.default && !activeWorkspace.ownerId === user.id) && (
-        <div className="grid gap-10 mx-8 mb-3">
-          <Card>
-            <div className="flex items-center justify-between">
-              <CardHeader>
-                <CardTitle>Invites</CardTitle>
-                <CardDescription>
-                  Invites to collaborate with another workspace.
-                </CardDescription>
-              </CardHeader>
-            </div>
-            <CardContent>
-              <Suspense fallback={<TableSkeleton />}>
-                {/* @ts-ignore @ts-expect-error Server Component */}
-                <WorkspaceInvites
-                  user={user}
-                  workspace={activeWorkspace}
-                />
-              </Suspense>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
       {(!activeWorkspace?.default && activeWorkspace?.ownerId === user.id) && (
         <div className="grid gap-10 mx-8 mb-10">
           <DeleteWorkspace

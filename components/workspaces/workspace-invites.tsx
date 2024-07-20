@@ -1,7 +1,6 @@
 
 import { db } from "@/lib/db"
 import { User } from "@/types"
-import { unstable_noStore as noStore } from "next/cache"
 import {
   Table,
   TableBody,
@@ -10,10 +9,10 @@ import {
   TableHeader,
   TableRow
 } from "../table/table"
-import { Workspace } from "@prisma/client";
 import { formatDate } from "@/lib/utils";
-import WorkspaceAcceptButton from "./workspace-accept-button";
 import { EmptyPlaceholder } from "../empty-placeholder";
+import { unstable_noStore as noStore } from "next/cache"
+import WorkspaceAcceptButton from "./workspace-accept-button";
 
 const getWorkspaceInvites = async (user: User) => {
   return await db.workspaceUser.findMany({
@@ -34,10 +33,9 @@ const getWorkspaceInvites = async (user: User) => {
 
 interface Props {
   user: User;
-  workspace: Workspace;
 }
 
-export async function WorkspaceInvites({ user, workspace }: Props) {
+export async function WorkspaceInvites({ user }: Props) {
   await noStore();
   const invites = await getWorkspaceInvites(user)
 
@@ -61,10 +59,7 @@ export async function WorkspaceInvites({ user, workspace }: Props) {
                     <TableCell>{invite?.workspace?.owner?.name}</TableCell>
                     <TableCell>{formatDate(invite?.createdAt?.toDateString(), 'ddd, MMM D, YYYY')}</TableCell>
                     <TableCell>
-                      <WorkspaceAcceptButton
-                        workspaceUser={invite}
-                        workspace={workspace}
-                      />
+                      <WorkspaceAcceptButton workspaceUser={invite} />
                     </TableCell>
                   </TableRow>
                 ))

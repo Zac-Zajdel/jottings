@@ -17,7 +17,7 @@ export function SettingsNav() {
             "inline-flex items-center justify-center whitespace-nowrap px-3 py-1.5 text-sm"
           )}
         >
-          General
+          Account
         </Link>
         <Link
           href="/settings/workspace"
