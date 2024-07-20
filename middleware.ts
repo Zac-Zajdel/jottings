@@ -2,10 +2,6 @@ import { auth } from "./auth"
 import { NextResponse } from "next/server"
 
 export default auth((req) => {
-  if (!req.auth) {
-    return NextResponse.rewrite(new URL('/signin', req.url))
-  }
-
   // If user is authenticated and hitting '/signin' route, redirect them back to main screen.
   if (req.auth && req.url.includes('/signin')) {
     return NextResponse.redirect(new URL('/jots', req.url))
