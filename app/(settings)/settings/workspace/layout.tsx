@@ -1,10 +1,13 @@
 import { PageShell } from "@/components/page-shell"
 import { PageHeader } from "@/components/page-header"
-import { CardSkeleton } from "@/components/card-skeleton"
 import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { SettingsNav } from "@/components/settings/settings-nav"
 
-export default function SettingsLoading() {
+interface RootLayoutProps {
+  children: React.ReactNode
+}
+
+export default function WorkspaceSettingsLayout({ children }: RootLayoutProps) {
   return (
     <PageShell className="gap-1">
       <PageBreadcrumbs crumbs={[
@@ -14,8 +17,8 @@ export default function SettingsLoading() {
             icon: 'home',
           },
           {
-            link: '/settings/general',
-            title: 'Settings',
+            link: '/settings/workspace',
+            title: 'Workspace',
           },
         ]}
       />
@@ -27,9 +30,7 @@ export default function SettingsLoading() {
 
       <SettingsNav />
 
-      <div className="grid gap-10 mx-8 mb-3">
-        <CardSkeleton />
-      </div>
+      {children}
     </PageShell>
   )
 }

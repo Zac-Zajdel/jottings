@@ -9,10 +9,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signInUser } from "@/lib/auth/actions"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { userAuthSchema } from "@/lib/validations/auth"
 import { buttonVariants } from "@/components/ui/button"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const userAuthSchema = z.object({
+  email: z.string().email(),
+})
 
 type FormData = z.infer<typeof userAuthSchema>
 

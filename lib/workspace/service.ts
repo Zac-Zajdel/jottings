@@ -11,9 +11,7 @@ import { unstable_cache } from "next/cache";
  */
 export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[] | null> => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   const workspaces = await unstable_cache(
     async () => {
@@ -23,6 +21,7 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
             workspaceUsers: {
               some: {
                 userId: userId,
+                hasAcceptedInvite: true,
               }
             }
           },
@@ -50,9 +49,7 @@ export const getWorkspacesByUserId = async (userId: string): Promise<Workspace[]
  */
 export const createWorkspace = async (name: string, userId: string) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const workspace = await db.$transaction(async (tx) => {
@@ -69,6 +66,7 @@ export const createWorkspace = async (name: string, userId: string) => {
         data: {
           userId: userId,
           workspaceId: workspace.id,
+          hasAcceptedInvite: true,
         }
       })
     
@@ -99,23 +97,52 @@ export const createWorkspace = async (name: string, userId: string) => {
 /**
  * @desc - Updates the active workspace of a user
  */
-export const updateActiveWorkspace = async (workspace: Workspace, userId: string) => {
+export const updateWorkspace = async (
+  workspace: Workspace,
+  userId: string,
+  name: string,
+) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
+  if (!session) throw new Error('Unauthorized Action.')
+
+  try {
+    const updatedWorkspace = await db.workspace.update({
+      where: {
+        id: workspace.id,
+        ownerId: userId,
+      },
+      data: {
+        name,
+      }
+    })
+
+    workspaceCache.revalidate({userId})
+
+    return {
+      message: 'Workspace details updated successfully',
+      data: { ...updatedWorkspace }
+    }
+  } catch (error) {
+    throw error;
   }
+}
+
+/**
+ * @desc - Updates the active workspace of a user
+ */
+export const updateActiveUserWorkspace = async (workspace: Workspace) => {
+  const session = await auth()
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const updatedUser = await db.user.update({
       where: {
-        id: userId,
+        id: session.user.id,
       },
       data: {
         activeWorkspaceId: workspace.id,
       }
     })
-
-    workspaceCache.revalidate({userId})
 
     return {
       message: `Active workspace updated successfully`,
@@ -131,9 +158,7 @@ export const updateActiveWorkspace = async (workspace: Workspace, userId: string
  */
 export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   const session = await auth()
-  if (!session) {
-    throw new Error('Unauthorized Action.');
-  }
+  if (!session) throw new Error('Unauthorized Action.')
 
   try {
     const workspace = await db.workspace.findFirst({
@@ -209,4 +234,8 @@ export const deleteWorkspace = async (workspaceId: string, userId: string) => {
   } catch (error) {
     throw error
   }
+}
+
+export const revalidateWorkspaceCache = async (userId: string) => {
+  workspaceCache.revalidate({ userId })
 }
