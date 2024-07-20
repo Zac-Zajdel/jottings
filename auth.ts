@@ -11,7 +11,17 @@ export const config: NextAuthConfig = {
   secret: process.env.AUTH_SECRET,
   session: { strategy: "jwt" },
   providers: [
-    Google,
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+        },
+      },
+    }),
     Resend({
       from: 'Jottings <login@jottings.dev>',
       sendVerificationRequest({

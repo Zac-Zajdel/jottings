@@ -51,7 +51,7 @@ export default async function ChangelogPage() {
               )}
               {post.date && (
                 <p className="text-sm text-muted-foreground">
-                  {formatDate(post.date)}
+                  {formatDate(post.date, 'ddd, MMM D, YYYY')}
                 </p>
               )}
               <Link href={post.slug} className="absolute inset-0">
