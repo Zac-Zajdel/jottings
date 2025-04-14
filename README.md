@@ -1,9 +1,12 @@
-## Running Locally
+## READ
+- Do not base your work off of this.
+- The architecture is terrible.
+- The packages are all very old.
+- I am not doing any validation for my server actions
 
-1. Install dependencies using yarn: `yarn install`
-2. Copy `.env.example` to `.env` and update the variables.
-3. Start the development server: `yarn dev`
+## What did I learn?
 
-## Generating Release Notes
-
-1. `yarn changelog`
+- I learned how Next.js worked even though I did a lot of things wrong architecturally.
+- I got better at Prisma.
+- I figured out RSC and Server Actions
+- Got experience building my own WYSIWIG editor.
